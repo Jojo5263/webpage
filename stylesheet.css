@@ -2,6 +2,9 @@ body{
     background-image: url(Pictures/Vaporwave_Hintergrund.webp); 
     background-size: auto; 
     background-attachment: fixed;
+    background-size: cover;
+    font-family: roboto;
+
 }
 
 h1{
@@ -10,7 +13,7 @@ h1{
 }
 
 .sidebar{
-    height: 500px; 
+    height: 100%;
     width: 20%;
     margin: 1%;
     background-color: rgb(160, 12, 128); 
@@ -18,15 +21,39 @@ h1{
     outline: 5%;
     outline-color: black;
     outline-style: double;
+    font-size: 3vw;
 }
 
 .bodypart{
-    height: 1000px;
+    height: 200vh;
+}
 
+.storyblock{
+    width: 80%;
+    height: 99vh;
+    margin: auto;
+    margin-top: 5vh;
+    background-color: rgb(160, 12, 128);
+    opacity: 50%;
+    border: 5%;
+    border-color: black;
+    border-style: dotted;
+    font-size: 2vw;
+    p{
+        opacity: 200%;
+    }
 }
 
 p{
     text-align: justify;
-    font-family: Arial, Helvetica, sans-serif;
-
 }
+
+a{
+    text-align: justify;
+    padding: 3%;
+}
+
+@font-face {
+    font-family: roboto;
+    src: url(Fonts\Roboto-Italic-VariableFont_wdth,wght.ttf);
+  }

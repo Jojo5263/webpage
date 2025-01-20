@@ -21,7 +21,10 @@ h1{
     outline: 5%;
     outline-color: black;
     outline-style: double;
+    border: 5%;
+    border-color: black;
     font-size: 3vw;
+    text-align: center;
 }
 
 .bodypart{
@@ -34,14 +37,25 @@ h1{
     margin: auto;
     margin-top: 5vh;
     background-color: rgb(160, 12, 128);
-    opacity: 50%;
+    opacity: 80%;
     border: 5%;
     border-color: black;
     border-style: dotted;
     font-size: 2vw;
-    p{
-        opacity: 200%;
-    }
+}
+
+.backButton{
+    width: 14vw;
+    height: 7vh;
+    align-self: left;
+    margin-top: 5vh;
+    background-color: rgb(160, 12, 128);
+    opacity: 80%;
+    border: 5%;
+    border-color: black;
+    border-style: dotted;
+    font-size: 2vw;
+    padding-top: 1vw;
 }
 
 p{

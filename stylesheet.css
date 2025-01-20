@@ -25,6 +25,10 @@ h1{
     border-color: black;
     font-size: 3vw;
     text-align: center;
+    p{
+        border: 10px;
+        border-color: black;
+    }
 }
 
 .bodypart{

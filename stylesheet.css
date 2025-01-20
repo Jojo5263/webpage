@@ -53,6 +53,8 @@ h1{
     border-color: black;
     border-style: dotted;
     font-size: 2vw;
+    text-overflow: clip;
+    padding: 2%;
 }
 
 .backButton{

@@ -43,7 +43,7 @@ h1{
 
 .storyblock{
     width: 80%;
-    height: 99vh;
+    height: fit-content;
     margin: auto;
     margin-top: 5vh;
     background-color: rgb(160, 12, 128);

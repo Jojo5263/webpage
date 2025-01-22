@@ -4,7 +4,7 @@ body{
     background-attachment: fixed;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
     'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-
+    
 }
 
 h1{
@@ -25,6 +25,7 @@ h1{
     font-size: 3vw;
     text-align: center;
     padding: 1%;
+    opacity: 80%;
 }
 
 .sidebarElement{
@@ -80,7 +81,3 @@ a{
     font-size: 3vw;
 }
 
-@font-face {
-    font-family: roboto;
-    src: url(Fonts\Roboto-Italic-VariableFont_wdth,wght.ttf);
-  }

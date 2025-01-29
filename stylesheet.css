@@ -28,16 +28,7 @@ h1{
     opacity: 80%;
 }
 
-.sidebarElement{
-    height: 5vh;
-    width: 100%;
-    border: 1%;
-    border-color: black;
-    border-style: solid;
-    align-self: center;
-    padding-right: 1%;
-    
-}
+
 
 .bodypart{
     height: 200vh;
@@ -56,6 +47,7 @@ h1{
     font-size: 1.5vw;
     text-overflow: clip;
     padding: 2%;
+    border-radius: 10%;
 }
 
 .backButton{
@@ -69,7 +61,22 @@ h1{
     border-color: black;
     border-style: dotted;
     font-size: 5%;
+    border-radius: 10%;
     
+}
+
+.backButton:hover
+{
+  width: 14vw;
+  height: 4vw;
+  align-self: left;
+  margin-top: 5vh;
+  background-color: rgb(210, 19, 168);
+  opacity: 80%;
+  border: 5%;
+  border-color: rgb(0, 0, 0);
+  border-style: dotted;
+  font-size: 5%;
 }
 
 p{

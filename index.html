@@ -11,13 +11,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Custom styles for the page */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #111827; /* Dark background */
             color: #d1d5db; /* Light gray text */
         }
-        /* Custom styles for carousel controls to make them more visible on a dark background */
         .carousel-control-prev-icon,
         .carousel-control-next-icon {
             background-color: rgba(255, 255, 255, 0.2);
@@ -31,7 +29,7 @@
 
     <!-- Header/Hero Section -->
     <header class="bg-gray-900/50 relative">
-        <div class="absolute inset-0 bg-grid-gray-800 [mask-image:linear-gradient(to_bottom,white_20%,transparent_100%)]"></div>
+        <div class="absolute inset-0 bg-gray-800 [mask-image:linear-gradient(to_bottom,white_20%,transparent_100%)]"></div>
         <div class="container mx-auto px-6 py-20 text-center relative z-10">
             <h1 class="text-4xl md:text-6xl font-bold text-white tracking-tight">Welcome to My Homepage 🐈‍⬛</h1>
             <p class="mt-4 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">A space for my random projects, experiments, and creative coding.</p>
@@ -40,7 +38,7 @@
 
     <!-- Main Content -->
     <main class="container mx-auto px-6 py-12">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
             
             <!-- About Me Section -->
             <div class="bg-gray-800/50 p-8 rounded-2xl shadow-lg border border-gray-700 hover:border-sky-500 transition-all duration-300">
@@ -48,6 +46,18 @@
                 <p class="text-gray-300 leading-relaxed">
                     Hi, I'm a student from Germany learning how to program! This website is my digital playground for trying out new technologies and experimenting with web development. I'm currently exploring frameworks like Tailwind CSS & Bootstrap and building projects on GitHub Pages.
                 </p>
+            </div>
+
+            <!-- Katzenbilder Website Section -->
+            <div class="bg-gray-800/50 p-8 rounded-2xl shadow-lg border border-gray-700 hover:border-pink-500 transition-all duration-300">
+                <h2 class="text-3xl font-bold text-white mb-4">Katzenbilder 🐱</h2>
+                <p class="text-gray-300 mb-6 text-center">Schau dir meine Katzenbilder-Website direkt hier an!</p>
+                <div class="rounded-lg overflow-hidden shadow-lg mb-4">
+                    
+                </div>
+                <a href="catpics.html" target="_blank" class="inline-flex items-center justify-center px-6 py-3 bg-pink-600 text-white font-semibold rounded-lg shadow-md hover:bg-pink-700 transition-colors duration-300 transform hover:scale-105">
+                    Vollbild öffnen
+                </a>
             </div>
 
             <!-- Contact Section -->
@@ -66,15 +76,11 @@
             <h2 class="text-3xl font-bold text-white mb-6 text-center">Some of my favourite music</h2>
             <div id="spotifyCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner max-w-2xl mx-auto rounded-2xl">
-                    <!-- Song 1 -->
-                    
-                    <!-- Song 2 -->
-                    <div class="carousel-item">
+                    <div class="carousel-item active">
                         <div class="flex justify-center">
                             <iframe class="my-4" style="border-radius:12px" src="https://open.spotify.com/embed/track/7MexIASUmMRD87Y4K5j2Kt?utm_source=generator" width="100%" height="352" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                         </div>
                     </div>
-                    <!-- Song 3 -->
                     <div class="carousel-item">
                         <div class="flex justify-center">
                             <iframe class="my-4" style="border-radius:12px" src="https://open.spotify.com/embed/track/0IWvhDT8gj3qu5t0ozYtEK?utm_source=generator" width="100%" height="352" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>

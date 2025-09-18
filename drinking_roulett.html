@@ -1,605 +1,744 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roulette Trinkspiel - Mehrspieler</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #0a5c36 0%, #083c24 100%);
-            color: white;
-            text-align: center;
-            padding: 20px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: rgba(0, 0, 0, 0.6);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        }
-        
-        h1 {
-            color: gold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            margin-bottom: 20px;
-        }
-        
-        .game-area {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .players-section {
-            flex: 1;
-            min-width: 300px;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 15px;
-            border-radius: 10px;
-        }
-        
-        .roulette-section {
-            flex: 2;
-            min-width: 400px;
-        }
-        
-        .player-form {
-            display: flex;
-            margin-bottom: 15px;
-        }
-        
-        .player-form input {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 5px 0 0 5px;
-        }
-        
-        .player-form button {
-            padding: 10px 15px;
-            background: gold;
-            border: none;
-            border-radius: 0 5px 5px 0;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        
-        .players-list {
-            list-style: none;
-            margin-top: 15px;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        
-        .player-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            margin-bottom: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-        }
-        
-        .player-number {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-weight: bold;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-        
-        .player-red {
-            background-color: #e40000;
-        }
-        
-        .player-black {
-            background-color: #000;
-        }
-        
-        .player-green {
-            background-color: #00a100;
-        }
-        
-        .remove-btn {
-            background: #ff4444;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 5px 10px;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-        
-        .roulette-table {
-            display: grid;
-            grid-template-columns: repeat(13, 1fr);
-            gap: 2px;
-            margin: 20px auto;
-            max-width: 600px;
-        }
-        
-        .number {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        
-        .red {
-            background-color: #e40000;
-        }
-        
-        .black {
-            background-color: #000;
-        }
-        
-        .green {
-            background-color: #00a100;
-            grid-column: span 2;
-            width: 84px;
-            border-radius: 5px;
-        }
-        
-        .controls {
-            margin: 20px 0;
-        }
-        
-        button {
-            background-color: gold;
-            border: none;
-            padding: 12px 25px;
-            margin: 10px;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        button:hover {
-            background-color: #ffd700;
-            transform: scale(1.05);
-        }
-        
-        .result {
-            font-size: 24px;
-            margin: 20px 0;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-        
-        .wheel {
-            width: 250px;
-            height: 250px;
-            background: linear-gradient(to bottom, #600, #300);
-            border-radius: 50%;
-            border: 5px solid #d4af37;
-            position: relative;
-            margin: 20px auto;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-        }
-        
-        .wheel-inner {
-            position: absolute;
-            width: 90%;
-            height: 90%;
-            top: 5%;
-            left: 5%;
-            border-radius: 50%;
-            background: #0a5c36;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: gold;
-            font-size: 24px;
-            font-weight: bold;
-        }
-        
-        .pointer {
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-top: 30px solid #d4af37;
-            z-index: 10;
-        }
-        
-        .rules {
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            text-align: left;
-        }
-        
-        .rules h3 {
-            color: gold;
-            margin-top: 0;
-        }
-        
-        .rules ul {
-            padding-left: 20px;
-        }
-        
-        .rules li {
-            margin-bottom: 8px;
-        }
-        
-        .selected {
-            box-shadow: 0 0 15px 5px gold;
-        }
-        
-        .drink-animation {
-            animation: drink 2s ease;
-        }
-        
-        @keyframes drink {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-        
-        .player-drink {
-            animation: drink 1s ease;
-            color: #ff4444;
-            font-weight: bold;
-        }
-        
-        @media (max-width: 768px) {
-            .game-area {
-                flex-direction: column;
-            }
-        }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Roulette Trinkspiel — v2 (verbessert)</title>
+<style>
+  :root {
+    --gold: #d4af37;
+    --dark-green: #083c24;
+    --mid-green: #0a5c36;
+    --red: #e40000;
+    --black: #000;
+    --green: #00a100;
+  }
+  
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, var(--mid-green), var(--dark-green));
+    color: #fff;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 18px;
+    border-radius: 14px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+    width: 100%;
+  }
+  
+  h1 {
+    color: var(--gold);
+    margin: 0 0 14px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+    font-size: 2.2rem;
+  }
+  
+  .game-area {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .players-section, .roulette-section {
+    background: rgba(0, 0, 0, 0.35);
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .players-section {
+    flex: 1;
+    min-width: 280px;
+  }
+  
+  .roulette-section {
+    flex: 2;
+    min-width: 420px;
+  }
+  
+  .player-form {
+    display: flex;
+    margin-bottom: 12px;
+  }
+  
+  .player-form input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 6px 0 0 6px;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+  }
+  
+  .player-form button {
+    padding: 10px 14px;
+    border: none;
+    background: var(--gold);
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+    font-weight: 700;
+    color: #000;
+    transition: background 0.3s;
+  }
+  
+  .player-form button:hover {
+    background: #ffc850;
+  }
+  
+  .players-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 320px;
+    overflow: auto;
+  }
+  
+  .player-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .player-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .player-item.active {
+    outline: 2px solid rgba(212, 175, 55, 0.6);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+    background: rgba(212, 175, 55, 0.15);
+  }
+  
+  .player-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .player-color-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+  }
+  
+  .player-number {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #fff;
+    margin-left: 8px;
+    font-size: 1.1rem;
+    transition: transform 0.2s;
+  }
+  
+  .player-number:hover {
+    transform: scale(1.05);
+  }
+  
+  .player-red {
+    background: var(--red);
+  }
+  
+  .player-black {
+    background: var(--black);
+  }
+  
+  .player-green {
+    background: var(--green);
+  }
+  
+  .remove-btn {
+    background: #ff4444;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .remove-btn:hover {
+    background: #ff6666;
+  }
+
+  /* Wheel */
+  .wheel-container {
+    position: relative;
+    width: 460px;
+    height: 460px;
+    margin: 14px auto;
+  }
+  
+  .pointer {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 22px solid transparent;
+    border-right: 22px solid transparent;
+    border-top: 36px solid var(--gold);
+    z-index: 40;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  }
+  
+  .wheel {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+    overflow: visible;
+    box-shadow: 0 0 0 12px var(--gold), 0 0 30px rgba(0, 0, 0, 0.7);
+    transition: transform 4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    background: conic-gradient(
+      #00a100 0deg 9.73deg,
+      #000 9.73deg 19.46deg,
+      #e40000 19.46deg 29.19deg,
+      #000 29.19deg 38.92deg,
+      #e40000 38.92deg 48.65deg,
+      #000 48.65deg 58.38deg,
+      #e40000 58.38deg 68.11deg,
+      #000 68.11deg 77.84deg,
+      #e40000 77.84deg 87.57deg,
+      #000 87.57deg 97.3deg,
+      #e40000 97.3deg 107.03deg,
+      #000 107.03deg 116.76deg,
+      #e40000 116.76deg 126.49deg,
+      #000 126.49deg 136.22deg,
+      #e40000 136.22deg 145.95deg,
+      #000 145.95deg 155.68deg,
+      #e40000 155.68deg 165.41deg,
+      #000 165.41deg 175.14deg,
+      #e40000 175.14deg 184.87deg,
+      #000 184.87deg 194.6deg,
+      #e40000 194.6deg 204.33deg,
+      #000 204.33deg 214.06deg,
+      #e40000 214.06deg 223.79deg,
+      #000 223.79deg 233.52deg,
+      #e40000 233.52deg 243.25deg,
+      #000 243.25deg 252.98deg,
+      #e40000 252.98deg 262.71deg,
+      #000 262.71deg 272.44deg,
+      #e40000 272.44deg 282.17deg,
+      #000 282.17deg 291.9deg,
+      #e40000 291.9deg 301.63deg,
+      #000 301.63deg 311.36deg,
+      #e40000 311.36deg 321.09deg,
+      #000 321.09deg 330.82deg,
+      #e40000 330.82deg 340.55deg,
+      #000 340.55deg 350.28deg,
+      #e40000 350.28deg 360deg
+    );
+  }
+  
+  .num-label {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    min-width: 36px;
+    padding: 6px 8px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+    user-select: none;
+    text-align: center;
+    transition: all 0.2s;
+    z-index: 10;
+  }
+  
+  .num-label:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    z-index: 20;
+  }
+  
+  .num-label.assigned {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3), 0 4px 10px rgba(0, 0, 0, 0.6);
+  }
+  
+  .wheel-center {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--gold);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-weight: 800;
+    z-index: 30;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .controls {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+  
+  .controls button {
+    background: var(--gold);
+    border: none;
+    padding: 12px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    color: #000;
+    transition: all 0.2s;
+    min-width: 120px;
+  }
+  
+  .controls button:hover {
+    background: #ffc850;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .controls button:disabled {
+    background: #777;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .result {
+    margin-top: 20px;
+    font-size: 1.4rem;
+    min-height: 60px;
+    padding: 12px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+  }
+  
+  .winning {
+    color: var(--gold);
+    animation: pulse 1s infinite;
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  
+  .player-drink {
+    animation: drink-alert 1s infinite;
+  }
+  
+  @keyframes drink-alert {
+    0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+  }
+  
+  /* responsiveness */
+  @media (max-width: 900px) {
+    .wheel-container {
+      width: 320px;
+      height: 320px;
+    }
+    
+    .player-number {
+      width: 36px;
+      height: 36px;
+      font-size: 1rem;
+    }
+    
+    h1 {
+      font-size: 1.8rem;
+    }
+    
+    .result {
+      font-size: 1.2rem;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .game-area {
+      flex-direction: column;
+    }
+    
+    .players-section, .roulette-section {
+      width: 100%;
+    }
+    
+    .wheel-container {
+      width: 280px;
+      height: 280px;
+    }
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>Roulette Trinkspiel - Mehrspieler</h1>
-        
-        <div class="game-area">
-            <div class="players-section">
-                <h2>Spieler</h2>
-                <div class="player-form">
-                    <input type="text" id="playerName" placeholder="Spielername">
-                    <button id="addPlayer">Hinzufügen</button>
-                </div>
-                <ul class="players-list" id="playersList">
-                    <!-- Spieler werden hier dynamisch hinzugefügt -->
-                </ul>
-            </div>
-            
-            <div class="roulette-section">
-                <div class="wheel">
-                    <div class="pointer"></div>
-                    <div class="wheel-inner">Roulette</div>
-                </div>
-                
-                <div class="result" id="result">
-                    Spieler hinzufügen und Zahlen auswählen
-                </div>
-                
-                <div class="roulette-table">
-                    <div class="number green">0</div>
-                    <div class="number red">32</div>
-                    <div class="number black">15</div>
-                    <div class="number red">19</div>
-                    <div class="number black">4</div>
-                    <div class="number red">21</div>
-                    <div class="number black">2</div>
-                    <div class="number red">25</div>
-                    <div class="number black">17</div>
-                    <div class="number red">34</div>
-                    <div class="number black">6</div>
-                    <div class="number red">27</div>
-                    <div class="number black">13</div>
-                    <div class="number red">36</div>
-                    <div class="number black">11</div>
-                    <div class="number red">30</div>
-                    <div class="number black">8</div>
-                    <div class="number red">23</div>
-                    <div class="number black">10</div>
-                    <div class="number red">5</div>
-                    <div class="number black">24</div>
-                    <div class="number red">16</div>
-                    <div class="number black">33</div>
-                    <div class="number red">1</div>
-                    <div class="number black">20</div>
-                    <div class="number red">14</div>
-                    <div class="number black">31</div>
-                    <div class="number red">9</div>
-                    <div class="number black">22</div>
-                    <div class="number red">18</div>
-                    <div class="number black">29</div>
-                    <div class="number red">7</div>
-                    <div class="number black">28</div>
-                    <div class="number red">12</div>
-                    <div class="number black">35</div>
-                    <div class="number red">3</div>
-                    <div class="number black">26</div>
-                </div>
-                
-                <div class="controls">
-                    <button id="spinButton">Spielen</button>
-                    <button id="resetButton">Neues Spiel</button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="rules">
-            <h3>Spielregeln:</h3>
-            <ul>
-                <li>Füge Spieler hinzu und wähle für jeden eine Zahl zwischen 0 und 36</li>
-                <li>Wenn die Kugel auf deiner Zahl landet: Du bestimmst, wer trinkt!</li>
-                <li>Rote Zahl: Alle mit geraden Zahlen trinken</li>
-                <li>Schwarze Zahl: Alle mit ungeraden Zahlen trinken</li>
-                <li>Zero (0): Alle trinken 2 Schlücke</li>
-                <li>Die Zahl deines Nachbarn: Du trinkst 3 Schlücke</li>
-            </ul>
-        </div>
+<div class="container">
+  <h1>Roulette Trinkspiel — v2 (verbessert)</h1>
+  <div class="game-area">
+    <div class="players-section">
+      <h2>Spieler</h2>
+      <div class="player-form">
+        <input id="playerName" placeholder="Spielername" />
+        <button id="addPlayer">Hinzufügen</button>
+      </div>
+      <ul id="playersList" class="players-list"></ul>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const numbers = document.querySelectorAll('.number');
-            const spinButton = document.getElementById('spinButton');
-            const resetButton = document.getElementById('resetButton');
-            const resultDisplay = document.getElementById('result');
-            const wheelInner = document.querySelector('.wheel-inner');
-            const addPlayerButton = document.getElementById('addPlayer');
-            const playerNameInput = document.getElementById('playerName');
-            const playersList = document.getElementById('playersList');
-            
-            let players = [];
-            let gameActive = true;
-            
-            // Spieler hinzufügen
-            addPlayerButton.addEventListener('click', function() {
-                const name = playerNameInput.value.trim();
-                if (name && players.length < 10) {
-                    addPlayer(name);
-                    playerNameInput.value = '';
-                    playerNameInput.focus();
-                } else if (players.length >= 10) {
-                    alert('Maximal 10 Spieler erlaubt!');
-                } else {
-                    alert('Bitte gib einen Namen ein!');
-                }
-            });
-            
-            // Spieler hinzufügen mit Enter-Taste
-            playerNameInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    addPlayerButton.click();
-                }
-            });
-            
-            function addPlayer(name) {
-                const player = {
-                    id: Date.now(),
-                    name: name,
-                    number: null,
-                    element: null
-                };
-                
-                players.push(player);
-                renderPlayers();
-            }
-            
-            function removePlayer(id) {
-                players = players.filter(player => player.id !== id);
-                renderPlayers();
-            }
-            
-            function renderPlayers() {
-                playersList.innerHTML = '';
-                
-                players.forEach(player => {
-                    const li = document.createElement('li');
-                    li.className = 'player-item';
-                    
-                    const nameSpan = document.createElement('span');
-                    nameSpan.textContent = player.name;
-                    
-                    const numberDiv = document.createElement('div');
-                    numberDiv.className = 'player-number';
-                    numberDiv.textContent = player.number !== null ? player.number : '?';
-                    
-                    if (player.number !== null) {
-                        const numberElement = Array.from(numbers).find(n => n.textContent == player.number);
-                        if (numberElement) {
-                            if (numberElement.classList.contains('red')) {
-                                numberDiv.classList.add('player-red');
-                            } else if (numberElement.classList.contains('black')) {
-                                numberDiv.classList.add('player-black');
-                            } else if (numberElement.classList.contains('green')) {
-                                numberDiv.classList.add('player-green');
-                            }
-                        }
-                    }
-                    
-                    const removeBtn = document.createElement('button');
-                    removeBtn.className = 'remove-btn';
-                    removeBtn.textContent = 'X';
-                    removeBtn.addEventListener('click', () => removePlayer(player.id));
-                    
-                    li.appendChild(nameSpan);
-                    li.appendChild(numberDiv);
-                    li.appendChild(removeBtn);
-                    
-                    playersList.appendChild(li);
-                    player.element = li;
-                });
-            }
-            
-            // Zahlen auswählen
-            numbers.forEach(number => {
-                number.addEventListener('click', function() {
-                    if (!gameActive || players.length === 0) return;
-                    
-                    const selectedNumber = this.textContent;
-                    const currentPlayer = players.find(p => p.number === null);
-                    
-                    if (currentPlayer) {
-                        // Prüfen, ob die Zahl bereits vergeben ist
-                        if (players.some(p => p.number === selectedNumber)) {
-                            alert('Diese Zahl wurde bereits gewählt!');
-                            return;
-                        }
-                        
-                        currentPlayer.number = selectedNumber;
-                        this.classList.add('selected');
-                        renderPlayers();
-                        
-                        // Nächsten Spieler auswählen lassen
-                        if (players.every(p => p.number !== null)) {
-                            resultDisplay.textContent = 'Alle Spieler haben eine Zahl gewählt!';
-                        }
-                    } else {
-                        alert('Alle Spieler haben bereits eine Zahl gewählt!');
-                    }
-                });
-            });
-            
-            // Spielen-Button
-            spinButton.addEventListener('click', function() {
-                if (!gameActive) {
-                    alert('Das Spiel ist bereits aktiv!');
-                    return;
-                }
-                
-                if (players.length === 0) {
-                    alert('Füge zuerst Spieler hinzu!');
-                    return;
-                }
-                
-                if (players.some(p => p.number === null)) {
-                    alert('Nicht alle Spieler haben eine Zahl gewählt!');
-                    return;
-                }
-                
-                gameActive = false;
-                spinButton.disabled = true;
-                
-                // Animation
-                let rotation = 0;
-                let spins = 0;
-                const maxSpins = 3 + Math.random() * 2;
-                const spinInterval = setInterval(() => {
-                    rotation += 30;
-                    wheelInner.style.transform = `rotate(${rotation}deg)`;
-                    spins += 30/360;
-                    
-                    if (spins >= maxSpins) {
-                        clearInterval(spinInterval);
-                        determineResult();
-                    }
-                }, 50);
-            });
-            
-            // Ergebnis bestimmen
-            function determineResult() {
-                const allNumbers = Array.from(numbers).map(n => n.textContent);
-                const winningNumber = allNumbers[Math.floor(Math.random() * allNumbers.length)];
-                const winningElement = Array.from(numbers).find(n => n.textContent === winningNumber);
-                
-                // Gewinnende Zahl hervorheben
-                numbers.forEach(n => n.classList.remove('selected'));
-                winningElement.classList.add('selected');
-                
-                // Gewinner finden
-                const winner = players.find(p => p.number === winningNumber);
-                
-                // Ergebnis anzeigen
-                if (winner) {
-                    resultDisplay.innerHTML = `<span class="drink-animation">Gewonnen! ${winningNumber} - ${winner.name} bestimmt wer trinkt!</span>`;
-                    highlightPlayer(winner.id, true);
-                } else if (winningNumber === '0') {
-                    resultDisplay.innerHTML = `<span class="drink-animation">Zero! ${winningNumber} - Alle trinken 2 Schlücke!</span>`;
-                    players.forEach(p => highlightPlayer(p.id, false));
-                } else if (winningElement.classList.contains('red')) {
-                    resultDisplay.innerHTML = `<span class="drink-animation">Rot! ${winningNumber} - Alle mit geraden Zahlen trinken!</span>`;
-                    players.forEach(p => {
-                        if (p.number % 2 === 0) highlightPlayer(p.id, false);
-                    });
-                } else if (winningElement.classList.contains('black')) {
-                    resultDisplay.innerHTML = `<span class="drink-animation">Schwarz! ${winningNumber} - Alle mit ungeraden Zahlen trinken!</span>`;
-                    players.forEach(p => {
-                        if (p.number % 2 === 1) highlightPlayer(p.id, false);
-                    });
-                }
-                
-                // Prüfen ob Nachbarzahl
-                players.forEach(player => {
-                    const selectedIndex = allNumbers.indexOf(player.number);
-                    const winningIndex = allNumbers.indexOf(winningNumber);
-                    
-                    if (Math.abs(selectedIndex - winningIndex) === 1 || 
-                        (selectedIndex === 0 && winningIndex === allNumbers.length - 1) ||
-                        (winningIndex === 0 && selectedIndex === allNumbers.length - 1)) {
-                        resultDisplay.innerHTML += `<br><span class="drink-animation">${player.name} hat eine Nachbarzahl! Trinkt 3 Schlücke!</span>`;
-                        highlightPlayer(player.id, false);
-                    }
-                });
-            }
-            
-            function highlightPlayer(playerId, isWinner) {
-                const player = players.find(p => p.id === playerId);
-                if (player && player.element) {
-                    if (isWinner) {
-                        player.element.classList.add('selected');
-                    } else {
-                        player.element.classList.add('player-drink');
-                    }
-                }
-            }
-            
-            // Reset-Button
-            resetButton.addEventListener('click', function() {
-                numbers.forEach(n => n.classList.remove('selected'));
-                resultDisplay.textContent = 'Spieler hinzufügen und Zahlen auswählen';
-                gameActive = true;
-                spinButton.disabled = false;
-                
-                players.forEach(player => {
-                    player.number = null;
-                    if (player.element) {
-                        player.element.classList.remove('selected', 'player-drink');
-                    }
-                });
-                
-                renderPlayers();
-                wheelInner.style.transform = 'rotate(0deg)';
-            });
-        });
-    </script>
+    <div class="roulette-section">
+      <div class="wheel-container">
+        <div class="pointer"></div>
+        <div id="rouletteWheel" class="wheel" aria-hidden="true"></div>
+        <div id="wheelCenter" class="wheel-center">R</div>
+      </div>
+
+      <div id="result" class="result">Spieler hinzufügen und Zahlen auswählen</div>
+
+      <div class="controls">
+        <button id="spinButton">Spielen</button>
+        <button id="resetButton">Neues Spiel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const rouletteOrder = [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
+const reds = new Set([32,19,21,25,34,27,36,30,23,5,16,1,14,9,18,7,12,3]);
+
+const wheel = document.getElementById('rouletteWheel');
+const playersList = document.getElementById('playersList');
+const addPlayerBtn = document.getElementById('addPlayer');
+const playerNameInput = document.getElementById('playerName');
+const spinButton = document.getElementById('spinButton');
+const resetButton = document.getElementById('resetButton');
+const resultDisplay = document.getElementById('result');
+
+let players = [];
+let spinning = false;
+let currentRotation = 0;
+
+// Farben für Spieler
+function makePlayerColor(index) {
+  const colors = [
+    '#FF5252', '#FF4081', '#E040FB', '#7C4DFF', '#536DFE',
+    '#448AFF', '#40C4FF', '#18FFFF', '#64FFDA', '#69F0AE'
+  ];
+  return colors[index % colors.length];
+}
+
+// Spieler hinzufügen
+function addPlayer(name) {
+  const color = makePlayerColor(players.length);
+  const p = {
+    id: Date.now() + Math.random(),
+    name,
+    number: null,
+    color,
+    active: false,
+    element: null
+  };
+  players.push(p);
+  renderPlayers();
+}
+
+addPlayerBtn.addEventListener('click', () => {
+  const n = (playerNameInput.value || '').trim();
+  if (!n) return alert('Bitte Namen eingeben');
+  if (players.length >= 10) return alert('Maximal 10 Spieler erlaubt');
+  addPlayer(n);
+  playerNameInput.value = '';
+  playerNameInput.focus();
+});
+
+playerNameInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') addPlayerBtn.click();
+});
+
+// Spieler rendern
+function renderPlayers() {
+  playersList.innerHTML = '';
+  players.forEach((p, idx) => {
+    const li = document.createElement('li');
+    li.className = 'player-item' + (p.active ? ' active' : '');
+    li.dataset.id = p.id;
+
+    const left = document.createElement('div');
+    left.className = 'player-left';
+    const dot = document.createElement('div');
+    dot.className = 'player-color-dot';
+    dot.style.background = p.color;
+    const nameSpan = document.createElement('span');
+    nameSpan.textContent = p.name;
+    left.appendChild(dot);
+    left.appendChild(nameSpan);
+
+    const right = document.createElement('div');
+    const numDiv = document.createElement('div');
+    numDiv.className = 'player-number';
+    numDiv.textContent = p.number === null ? '?' : p.number;
+    if (p.number !== null) {
+      const c = p.number === 0 ? 'green' : (reds.has(p.number) ? 'red' : 'black');
+      numDiv.classList.add('player-' + c);
+    }
+
+    const rm = document.createElement('button');
+    rm.className = 'remove-btn';
+    rm.textContent = 'X';
+    rm.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      players = players.filter(x => x !== p);
+      renderPlayers();
+      createNumberLabels();
+    });
+
+    right.appendChild(numDiv);
+    right.appendChild(rm);
+
+    li.appendChild(left);
+    li.appendChild(right);
+
+    li.addEventListener('click', () => {
+      players.forEach(pp => pp.active = false);
+      p.active = true;
+      renderPlayers();
+    });
+
+    numDiv.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      if (spinning) return;
+      let num = prompt(`${p.name}: Zahl (0-36) eingeben:`);
+      if (num === null) return;
+      num = parseInt(num);
+      if (isNaN(num) || num < 0 || num > 36) return alert('Ungültige Zahl');
+      if (players.some(pl => pl.number === num && pl !== p)) return alert('Schon vergeben');
+      p.number = num;
+      renderPlayers();
+      createNumberLabels();
+    });
+
+    playersList.appendChild(li);
+    p.element = li;
+  });
+}
+
+// Zahlen-Labels erstellen und positionieren
+function createNumberLabels() {
+  // Alte Labels entfernen
+  document.querySelectorAll('.num-label').forEach(el => el.remove());
+  
+  const len = rouletteOrder.length;
+  const segAngle = 360 / len;
+  const wheelRect = wheel.getBoundingClientRect();
+  const centerX = wheelRect.width / 2;
+  const centerY = wheelRect.height / 2;
+  const radius = Math.min(centerX, centerY) - 30;
+
+  for (let i = 0; i < len; i++) {
+    const number = rouletteOrder[i];
+    const angle = (i * segAngle) - (segAngle / 2);
+    const rad = angle * Math.PI / 180;
+    
+    const x = centerX + Math.sin(rad) * radius;
+    const y = centerY - Math.cos(rad) * radius;
+    
+    const badge = document.createElement('div');
+    badge.className = 'num-label';
+    badge.textContent = number;
+    badge.dataset.number = number;
+    badge.style.left = `${x}px`;
+    badge.style.top = `${y}px`;
+    
+    // Besitzer anzeigen, falls vorhanden
+    const owner = players.find(p => p.number === number);
+    if (owner) {
+      badge.classList.add('assigned');
+      badge.style.boxShadow = `0 0 0 3px ${owner.color}, 0 4px 8px rgba(0,0,0,0.5)`;
+    }
+    
+    badge.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      onNumberClick(number);
+    });
+    
+    wheel.appendChild(badge);
+  }
+}
+
+// Zahlen-Click-Handler
+function onNumberClick(number) {
+  if (spinning) return;
+  const active = players.find(p => p.active);
+  const owner = players.find(p => p.number === number);
+  
+  if (active) {
+    if (owner && owner !== active) return alert(`Zahl ${number} ist bereits vergeben an ${owner.name}`);
+    active.number = number;
+    active.active = false;
+    renderPlayers();
+    createNumberLabels();
+    return;
+  }
+  
+  if (owner) {
+    if (confirm(`${number} gehört ${owner.name}. Entfernen?`)) {
+      owner.number = null;
+      renderPlayers();
+      createNumberLabels();
+    }
+  } else {
+    alert(`${number} ist frei. Wähle zuerst einen Spieler (klicke in der Spielerliste) und dann die Zahl an.`);
+  }
+}
+
+// Drehen des Rades
+spinButton.addEventListener('click', () => {
+  if (spinning) return alert('Rad dreht bereits');
+  if (players.length === 0) return alert('Füge Spieler hinzu');
+  if (players.some(p => p.number === null)) return alert('Nicht alle Spieler haben eine Zahl gewählt');
+  
+  spinning = true;
+  spinButton.disabled = true;
+  resetButton.disabled = true;
+  
+  const len = rouletteOrder.length;
+  const segAngle = 360 / len;
+  const winIndex = Math.floor(Math.random() * len);
+  const winNum = rouletteOrder[winIndex];
+  
+  // Zusätzliche Umdrehungen + Zielposition
+  const rotations = 4;
+  const targetAngle = rotations * 360 + (winIndex * segAngle);
+  
+  // Aktuelle Rotation berücksichtigen
+  currentRotation = currentRotation % 360;
+  const totalRotation = currentRotation + targetAngle;
+  
+  wheel.style.transition = 'transform 4s cubic-bezier(0.2, 0.8, 0.2, 1)';
+  wheel.style.transform = `rotate(${-totalRotation}deg)`;
+  currentRotation = totalRotation % 360;
+  
+  // Ergebnis anzeigen nach Ende der Animation
+  setTimeout(() => {
+    spinning = false;
+    spinButton.disabled = false;
+    resetButton.disabled = false;
+    
+    const owner = players.find(p => p.number === winNum);
+    const color = winNum === 0 ? 'green' : (reds.has(winNum) ? 'rot' : 'schwarz');
+    
+    resultDisplay.textContent = `${winNum} (${color}) — `;
+    
+    if (owner) {
+      resultDisplay.innerHTML += `<span class="winning">${owner.name} gewinnt!</span>`;
+      owner.element.classList.add('selected');
+    } else if (winNum === 0) {
+      resultDisplay.innerHTML += `<span class="winning">Alle trinken 2!</span>`;
+      players.forEach(p => p.element.classList.add('player-drink'));
+    } else if (color === 'rot') {
+      resultDisplay.innerHTML += `<span class="winning">Gerade trinken!</span>`;
+      players.forEach(p => {
+        if (p.number !== null && p.number % 2 === 0) p.element.classList.add('player-drink');
+      });
+    } else {
+      resultDisplay.innerHTML += `<span class="winning">Ungerade trinken!</span>`;
+      players.forEach(p => {
+        if (p.number !== null && p.number % 2 === 1) p.element.classList.add('player-drink');
+      });
+    }
+    
+    // Gewinnzahl hervorheben
+    const label = wheel.querySelector(`.num-label[data-number='${winNum}']`);
+    if (label) {
+      label.style.transition = 'all 0.3s ease';
+      label.style.transform = 'translate(-50%, -50%) scale(1.3)';
+      label.style.zIndex = '25';
+      label.style.boxShadow = '0 0 15px 5px rgba(255, 215, 0, 0.8)';
+      
+      setTimeout(() => {
+        label.style.transform = 'translate(-50%, -50%)';
+        label.style.boxShadow = '';
+        setTimeout(() => label.style.zIndex = '10', 300);
+      }, 2000);
+    }
+  }, 4100);
+});
+
+// Reset-Button
+resetButton.addEventListener('click', () => {
+  if (spinning) return alert('Warte bis das Rad steht');
+  
+  wheel.style.transition = 'transform 1s ease-out';
+  wheel.style.transform = 'rotate(0deg)';
+  currentRotation = 0;
+  
+  resultDisplay.textContent = 'Spieler hinzufügen und Zahlen auswählen';
+  players.forEach(p => {
+    p.number = null;
+    if (p.element) {
+      p.element.classList.remove('selected', 'player-drink');
+    }
+    p.active = false;
+  });
+  
+  renderPlayers();
+  createNumberLabels();
+});
+
+// Bei Größenänderung neu zeichnen
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    if (!spinning) {
+      createNumberLabels();
+    }
+  }, 250);
+});
+
+// Initialisierung
+window.addEventListener('load', () => {
+  renderPlayers();
+  createNumberLabels();
+  
+  // Demo-Spieler hinzufügen
+  addPlayer('Demo-Spieler');
+  players[0].number = 7;
+  renderPlayers();
+  createNumberLabels();
+});
+</script>
 </body>
 </html>

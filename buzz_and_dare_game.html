@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Buzz & Dare — Drinking & Truth or Dare Game</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--accent:#67e8f9;--muted:#9aa6b2}
+    *{box-sizing:border-box}
+    body{font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial; margin:0; background:linear-gradient(180deg,#071021 0%, #0f1724 100%); color:#e6eef6; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px}
+    .app{width:100%;max-width:980px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); border-radius:14px; padding:20px; box-shadow:0 10px 30px rgba(2,6,23,0.7)}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+    h1{font-size:20px;margin:0}
+    .flex{display:flex;gap:12px}
+    .panel{background:var(--card); padding:14px; border-radius:10px}
+    input, button, select, textarea{font:inherit}
+    .players{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .player{padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:999px}
+    .controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    button{background:linear-gradient(90deg,var(--accent),#a78bfa);border:none;padding:10px 12px;border-radius:10px;color:#042027;cursor:pointer;font-weight:700}
+    button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);font-weight:600}
+    .center{display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .card-large{min-height:120px; width:100%; display:flex;align-items:center;justify-content:center;font-size:18px;text-align:center;padding:18px;border-radius:12px}
+    .meta{font-size:13px;color:var(--muted)}
+    footer{margin-top:12px;color:var(--muted);font-size:13px}
+    .spin{font-weight:900;font-size:32px}
+    .small{font-size:13px}
+    @media (max-width:640px){.controls{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>Buzz & Dare — Drinking & Truth or Dare</h1>
+      <div class="meta">Responsible play recommended • Alcohol-free options allowed</div>
+    </header>
+
+    <section style="display:grid;grid-template-columns:340px 1fr;gap:14px">
+      <aside class="panel">
+        <strong>Players</strong>
+        <div style="margin-top:8px">
+          <input id="nameInput" placeholder="Enter name & press Enter" style="width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
+          <div class="players" id="playersList"></div>
+          <div style="margin-top:8px" class="flex">
+            <button id="pickPlayerBtn">Pick Random Player</button>
+            <button class="ghost" id="clearPlayers">Clear All</button>
+          </div>
+        </div>
+
+        <hr style="margin:12px 0;border:none;border-top:1px solid rgba(255,255,255,0.03)" />
+        <strong>Game Modes</strong>
+        <div style="margin-top:8px;display:flex;gap:8px;flex-direction:column">
+          <label><input type="radio" name="mode" value="classic" checked /> Classic (Draw Card)</label>
+          <label><input type="radio" name="mode" value="spin" /> Spin (Pick Player)</label>
+          <label><input type="radio" name="mode" value="custom" /> Custom Cards</label>
+        </div>
+
+        <hr style="margin:12px 0;border:none;border-top:1px solid rgba(255,255,255,0.03)" />
+        <strong>Settings</strong>
+        <div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <label class="small">Min Sips<input id="minSip" type="number" value="1" min="0" style="width:100%"/></label>
+          <label class="small">Max Sips<input id="maxSip" type="number" value="3" min="0" style="width:100%"/></label>
+        </div>
+        <div style="margin-top:10px" class="small">Tip: Use non-alcoholic alternatives or other penalties like push-ups or singing.</div>
+      </aside>
+
+      <main>
+        <div class="panel center">
+          <div style="width:100%" class="card-large" id="mainCard">Press "Draw Card" or "Spin"</div>
+          <div style="margin-top:10px;width:100%" class="controls">
+            <button id="drawCard">Draw Card</button>
+            <button id="spinBtn">Spin</button>
+            <button id="customCardBtn" class="ghost">Add Custom Card</button>
+            <button id="rulesBtn" class="ghost">Show Rules</button>
+          </div>
+
+          <div style="margin-top:12px;width:100%;display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+            <div class="panel small" style="width:45%">Current Player: <span id="currentPlayer" class="spin">—</span></div>
+            <div class="panel small" style="width:45%">Last Action: <span id="lastAction">—</span></div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px" class="panel">
+          <strong>History</strong>
+          <div id="history" style="margin-top:8px;max-height:160px;overflow:auto"></div>
+        </div>
+      </main>
+    </section>
+
+    <footer>
+      <div class="small">Responsible play: This game is for adults. Drink responsibly. Alcohol-free options are allowed.</div>
+    </footer>
+  </div>
+
+  <script>
+    const truthDareCards = [
+      {type:'truth', text:'What’s a small thing that made you smile recently?'},
+      {type:'truth', text:'Describe your perfect lazy day.'},
+      {type:'truth', text:'What’s a comfort food you always go back to?'},
+      {type:'truth', text:'Share a song that instantly relaxes you.'},
+      {type:'truth', text:'What’s a hobby you wish you had more time for?'},
+      {type:'truth', text:'What’s your favorite way to unwind after a long day?'},
+      {type:'truth', text:'What’s a movie you can watch over and over?'},
+      {type:'truth', text:'What’s a place you go to clear your mind?'},
+      {type:'truth', text:'Describe a moment you felt truly at peace.'},
+      {type:'truth', text:'What’s a simple pleasure you enjoy?'},
+      {type:'truth', text:'What’s a book that made you feel good?'},
+      {type:'truth', text:'What’s a scent that calms you?'},
+      {type:'truth', text:'Who do you call when you need to vent?'},
+      {type:'truth', text:'What’s a memory that always makes you laugh?'},
+      {type:'truth', text:'What’s your favorite way to spend a rainy day?'},
+      {type:'truth', text:'What’s a skill you’d like to learn just for fun?'},
+      {type:'truth', text:'What’s a show you binge when you want to relax?'},
+      {type:'truth', text:'What’s a small act of kindness you received lately?'},
+      {type:'truth', text:'What’s a place you’d love to visit for a chill vacation?'},
+      {type:'truth', text:'What’s a comfort item you own?'},
+      {type:'truth', text:'What’s a food you crave when you’re tired?'},
+      {type:'truth', text:'What’s a song lyric that resonates with you?'},
+      {type:'truth', text:'What’s a color that makes you feel calm?'},
+      {type:'truth', text:'What’s a weekend activity you look forward to?'},
+      {type:'truth', text:'What’s a compliment you received that stuck with you?'},
+      {type:'truth', text:'What’s a favorite spot in your home?'},
+      {type:'truth', text:'What’s a tradition you enjoy with friends or family?'},
+      {type:'truth', text:'What’s a quote that inspires you to relax?'},
+      {type:'truth', text:'What’s a game you play to unwind?'},
+      {type:'truth', text:'What’s a drink you associate with chilling out?'},
+      {type:'truth', text:'What’s a favorite memory from a chill night in?'},
+      {type:'truth', text:'What’s a podcast you listen to for fun?'},
+      {type:'truth', text:'What’s a way you treat yourself after a tough week?'},
+      {type:'truth', text:'What’s a favorite snack for movie night?'},
+      {type:'truth', text:'What’s a place you’d love to nap outdoors?'},
+      {type:'truth', text:'What’s a favorite board game for a chill evening?'},
+      {type:'truth', text:'What’s a favorite candle scent?'},
+      {type:'truth', text:'What’s a favorite way to spend a Sunday morning?'},
+      {type:'truth', text:'What’s a favorite memory from a road trip?'},
+      {type:'truth', text:'What’s a favorite playlist for relaxing?'},
+      {type:'truth', text:'What’s a favorite way to spend time with friends?'},
+      {type:'truth', text:'What’s a favorite thing to do at the beach?'},
+      {type:'truth', text:'What’s a favorite comfort show?'},
+      {type:'truth', text:'Have you ever been arrested?'},
+      {type:'truth', text:'Have you ever lied to get out of trouble?'},
+      {type:'truth', text:'Have you ever cheated on a test?'},
+      {type:'truth', text:'Have you ever stolen something?'},
+      {type:'truth', text:'Have you ever snuck out of your house?'},
+      {type:'truth', text:'Have you ever broken a bone?'},
+      {type:'truth', text:'Have you ever skipped school?'},
+      {type:'truth', text:'Have you ever been in a fight?'},
+      {type:'truth', text:'Have you ever gotten a tattoo?'},
+      {type:'truth', text:'Have you ever gotten a piercing?'},
+      {type:'truth', text:'Have you ever been caught cheating?'},
+      {type:'truth', text:'Have you ever been fired from a job?'},
+      {type:'truth', text:'Have you ever crashed a car?'},
+      {type:'truth', text:'Have you ever gotten lost in a foreign country?'},
+      {type:'truth', text:'Have you ever forgotten a close friend’s birthday?'},
+      {type:'truth', text:'Have you ever been on TV?'},
+      {type:'truth', text:'Have you ever met a celebrity?'},
+      {type:'truth', text:'Have you ever been in handcuffs?'},
+      {type:'truth', text:'Have you ever been pulled over by the police?'},
+      {type:'truth', text:'Have you ever lied to a friend?'},
+      {type:'truth', text:'Have you ever lied to your parents?'},
+      {type:'truth', text:'Have you ever lied about your age?'},
+      {type:'truth', text:'Have you ever pretended to be sick to skip something?'},
+      {type:'truth', text:'Have you ever been caught sneaking food?'},
+      {type:'truth', text:'Have you ever been caught sneaking out?'},
+      {type:'truth', text:'Have you ever been grounded?'},
+      {type:'truth', text:'Have you ever been suspended from school?'},
+      {type:'truth', text:'Have you ever been in a police car?'},
+      {type:'truth', text:'Have you ever been to court?'},
+      {type:'truth', text:'Have you ever gotten a speeding ticket?'},
+      {type:'truth', text:'Have you ever lied on a resume?'},
+      {type:'truth', text:'Have you ever lied in a job interview?'},
+      {type:'truth', text:'Have you ever lied to a teacher?'},
+      {type:'truth', text:'Have you ever lied to get a discount?'},
+      {type:'truth', text:'Have you ever lied to get out of a date?'},
+      {type:'truth', text:'Have you ever lied to avoid someone?'},
+      {type:'truth', text:'Have you ever lied about liking something?'},
+      {type:'truth', text:'Have you ever lied about where you were?'},
+      {type:'truth', text:'Have you ever lied about your relationship status?'},
+      {type:'truth', text:'Have you ever lied to protect someone?'},
+      {type:'truth', text:'Have you ever lied to get something you wanted?'},
+      {type:'truth', text:'Have you ever lied to get out of work?'},
+      {type:'truth', text:'Have you ever lied to get out of school?'},
+      {type:'truth', text:'Have you ever lied to get out of trouble at work?'},
+      {type:'truth', text:'Have you ever lied to get out of trouble at home?'},
+      {type:'truth', text:'Have you ever lied to get out of trouble at school?'},
+      {type:'truth', text:'Have you ever lied to get out of trouble with friends?'},
+      {type:'truth', text:'Have you ever lied to get out of trouble with family?'},
+
+      {type:'truth', text:'What is your biggest fear?'},
+      {type:'truth', text:'What is your happiest childhood memory?'},
+      {type:'truth', text:'What is something you wish people knew about you?'},
+      {type:'truth', text:'What is your favorite way to spend a weekend?'},
+      {type:'truth', text:'What is a secret talent you have?'},
+      {type:'truth', text:'What is the most adventurous thing you have ever done?'},
+      {type:'truth', text:'Who has influenced you the most in life?'},
+      {type:'truth', text:'What is your favorite book and why?'},
+      {type:'truth', text:'What is your dream job?'},
+      {type:'truth', text:'What is your favorite place you have traveled to?'},
+      {type:'truth', text:'What is something you are proud of?'},
+      {type:'truth', text:'What is your favorite family tradition?'},
+      {type:'truth', text:'What is your favorite thing about yourself?'},
+      {type:'truth', text:'What is a goal you are currently working towards?'},
+      {type:'truth', text:'What is your favorite movie and why?'},
+      {type:'truth', text:'What is your favorite way to relax?'},
+      {type:'truth', text:'What is your favorite memory with your friends?'},
+      {type:'truth', text:'What is something you have always wanted to try?'},
+      {type:'truth', text:'What is your favorite food?'},
+      {type:'truth', text:'What is your favorite song and why?'},
+      {type:'truth', text:'What is your favorite holiday and how do you celebrate it?'},
+      {type:'truth', text:'What is your favorite thing to do outdoors?'},
+      {type:'truth', text:'What is your favorite thing to do indoors?'},
+      {type:'truth', text:'What is your favorite animal and why?'},
+      {type:'truth', text:'What is your favorite season and why?'},
+      {type:'truth', text:'What is your favorite hobby?'},
+      {type:'truth', text:'What is your favorite sport to play or watch?'},
+      {type:'truth', text:'What is your favorite childhood game?'},
+      {type:'truth', text:'What is your favorite ice cream flavor?'},
+      {type:'truth', text:'What is your favorite thing to cook or bake?'},
+      
+    ];
+
+    const nameInput = document.getElementById('nameInput');
+    const playersList = document.getElementById('playersList');
+    const drawCardBtn = document.getElementById('drawCard');
+    const spinBtn = document.getElementById('spinBtn');
+    const mainCard = document.getElementById('mainCard');
+    const currentPlayerSpan = document.getElementById('currentPlayer');
+    const historyEl = document.getElementById('history');
+    const lastAction = document.getElementById('lastAction');
+    const pickPlayerBtn = document.getElementById('pickPlayerBtn');
+    const clearPlayers = document.getElementById('clearPlayers');
+    const minSip = document.getElementById('minSip');
+    const maxSip = document.getElementById('maxSip');
+    const rulesBtn = document.getElementById('rulesBtn');
+    const customCardBtn = document.getElementById('customCardBtn');
+
+    let players = [];
+
+    function renderPlayers(){
+      playersList.innerHTML = '';
+      players.forEach((p, idx)=>{
+        const el = document.createElement('div'); el.className='player'; el.textContent = p;
+        el.onclick = ()=>{ if(confirm('Remove player? '+p)){ players.splice(idx,1); renderPlayers(); }};
+        playersList.appendChild(el);
+      });
+    }
+
+    nameInput.addEventListener('keydown', e=>{
+      if(e.key === 'Enter' && nameInput.value.trim()){
+        players.push(nameInput.value.trim()); nameInput.value=''; renderPlayers();
+      }
+    });
+
+    pickPlayerBtn.onclick = ()=>{
+      if(players.length===0){alert('No players available. Please add names.'); return}
+      const p = players[Math.floor(Math.random()*players.length)];
+      currentPlayerSpan.textContent = p;
+      addHistory('Selected: '+p);
+    }
+
+    clearPlayers.onclick = ()=>{ if(confirm('Clear all players?')){ players=[]; renderPlayers(); currentPlayerSpan.textContent='—'; }}
+
+    function addHistory(txt){
+      const el = document.createElement('div'); el.textContent = '['+new Date().toLocaleTimeString()+'] '+txt; historyEl.prepend(el);
+    }
+
+    function randomInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min }
+
+    drawCardBtn.onclick = ()=>{
+      if(players.length===0){alert('Please add players first.'); return}
+      const card = truthDareCards[Math.floor(Math.random()*truthDareCards.length)];
+      const player = players[Math.floor(Math.random()*players.length)];
+      currentPlayerSpan.textContent = player;
+      let text = card.text;
+
+      if(text.includes('{n}')){
+        const n = randomInt(parseInt(minSip.value), parseInt(maxSip.value));
+        text = text.replace('{n}', n);
+      }
+
+      mainCard.textContent = text;
+      lastAction.textContent = card.type.toUpperCase();
+      addHistory(player+' → '+text);
+    }
+
+    spinBtn.onclick = ()=>{
+      if(players.length===0){alert('Please add players first.'); return}
+      mainCard.textContent = 'Spinning...';
+      let i=0; const spinInterval = setInterval(()=>{
+        const p = players[i%players.length]; mainCard.textContent = p; i++;
+        if(i>12){ clearInterval(spinInterval); const sel = players[Math.floor(Math.random()*players.length)]; currentPlayerSpan.textContent = sel; mainCard.textContent = 'Selected: '+sel; addHistory('Spin: '+sel); }
+      },80);
+    }
+
+    rulesBtn.onclick = ()=>{
+      alert('Rules:\n\n• Game is for adults. Drink responsibly.\n• Players can opt out or choose alcohol-free alternatives.\n• Cards can be customized.\n• Optional: Set a limit of sips per turn using Min/Max settings.\n\nHave fun!');
+    }
+
+    customCardBtn.onclick = ()=>{
+      const txt = prompt('Enter custom card text (use {n} for number of sips if needed):');
+      if(txt && txt.trim()){
+        truthDareCards.push({type:'custom', text:txt.trim()}); alert('Custom card added!');
+      }
+    }
+
+    if(players.length===0){ players.push('Alice','Bob','Charlie'); renderPlayers(); }
+  </script>
+</body>
+</html>

@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Glücksrad — Namen-Roulette</title>
+  <title>Spin Wheel — Name Roulette</title>
   <style>
     :root{--bg:#0f172a;--card:#0b1220;--accent:#f59e0b;color-scheme:dark}
     *{box-sizing:border-box}
@@ -36,53 +36,53 @@
 <body>
   <div class="app">
     <div class="card wheel-wrap">
-      <h1>Glücksrad</h1>
-      <p class="sub">Gib Namen ein (rechts), klicke auf <strong>Spin</strong> und das Rad wählt einen zufällig aus.</p>
+      <h1>Spin Wheel</h1>
+      <p class="sub">Enter names (on the right), click <strong>Spin</strong>, and the wheel will pick one at random.</p>
 
       <div style="display:flex;flex-direction:column;align-items:center">
-        <canvas id="wheel" width="520" height="520" aria-label="Glücksrad"></canvas>
+        <canvas id="wheel" width="520" height="520" aria-label="Spin Wheel"></canvas>
         <div class="pointer" aria-hidden></div>
       </div>
 
       <div style="width:100%;display:flex;justify-content:space-between;align-items:center;margin-top:8px">
         <div class="controls">
           <button id="spinBtn" class="btn">Spin</button>
-          <button id="addRandomBtn" class="btn secondary">Zufällige Namen</button>
-          <button id="clearBtn" class="btn secondary">Leeren</button>
+          <button id="addRandomBtn" class="btn secondary">Random Names</button>
+          <button id="clearBtn" class="btn secondary">Clear</button>
         </div>
         
       </div>
 
-      <div class="footer">Download: <button id="downloadBtn" class="btn secondary">HTML-Datei</button></div>
+      <div class="footer">Download: <button id="downloadBtn" class="btn secondary">HTML file</button></div>
 
       <div class="tests">
-        <button id="runTests" class="btn secondary">Selbstcheck ausführen</button>
-        <div style="margin-top:8px"><strong>Testergebnis:</strong></div>
-        <pre id="testOutput">(keine Tests ausgeführt)</pre>
+        <button id="runTests" class="btn secondary">Run self-check</button>
+        <div style="margin-top:8px"><strong>Test result:</strong></div>
+        <pre id="testOutput">(no tests run)</pre>
       </div>
     </div>
 
     <div class="card inputs">
       <div>
-        <label for="names"><strong>Namen (1 pro Zeile)</strong></label>
-        <textarea id="names" placeholder="Eintrag pro Zeile, z. B.\nAnna\nBernd\nCem"></textarea>
+        <label for="names"><strong>Names (1 per line)</strong></label>
+        <textarea id="names" placeholder="One entry per line, e.g.\nAnna\nBernd\nCem"></textarea>
         <div style="display:flex;gap:8px;margin-top:8px">
-          <button id="applyBtn" class="btn">Anwenden</button>
-          <button id="shuffleBtn" class="btn secondary">Mischen</button>
+          <button id="applyBtn" class="btn">Apply</button>
+          <button id="shuffleBtn" class="btn secondary">Shuffle</button>
         </div>
-        <div class="small" style="margin-top:8px">Tipp: Du kannst Namen direkt in die Liste schreiben oder durch Kommas trennen, dann auf <em>Anwenden</em> klicken.</div>
+        <div class="small" style="margin-top:8px">Tip: You can write names directly in the list or separate them with commas, then click <em>Apply</em>.</div>
       </div>
 
       <div>
-        <label><strong>Aktuelle Namen</strong></label>
-        <div id="list" class="list">(keine Namen)</div>
+        <label><strong>Current names</strong></label>
+        <div id="list" class="list">(No names)</div>
       </div>
 
       <div>
-        <label><strong>Einstellungen</strong></label>
+        <label><strong>Settings</strong></label>
         <div style="display:flex;gap:8px;margin-top:6px;align-items:center">
-          <label class="small">Glättung: <input id="slicesSmooth" type="range" min="0" max="1" step="0.01" value="0.2"></label>
-          <label class="small">Schriftgröße: <input id="fontSize" type="number" min="10" max="28" value="14" style="width:72px;margin-left:6px"></label>
+          <label class="small">Smoothness: <input id="slicesSmooth" type="range" min="0" max="1" step="0.01" value="0.2"></label>
+          <label class="small">Font size: <input id="fontSize" type="number" min="10" max="28" value="14" style="width:72px;margin-left:6px"></label>
         </div>
       </div>
 
@@ -131,7 +131,7 @@
       if(names.length===0){
         ctx.save(); ctx.translate(cx,cy);
         ctx.fillStyle = 'rgba(255,255,255,0.04)'; ctx.beginPath(); ctx.arc(0,0,r,0,TAU); ctx.fill();
-        ctx.fillStyle = '#9fb2d6'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.font='16px sans-serif'; ctx.fillText('Keine Namen',0,0);
+        ctx.fillStyle = '#9fb2d6'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.font='16px sans-serif'; ctx.fillText('No names',0,0);
         ctx.restore();
         return;
       }
@@ -178,7 +178,7 @@
     }
 
     function playMeow(){
-      // Versuche zuerst die SpeechSynthesis-API (spricht "miau"), Fallback auf WebAudio
+      // Try the SpeechSynthesis API first (says "meow"); fall back to WebAudio if unavailable
       try{
         if('speechSynthesis' in window){
           const u = new SpeechSynthesisUtterance('miau');
@@ -191,7 +191,7 @@
           return;
         }
       }catch(e){}
-      // Fallback: kurzer "miau"-ähnlicher Ton mit WebAudio
+      // Fallback: short meow-like sound with WebAudio
       try{
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const o = audioCtx.createOscillator();
@@ -215,7 +215,7 @@
       if(index < 0 || index >= names.length){ return; }
       // visual pulse
       try{ canvas.animate([{filter:'brightness(1)'},{filter:'brightness(1.25)'},{filter:'brightness(1)'}],{duration:700}); }catch(e){}
-      // spiele das "miau"-Geräusch
+      // play the meow sound
       try{ playMeow(); }catch(e){}
     }
 
@@ -256,7 +256,7 @@
     // --- UI behavior
     function renderList(){
       listEl.innerHTML = '';
-      if(names.length===0){ listEl.textContent='(keine Namen)'; return; }
+      if(names.length===0){ listEl.textContent='(No names)'; return; }
       names.forEach((n,i)=>{
         const row = document.createElement('div'); row.textContent = n;
         const del = document.createElement('button'); del.textContent='✖'; del.addEventListener('click', ()=>{ names.splice(i,1); updateColors(); renderList(); draw(); });
@@ -268,17 +268,17 @@
       // Split input robustly on newlines, commas, semicolons or vertical bars
       const parsed = namesEl.value.split(/\s*(?:,|;|\r?\n|\|)\s*/).map(s => s.trim()).filter(Boolean);
       if(parsed.length > 0){ names = parsed.slice(); updateColors(); renderList(); draw();  }
-      else { alert('Bitte mindestens einen Namen eingeben.'); }
+      else { alert('Please enter at least one name.'); }
     });
 
     shuffleBtn.addEventListener('click', ()=>{ for(let i=names.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [names[i],names[j]]=[names[j],names[i]] } updateColors(); renderList(); draw(); });
 
-    clearBtn.addEventListener('click', ()=>{ if(!confirm('Alle Namen löschen?')) return; names=[]; updateColors(); renderList(); draw();  namesEl.value=''; });
+    clearBtn.addEventListener('click', ()=>{ if(!confirm('Delete all names?')) return; names=[]; updateColors(); renderList(); draw();  namesEl.value=''; });
 
     addRandomBtn.addEventListener('click', ()=>{ const sample = ['Anna','Bernd','Cem','Dora','Emil','Fatima','Gina','Hassan','Iris','Jonas','Klara','Lukas','Mia','Nico','Olga','Paul','Quinn','Rita','Sam','Tina']; for(let i=0;i<6;i++){ const s=sample[Math.floor(Math.random()*sample.length)]; names.push(s); } updateColors(); renderList(); draw(); });
 
     spinBtn.addEventListener('click', ()=>{
-      if(names.length===0){ alert('Füge zuerst Namen hinzu.'); return; }
+      if(names.length===0){ alert('Please add names first.'); return; }
       if(isSpinning || isSnapping) return;
       spinBtn.disabled = true;
       const min = 0.25, max = 0.7;

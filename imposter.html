@@ -1,681 +1,224 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Imposter-Spiel mit zufälligen Wortpaaren</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #fff;
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .container {
-            background-color: rgba(21, 33, 62, 0.9);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        h1 {
-            color: #e94560;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 2.2rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        
-        h2 {
-            color: #4cc9f0;
-            margin: 15px 0;
-            text-align: center;
-        }
-        
-        p {
-            margin: 10px 0;
-            line-height: 1.5;
-        }
-        
-        .phase {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .active {
-            display: block;
-        }
-        
-        .input-group {
-            margin: 15px 0;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #4cc9f0;
-        }
-        
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #0f3460;
-            border-radius: 8px;
-            background-color: rgba(15, 52, 96, 0.7);
-            color: white;
-            font-size: 16px;
-        }
-        
-        button {
-            background-color: #e94560;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            margin: 10px 5px;
-            transition: all 0.3s ease;
-            width: calc(100% - 10px);
-        }
-        
-        button:hover {
-            background-color: #c53d54;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-        
-        button:active {
-            transform: translateY(0);
-        }
-        
-        button:disabled {
-            background-color: #555;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        
-        .player-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 15px 0;
-            justify-content: center;
-        }
-        
-        .player {
-            background-color: #0f3460;
-            padding: 10px 15px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .remove-player {
-            background: #e94560;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            margin-left: 8px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 12px;
-            cursor: pointer;
-            padding: 0;
-        }
-        
-        .word-display {
-            font-size: 28px;
-            font-weight: bold;
-            color: #e94560;
-            margin: 30px 0;
-            text-align: center;
-            padding: 20px;
-            background-color: rgba(15, 52, 96, 0.5);
-            border-radius: 10px;
-            min-height: 100px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        #votingOptions {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin: 20px 0;
-        }
-        
-        .vote-btn {
-            text-align: left;
-            background-color: #533483;
-        }
-        
-        #result {
-            font-size: 22px;
-            font-weight: bold;
-            margin: 20px 0;
-            text-align: center;
-            padding: 15px;
-            border-radius: 10px;
-            background-color: rgba(15, 52, 96, 0.5);
-        }
-        
-        .imposter {
-            color: #e94560;
-            font-weight: bold;
-        }
-        
-        .normal {
-            color: #4cc9f0;
-        }
-        
-        .instructions {
-            background-color: rgba(15, 52, 96, 0.3);
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            font-size: 14px;
-        }
-        
-        .spacer {
-            height: 20px;
-        }
-        
-        @media (max-width: 600px) {
-            .container {
-                padding: 15px;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            button {
-                padding: 10px 15px;
-            }
-            
-            .word-display {
-                font-size: 24px;
-                padding: 15px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imposter-Spiel mit Spieler-Speicherung</title>
+  <style>
+    body { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff; min-height: 100vh; padding: 20px; display: flex; justify-content: center; align-items: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .container { background-color: rgba(21, 33, 62, 0.9); border-radius: 20px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); width: 100%; max-width: 700px; }
+    h1 { color: #e94560; text-align: center; margin-bottom: 20px; }
+    .input-group { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
+    input, select { flex: 1; padding: 12px; border-radius: 25px; border: none; background: rgba(255,255,255,0.1); color: #fff; font-size: 16px; }
+    input::placeholder { color: rgba(255,255,255,0.6); }
+    button { background: #e94560; border: none; border-radius: 25px; padding: 12px 20px; font-weight: bold; cursor: pointer; color: #fff; transition: all 0.3s ease; }
+    button:hover { background: #c53d54; transform: scale(1.05); }
+    .player-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 20px; }
+    .player-card { background: linear-gradient(145deg,#0f3460,#533483); border-radius: 20px; padding: 15px 20px; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); transition: transform 0.3s; cursor: pointer; }
+    .player-card:hover { transform: translateY(-5px); }
+    .avatar { background: #4cc9f0; color: #16213e; border-radius: 50%; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 18px; }
+    .remove-player { margin-left: auto; background: #e94560; border-radius: 50%; width: 25px; height: 25px; display: flex; justify-content: center; align-items: center; font-size: 14px; cursor: pointer; transition: background 0.2s; }
+    .remove-player:hover { background: #c53d54; }
+    .hidden { display: none; }
+    .word-display { font-size: 28px; font-weight: bold; color: #e94560; margin: 30px 0; text-align: center; padding: 20px; background-color: rgba(15, 52, 96, 0.5); border-radius: 10px; min-height: 100px; display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 1s ease; }
+    .word-display.visible { opacity: 1; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🎭 Imposter Spiel</h1>
-        
-        <!-- Setup Phase -->
-        <div id="setupPhase" class="phase active">
-            <h2>Spiel einrichten</h2>
-            
-            <div class="input-group">
-                <label for="playerName">Spielername</label>
-                <input type="text" id="playerName" placeholder="Name eingeben" onkeypress="handleKeyPress(event)">
-            </div>
-            
-            <button onclick="addPlayer()">Spieler hinzufügen</button>
-            
-            <div class="player-list" id="playersContainer"></div>
-            
-            <div class="spacer"></div>
-            
-            <button onclick="startGame()" id="startBtn" disabled>Spiel starten</button>
-            
-            <div class="instructions">
-                <p><strong>Spielanleitung:</strong></p>
-                <p>1. Füge mindestens 3 Spieler hinzu</p>
-                <p>2. Das Spiel wählt automatisch ein zufälliges Wortpaar aus</p>
-                <p>3. Ein Spieler wird zufällig zum Imposter ernannt</p>
-                <p>4. Gib jedem Spieler nacheinander das Gerät, um sein Wort zu sehen</p>
-                <p>5. Diskutiert und findet heraus, wer der Imposter ist!</p>
-            </div>
-        </div>
-        
-        <!-- Word Display Phase -->
-        <div id="wordDisplayPhase" class="phase">
-            <h2>Wort anzeigen für:</h2>
-            <h3 id="currentPlayer"></h3>
-            <div class="word-display" id="wordDisplay"></div>
-            <button onclick="nextPlayer()">Nächster Spieler</button>
-        </div>
-        
-        <!-- Discussion Phase -->
-        <div id="discussionPhase" class="phase">
-            <h2>Diskussionsphase</h2>
-            <p>Alle haben ihr Wort gesehen. Jetzt diskutiert und versucht herauszufinden, wer der Imposter ist!</p>
-            <div class="instructions">
-                <p><strong>Normales Wort:</strong> <span id="displayNormalWord"></span></p>
-                <p><strong>Imposter-Wort:</strong> <span id="displayImposterWord"></span></p>
-            </div>
-            <p>Stellt euch Fragen wie:</p>
-            <ul>
-                <li>Was verbindest du mit diesem Wort?</li>
-                <li>Würdest du das gerne mal ausprobieren?</li>
-                <li>Wann hast du das letzte Mal davon gehört?</li>
-                <li>Welche Eigenschaften verbindest du damit?</li>
-            </ul>
-            <button onclick="startVoting()">Abstimmung starten</button>
-        </div>
-        
-        <!-- Voting Phase -->
-        <div id="votingPhase" class="phase">
-            <h2>Abstimmung</h2>
-            <p>Wer ist deiner Meinung nach der Imposter?</p>
-            <div id="votingOptions"></div>
-        </div>
-        
-        <!-- Results Phase -->
-        <div id="resultsPhase" class="phase">
-            <h2>Ergebnis</h2>
-            <div id="result"></div>
-            <div id="playerResults"></div>
-            <button onclick="resetGame()">Neues Spiel</button>
-        </div>
+  <div class="container">
+    <h1>🎭 Imposter Spiel</h1>
+    <div id="setupPhase">
+      <div class="input-group">
+        <input type="text" id="playerName" placeholder="Spielername eingeben" onkeypress="handleKeyPress(event)">
+        <button onclick="addPlayer()">➕ Hinzufügen</button>
+      </div>
+      <div class="player-list" id="playersContainer"></div>
+      <div class="input-group">
+        <label for="imposterCount">Anzahl an Impostern:</label>
+        <select id="imposterCount">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </div>
+      <button id="startBtn" onclick="startGame()" disabled>🚀 Spiel starten</button>
     </div>
 
-    <script>
-        // Verborgene Liste der Wortpaare
-        const WORD_PAIRS = [
-            { normal: "Pizza", imposter: "Burger" },
-            { normal: "Hund", imposter: "Katze" },
-            { normal: "Sommer", imposter: "Winter" },
-            { normal: "Buch", imposter: "Zeitung" },
-            { normal: "Kaffee", imposter: "Tee" },
-            { normal: "Schule", imposter: "Universität" },
-            { normal: "Auto", imposter: "Fahrrad" },
-            { normal: "Strand", imposter: "Schwimmbad" },
-            { normal: "Film", imposter: "Serie" },
-            { normal: "Apfel", imposter: "Birne" },
-            { normal: "Fußball", imposter: "Basketball" },
-            { normal: "Handy", imposter: "Tablet" },
-            { normal: "Schokolade", imposter: "Gummibärchen" },
-            { normal: "Regen", imposter: "Schnee" },
-            { normal: "Stadt", imposter: "Dorf" },
-            { normal: "Hamburger", imposter: "Hot Dog" },
-            { normal: "Facebook", imposter: "Instagram" },
-            { normal: "YouTube", imposter: "Netflix" },
-            { normal: "Twitter", imposter: "TikTok" },
-            { normal: "Kino", imposter: "Theater" },
-            { normal: "Deutschland", imposter: "Frankreich" },
-            { normal: "Italien", imposter: "Spanien" },
-            { normal: "Japan", imposter: "China" },
-            { normal: "USA", imposter: "Kanada" },
-            { normal: "England", imposter: "Irland" },
-            { normal: "Sonne", imposter: "Mond" },
-            { normal: "Gold", imposter: "Silber" },
-            { normal: "Berg", imposter: "Tal" },
-            { normal: "Rose", imposter: "Tulpe" },
-            { normal: "Vogel", imposter: "Fisch" },
-            { normal: "Fluss", imposter: "See" },
-            { normal: "Feuer", imposter: "Wasser" },
-            { normal: "Brettspiel", imposter: "Videospiel" },
-            { normal: "Malen", imposter: "Zeichnen" },
-            { normal: "Tanzen", imposter: "Singen" },
-            { normal: "Lesen", imposter: "Schreiben" },
-            { normal: "Hut", imposter: "Mütze" },
-            { normal: "Hose", imposter: "Rock" },
-            { normal: "Hemd", imposter: "Bluse" },
-            { normal: "Jacke", imposter: "Mantel" },
-            { normal: "Schuh", imposter: "Stiefel" },
-            { normal: "Socke", imposter: "Handschuh" },
-            { normal: "Brille", imposter: "Kontaktlinse" },
-            { normal: "Uhr", imposter: "Armband" },
-            { normal: "Kamm", imposter: "Bürste" },
-            { normal: "Spiegel", imposter: "Fenster" },
-            { normal: "Tisch", imposter: "Stuhl" },
-            { normal: "Bett", imposter: "Sofa" },
-            { normal: "Lampe", imposter: "Kerze" },
-            { normal: "Tür", imposter: "Tor" },
-            { normal: "Treppe", imposter: "Aufzug" },
-            { normal: "Garten", imposter: "Park" },
-            { normal: "Blume", imposter: "Baum" },
-            { normal: "Gras", imposter: "Moos" },
-            { normal: "Stein", imposter: "Sand" },
-            { normal: "Himmel", imposter: "Erde" },
-            { normal: "Planet", imposter: "Stern" },
-            { normal: "Mond", imposter: "Sonne" },
-            { normal: "Norden", imposter: "Süden" },
-            { normal: "Osten", imposter: "Westen" },
-            { normal: "Links", imposter: "Rechts" },
-            { normal: "Oben", imposter: "Unten" },
-            { normal: "Vorne", imposter: "Hinten" },
-            { normal: "Laut", imposter: "Leise" },
-            { normal: "Schnell", imposter: "Langsam" },
-            { normal: "Heiß", imposter: "Kalt" },
-            { normal: "Süß", imposter: "Sauer" },
-            { normal: "Scharf", imposter: "Mild" },
-            { normal: "Hell", imposter: "Dunkel" },
-            { normal: "Einfach", imposter: "Komplex" },
-            { normal: "Neu", imposter: "Alt" },
-            { normal: "Groß", imposter: "Klein" },
-            { normal: "Voll", imposter: "Leer" },
-            { normal: "Weich", imposter: "Hart" },
-            { normal: "Süß", imposter: "Salzig" },
-            { normal: "Rund", imposter: "Eckig" },
-            { normal: "Dick", imposter: "Dünn" },
-            { normal: "Hoch", imposter: "Niedrig" },
-            { normal: "Breit", imposter: "Schmal" },
-            { normal: "Tief", imposter: "Flach" },
-            { normal: "Scharf", imposter: "Stumpf" },
-            { normal: "Sauber", imposter: "Schmutzig" },
-            { normal: "Ordentlich", imposter: "Chaotisch" },
-            { normal: "Fleißig", imposter: "Faul" },
-            { normal: "Tapfer", imposter: "Ängstlich" },
-            { normal: "Freundlich", imposter: "Unfreundlich" },
-            { normal: "Großzügig", imposter: "Geizig" },
-            { normal: "Intelligent", imposter: "Dumm" },
-            { normal: "Wahr", imposter: "Falsch" },
-            { normal: "Ehrlich", imposter: "Unehrlich" },
-            { normal: "Gerecht", imposter: "Ungerecht" },
-            { normal: "Geduldig", imposter: "Ungeduldig" },
-            { normal: "Mutig", imposter: "Feige" },
-            { normal: "Stark", imposter: "Schwach" },
-            { normal: "Gesund", imposter: "Krank" },
-            { normal: "Reich", imposter: "Arm" },
-            { normal: "Glücklich", imposter: "Traurig" },
-            { normal: "Friedlich", imposter: "Kriegerisch" },
-            { normal: "Ruhig", imposter: "Laut" },
-            { normal: "Sicher", imposter: "Gefährlich" },
-            { normal: "Offen", imposter: "Verschlossen" },
-            { normal: "Aktiv", imposter: "Passiv" },
-            { normal: "Positiv", imposter: "Negativ" },
-            { normal: "Optimistisch", imposter: "Pessimistisch" },
-            { normal: "Modern", imposter: "Traditionell" },
-            { normal: "Bunt", imposter: "Monochrom" },
-            { normal: "Klar", imposter: "Trüb" },
-            { normal: "Weit", imposter: "Nah" },
-            { normal: "Hellwach", imposter: "Schläfrig" },
-            { normal: "Brav", imposter: "Ungezogen" },
-            { normal: "Pünktlich", imposter: "Verspätet" },
-            { normal: "Besser", imposter: "Schlechter" },
-            { normal: "Mehr", imposter: "Weniger" },
-            { normal: "Genug", imposter: "Zu wenig" },
-            { normal: "Elegant", imposter: "Plump" },
-            { normal: "Zivilisiert", imposter: "Wild" },
-            { normal: "Bequem", imposter: "Unbequem" },
-            { normal: "Beliebt", imposter: "Unbeliebt" },
-            { normal: "Berühmt", imposter: "Unbekannt" },
-            { normal: "Wichtig", imposter: "Unwichtig" },
-            { normal: "Nützlich", imposter: "Nutzlos" },
-            { normal: "Erlaubt", imposter: "Verboten" },
-            { normal: "Möglich", imposter: "Unmöglich" },
-            { normal: "Freude", imposter: "Leid" },
-            { normal: "Frieden", imposter: "Krieg" },
-            { normal: "Liebe", imposter: "Hass" },
-            { normal: "Hoffnung", imposter: "Verzweiflung" },
-            { normal: "Glaube", imposter: "Zweifel" },
-            { normal: "Wahrheit", imposter: "Lüge" },
-            { normal: "Lachen", imposter: "Weinen" },
-            { normal: "Sieg", imposter: "Niederlage" },
-            { normal: "Erfolg", imposter: "Misserfolg" },
-            { normal: "Gesundheit", imposter: "Krankheit" },
-            { normal: "Leben", imposter: "Tod" },
-            { normal: "Himmel", imposter: "Hölle" },
-            { normal: "Engel", imposter: "Teufel" },
-            { normal: "Held", imposter: "Schurke" },
-            { normal: "König", imposter: "Narr" },
-            { normal: "Meister", imposter: "Lehrling" },
-            { normal: "Lehrer", imposter: "Schüler" },
-            { normal: "Freund", imposter: "Feind" },
-            { normal: "Familie", imposter: "Fremde" },
-            { normal: "Heimat", imposter: "Ferne" },
-            { normal: "Reise", imposter: "Stillstand" },
-            { normal: "Abenteuer", imposter: "Routine" },
-            { normal: "Entdeckung", imposter: "Verlust" },
-            { normal: "Schatz", imposter: "Müll" },
-            { normal: "Kunst", imposter: "Kitsch" },
-            { normal: "Musik", imposter: "Lärm" },
-            { normal: "Tanz", imposter: "Stillstand" },
-            { normal: "Spiel", imposter: "Ernst" },
-            { normal: "Fest", imposter: "Trauer" },
-            { normal: "Geburt", imposter: "Sterben" },
-            { normal: "Anfang", imposter: "Ende" },
-            { normal: "Morgen", imposter: "Nacht" },
-            { normal: "Tag", imposter: "Dunkelheit" },
-            { normal: "Sommer", imposter: "Winter" },
-            { normal: "Frühling", imposter: "Herbst" },
-            { normal: "Hitze", imposter: "Kälte" },
-            { normal: "Licht", imposter: "Schatten" },
-            { normal: "Farbe", imposter: "Schwarzweiß" },
-            { normal: "Fülle", imposter: "Leere" },
-            { normal: "Reichtum", imposter: "Armut" },
-            { normal: "Überfluss", imposter: "Mangel" },
-            { normal: "Wachstum", imposter: "Verfall" },
-            { normal: "Stärke", imposter: "Schwäche" },
-            { normal: "Mut", imposter: "Angst" },
-            { normal: "Weisheit", imposter: "Torheit" },
-            { normal: "Güte", imposter: "Bosheit" },
-            { normal: "Ordnung", imposter: "Chaos" },
-            { normal: "Ruhe", imposter: "Unruhe" },
-            { normal: "Einfachheit", imposter: "Komplexität" },
-            { normal: "Klarheit", imposter: "Verwirrung" }
+    <div id="wordDisplayPhase" class="hidden">
+      <h2>Wort anzeigen für:</h2>
+      <h3 id="currentPlayer"></h3>
+      <div class="word-display" id="wordDisplay"></div>
+      <button onclick="toggleWord()">Wort ein-/ausblenden</button>
+      <button onclick="nextPlayer()">Nächster Spieler</button>
+    </div>
 
-        ];
-        
-        // Spielvariablen
-        let players = [];
-        let currentPlayerIndex = 0;
-        let normalWord = "";
-        let imposterWord = "";
-        let imposterIndex = -1;
-        let votes = {};
-        let selectedPair = null;
-        
-        // Enter-Taste im Namensfeld behandeln
-        function handleKeyPress(event) {
-            if (event.key === "Enter") {
-                addPlayer();
-            }
-        }
-        
-        // Spieler hinzufügen
-        function addPlayer() {
-            const nameInput = document.getElementById('playerName');
-            const name = nameInput.value.trim();
-            
-            if (name && !players.includes(name)) {
-                players.push(name);
-                nameInput.value = '';
-                updatePlayersList();
-                
-                // Start-Button aktivieren, wenn mindestens 3 Spieler
-                document.getElementById('startBtn').disabled = players.length < 3;
-            } else if (!name) {
-                alert('Bitte gib einen Namen ein!');
-            } else {
-                alert('Dieser Spieler wurde bereits hinzugefügt!');
-            }
-            
-            // Fokus zurück zum Eingabefeld
-            nameInput.focus();
-        }
-        
-        // Spielerliste aktualisieren
-        function updatePlayersList() {
-            const container = document.getElementById('playersContainer');
-            container.innerHTML = '';
-            
-            players.forEach((player, index) => {
-                const playerElem = document.createElement('div');
-                playerElem.className = 'player';
-                playerElem.innerHTML = `
-                    ${player}
-                    <span class="remove-player" onclick="removePlayer(${index})">✕</span>
-                `;
-                container.appendChild(playerElem);
-            });
-        }
-        
-        // Spieler entfernen
-        function removePlayer(index) {
-            players.splice(index, 1);
-            updatePlayersList();
-            
-            // Start-Button deaktivieren, wenn weniger als 3 Spieler
-            document.getElementById('startBtn').disabled = players.length < 3;
-        }
-        
-        // Spiel starten
-        function startGame() {
-            // Überprüfen, ob genug Spieler vorhanden sind
-            if (players.length < 3) {
-                alert('Du brauchst mindestens 3 Spieler!');
-                return;
-            }
-            
-            // Zufälliges Wortpaar auswählen
-            selectedPair = WORD_PAIRS[Math.floor(Math.random() * WORD_PAIRS.length)];
-            normalWord = selectedPair.normal;
-            imposterWord = selectedPair.imposter;
-            
-            // Imposter zufällig auswählen
-            imposterIndex = Math.floor(Math.random() * players.length);
-            
-            // Zur Wortanzeige wechseln
-            switchPhase('setupPhase', 'wordDisplayPhase');
-            
-            // Wort für ersten Spieler anzeigen
-            showWordForCurrentPlayer();
-        }
-        
-        // Wort für aktuellen Spieler anzeigen
-        function showWordForCurrentPlayer() {
-            const currentPlayer = players[currentPlayerIndex];
-            document.getElementById('currentPlayer').textContent = currentPlayer;
-            
-            // Imposter-Wort für den Imposter, normales Wort für andere
-            const word = currentPlayerIndex === imposterIndex ? imposterWord : normalWord;
-            document.getElementById('wordDisplay').textContent = word;
-        }
-        
-        // Zum nächsten Spieler wechseln
-        function nextPlayer() {
-            currentPlayerIndex++;
-            
-            if (currentPlayerIndex < players.length) {
-                showWordForCurrentPlayer();
-            } else {
-                // Alle Spieler haben ihr Wort gesehen
-                switchPhase('wordDisplayPhase', 'discussionPhase');
-                document.getElementById('displayNormalWord').textContent = normalWord;
-                document.getElementById('displayImposterWord').textContent = imposterWord;
-            }
-        }
-        
-        // Abstimmung starten
-        function startVoting() {
-            switchPhase('discussionPhase', 'votingPhase');
-            
-            const votingOptions = document.getElementById('votingOptions');
-            votingOptions.innerHTML = '';
-            
-            // Abstimmungsbuttons für jeden Spieler erstellen
-            players.forEach(player => {
-                const button = document.createElement('button');
-                button.className = 'vote-btn';
-                button.textContent = player;
-                button.onclick = () => castVote(player);
-                votingOptions.appendChild(button);
-            });
-            
-            // Stimmen initialisieren
-            votes = {};
-            players.forEach(player => {
-                votes[player] = 0;
-            });
-        }
-        
-        // Stimme abgeben
-        function castVote(votedPlayer) {
-            votes[votedPlayer]++;
-            showResults();
-        }
-        
-        // Ergebnisse anzeigen
-        function showResults() {
-            switchPhase('votingPhase', 'resultsPhase');
-            
-            const imposter = players[imposterIndex];
-            let maxVotes = 0;
-            let votedPlayer = null;
-            
-            // Spieler mit den meisten Stimmen finden
-            for (const player in votes) {
-                if (votes[player] > maxVotes) {
-                    maxVotes = votes[player];
-                    votedPlayer = player;
-                }
-            }
-            
-            const resultElem = document.getElementById('result');
-            const playerResultsElem = document.getElementById('playerResults');
-            playerResultsElem.innerHTML = '';
-            
-            // Ergebnis anzeigen
-            if (votedPlayer === imposter) {
-                resultElem.innerHTML = `Die Gruppe hat gewonnen! <span class="imposter">${imposter}</span> war der Imposter.`;
-            } else {
-                resultElem.innerHTML = `Der Imposter hat gewonnen! <span class="imposter">${imposter}</span> war der Imposter, aber die Gruppe hat <span class="normal">${votedPlayer}</span> beschuldigt.`;
-            }
-            
-            // Rolle jedes Spielers anzeigen
-            players.forEach((player, index) => {
-                const role = index === imposterIndex ? 
-                    `<span class="imposter">Imposter (${imposterWord})</span>` : 
-                    `<span class="normal">Normal (${normalWord})</span>`;
-                
-                const playerElem = document.createElement('p');
-                playerElem.innerHTML = `${player}: ${role}`;
-                playerResultsElem.appendChild(playerElem);
-            });
-        }
-        
-        // Phase wechseln
-        function switchPhase(fromId, toId) {
-            document.getElementById(fromId).classList.remove('active');
-            document.getElementById(toId).classList.add('active');
-        }
-        
-        // Spiel zurücksetzen
-        function resetGame() {
-            players = [];
-            currentPlayerIndex = 0;
-            normalWord = "";
-            imposterWord = "";
-            imposterIndex = -1;
-            votes = {};
-            selectedPair = null;
-            
-            document.getElementById('playerName').value = '';
-            document.getElementById('playersContainer').innerHTML = '';
-            document.getElementById('startBtn').disabled = true;
-            
-            switchPhase('resultsPhase', 'setupPhase');
-        }
-    </script>
+    <div id="discussionPhase" class="hidden">
+      <h2>Diskussionsphase</h2>
+      <p>Alle haben ihr Wort gesehen. Jetzt diskutiert!</p>
+      <button onclick="startVoting()">Abstimmung starten</button>
+    </div>
+
+    <div id="votingPhase" class="hidden">
+      <h2>Abstimmung</h2>
+      <div id="votingOptions"></div>
+    </div>
+
+    <div id="resultsPhase" class="hidden">
+      <h2>Ergebnis</h2>
+      <div id="result"></div>
+      <div id="playerResults"></div>
+      <button onclick="resetGame()">🔄 Neues Spiel</button>
+    </div>
+  </div>
+
+  <script>
+    const WORD_PAIRS = [
+      { normal: "Pizza", imposter: "Burger" },
+      { normal: "Hund", imposter: "Katze" },
+      { normal: "Sommer", imposter: "Winter" }
+    ];
+
+    let players = JSON.parse(localStorage.getItem("players")) || [];
+    let currentPlayerIndex = 0;
+    let normalWord = "";
+    let imposterWord = "";
+    let imposters = [];
+    let votes = {};
+
+    function handleKeyPress(event) { if (event.key === "Enter") addPlayer(); }
+
+    function addPlayer() {
+      const input = document.getElementById("playerName");
+      const name = input.value.trim();
+      if (name && !players.includes(name)) {
+        players.push(name);
+        input.value = "";
+        savePlayers();
+        updatePlayersList();
+        document.getElementById("startBtn").disabled = players.length < 3;
+      }
+    }
+
+    function removePlayer(index) {
+      players.splice(index,1);
+      savePlayers();
+      updatePlayersList();
+      document.getElementById("startBtn").disabled = players.length < 3;
+    }
+
+    function updatePlayersList() {
+      const container = document.getElementById("playersContainer");
+      container.innerHTML = "";
+      players.forEach((player,index)=>{
+        const card = document.createElement("div");
+        card.className = "player-card";
+        card.innerHTML = `
+          <div class="avatar">${player.charAt(0).toUpperCase()}</div>
+          <span>${player}</span>
+          <div class="remove-player" onclick="removePlayer(${index})">✕</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function savePlayers() { localStorage.setItem("players", JSON.stringify(players)); }
+
+    function startGame() {
+      if (players.length < 3) return;
+      const selectedPair = WORD_PAIRS[Math.floor(Math.random() * WORD_PAIRS.length)];
+      normalWord = selectedPair.normal;
+      imposterWord = selectedPair.imposter;
+      currentPlayerIndex = 0;
+      imposters = [];
+
+      const imposterCount = parseInt(document.getElementById("imposterCount").value);
+      while (imposters.length < imposterCount) {
+        const randIndex = Math.floor(Math.random() * players.length);
+        if (!imposters.includes(randIndex)) imposters.push(randIndex);
+      }
+
+      switchPhase("setupPhase","wordDisplayPhase");
+      showWordForCurrentPlayer();
+    }
+
+    function showWordForCurrentPlayer() {
+      const currentPlayer = players[currentPlayerIndex];
+      document.getElementById("currentPlayer").textContent = currentPlayer;
+      const word = imposters.includes(currentPlayerIndex) ? imposterWord : normalWord;
+      const wordDisplay = document.getElementById("wordDisplay");
+      wordDisplay.textContent = word;
+      wordDisplay.classList.remove("visible");
+    }
+
+    function toggleWord() { document.getElementById("wordDisplay").classList.toggle("visible"); }
+
+    function nextPlayer() {
+      currentPlayerIndex++;
+      if (currentPlayerIndex < players.length) {
+        showWordForCurrentPlayer();
+      } else {
+        switchPhase("wordDisplayPhase","discussionPhase");
+      }
+    }
+
+    function startVoting() {
+      switchPhase("discussionPhase","votingPhase");
+      const votingOptions = document.getElementById("votingOptions");
+      votingOptions.innerHTML = "";
+      players.forEach(player => {
+        const button = document.createElement("button");
+        button.textContent = player;
+        button.onclick = () => castVote(player);
+        votingOptions.appendChild(button);
+      });
+      votes = {};
+      players.forEach(p => votes[p] = 0);
+    }
+
+    function castVote(votedPlayer) { votes[votedPlayer]++; showResults(); }
+
+    function showResults() {
+      switchPhase("votingPhase","resultsPhase");
+      let maxVotes = 0;
+      let votedPlayer = null;
+      for (const player in votes) {
+        if (votes[player] > maxVotes) { maxVotes = votes[player]; votedPlayer = player; }
+      }
+      const resultElem = document.getElementById("result");
+      const imposterNames = imposters.map(i => players[i]);
+      if (imposterNames.includes(votedPlayer)) {
+        resultElem.textContent = `Die Gruppe hat gewonnen! Imposter waren: ${imposterNames.join(", ")}`;
+      } else {
+        resultElem.textContent = `Die Imposter haben gewonnen! Imposter waren: ${imposterNames.join(", ")}`;
+      }
+      const playerResultsElem = document.getElementById("playerResults");
+      playerResultsElem.innerHTML = "";
+      players.forEach((player,index)=>{
+        const p = document.createElement("p");
+        p.textContent = `${player}: ${imposters.includes(index) ? 'Imposter ('+imposterWord+')' : 'Normal ('+normalWord+')'}`;
+        playerResultsElem.appendChild(p);
+      });
+    }
+
+    function resetGame() {
+      currentPlayerIndex = 0;
+      normalWord = "";
+      imposterWord = "";
+      imposters = [];
+      votes = {};
+      document.getElementById("playerName").value = "";
+      updatePlayersList();
+      document.getElementById("startBtn").disabled = players.length < 3;
+      switchPhase("resultsPhase","setupPhase");
+    }
+
+    function switchPhase(fromId,toId){
+      document.getElementById(fromId).classList.add("hidden");
+      document.getElementById(toId).classList.remove("hidden");
+    }
+
+    updatePlayersList();
+    document.getElementById("startBtn").disabled = players.length < 3;
+  </script>
 </body>
 </html>

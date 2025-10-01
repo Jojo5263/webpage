@@ -81,7 +81,6 @@
       <div>
         <label><strong>Settings</strong></label>
         <div style="display:flex;gap:8px;margin-top:6px;align-items:center">
-          <label class="small">Smoothness: <input id="slicesSmooth" type="range" min="0" max="1" step="0.01" value="0.2"></label>
           <label class="small">Font size: <input id="fontSize" type="number" min="10" max="28" value="14" style="width:72px;margin-left:6px"></label>
         </div>
       </div>
@@ -90,7 +89,6 @@
   </div>
 
   <script>
-    // --- Elements & state
     const canvas = document.getElementById('wheel');
     const ctx = canvas.getContext('2d');
     let names = [];
@@ -108,15 +106,13 @@
     const runTestsBtn = document.getElementById('runTests');
     const testOutput = document.getElementById('testOutput');
 
-    let angle = 0; // current rotation of the wheel (radians)
-    let angularVelocity = 0; // radians per frame
+    let angle = 0;
+    let angularVelocity = 0;
     let isSpinning = false;
-    let isSnapping = false; // when we animate to exact slice center
 
     const TAU = Math.PI * 2;
-    const POINTER = -Math.PI/2; // fixed pointer at the top of the canvas
+    const POINTER = -Math.PI/2;
 
-    // --- Helpers
     function randColor(i){
       const h = (i * 137.508) % 360;
       return `hsl(${h} 75% 55%)`;
@@ -124,7 +120,6 @@
     function updateColors(){ colors.length = 0; for(let i=0;i<names.length;i++) colors.push(randColor(i)); }
     function mod(a,m){ return ((a % m) + m) % m; }
 
-    // --- Drawing
     function draw(){
       const w = canvas.width, h = canvas.height, cx = w/2, cy = h/2, r = Math.min(w,h)/2 - 6;
       ctx.clearRect(0,0,w,h);
@@ -146,29 +141,17 @@
         ctx.fillStyle = colors[i%colors.length]; ctx.fill();
         ctx.strokeStyle = 'rgba(0,0,0,0.12)'; ctx.lineWidth = 1; ctx.stroke();
 
-        // text
         ctx.save(); const mid = (start+end)/2; ctx.rotate(mid + Math.PI/2); ctx.translate(0, -r*0.68); ctx.rotate(Math.PI/2);
         ctx.fillStyle = 'white'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         const fsize = parseInt(fontSizeInput.value || 14,10); ctx.font = `${fsize}px sans-serif`;
-        wrapText(ctx, names[i], 0, 0, r*0.5, fsize+2);
+        ctx.fillText(names[i], 0, 0);
         ctx.restore();
       }
 
-      // center circle
       ctx.beginPath(); ctx.arc(0,0,r*0.18,0,TAU); ctx.fillStyle='rgba(0,0,0,0.18)'; ctx.fill();
       ctx.restore();
     }
 
-    function wrapText(ctx, text, x, y, maxWidth, lineHeight){
-      const words = text.split(' '); let line=''; const lines=[];
-      for(let n=0;n<words.length;n++){ const testLine = line ? line + ' ' + words[n] : words[n]; if(ctx.measureText(testLine).width > maxWidth && n>0){ lines.push(line); line = words[n]; } else { line = testLine; } }
-      lines.push(line);
-      const totalHeight = lines.length * lineHeight; let offsetY = -totalHeight/2 + lineHeight/2;
-      for(let i=0;i<lines.length;i++) ctx.fillText(lines[i], x, y + offsetY + i*lineHeight);
-    }
-
-    // --- Winner detection
-    // Given the current wheel rotation (angle), determine which index is under the fixed pointer (top)
     function findIndexUnderPointer(atAngle){
       if(names.length === 0) return -1;
       const slice = TAU / names.length;
@@ -177,83 +160,27 @@
       return idx;
     }
 
-    function playMeow(){
-      // Try the SpeechSynthesis API first (says "meow"); fall back to WebAudio if unavailable
-      try{
-        if('speechSynthesis' in window){
-          const u = new SpeechSynthesisUtterance('miau');
-          u.lang = 'de-DE';
-          u.rate = 1.15;
-          u.pitch = 1.6;
-          // cancel any ongoing speech to keep sounds snappy
-          window.speechSynthesis.cancel();
-          window.speechSynthesis.speak(u);
-          return;
-        }
-      }catch(e){}
-      // Fallback: short meow-like sound with WebAudio
-      try{
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const o = audioCtx.createOscillator();
-        const g = audioCtx.createGain();
-        o.type = 'sine';
-        // Start high, slide down to give a "meow" character
-        o.frequency.setValueAtTime(750, audioCtx.currentTime);
-        o.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.35);
-        g.gain.setValueAtTime(0.0001, audioCtx.currentTime);
-        g.gain.exponentialRampToValueAtTime(0.8, audioCtx.currentTime + 0.02);
-        g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
-        o.connect(g); g.connect(audioCtx.destination);
-        o.start();
-        setTimeout(()=>{ try{ o.stop(); audioCtx.close(); }catch(e){} }, 550);
-      }catch(e){}
-    }
-
-    function announceWinner(forcedIndex = null){
-      let index = forcedIndex;
-      if(index === null){ index = findIndexUnderPointer(angle); }
+    function announceWinner(index){
       if(index < 0 || index >= names.length){ return; }
-      // visual pulse
       try{ canvas.animate([{filter:'brightness(1)'},{filter:'brightness(1.25)'},{filter:'brightness(1)'}],{duration:700}); }catch(e){}
-      // play the meow sound
-      try{ playMeow(); }catch(e){}
+      alert('Winner: ' + names[index]);
     }
 
-    // Smoothly snap wheel so chosen index is centered under the pointer
-    function snapToIndex(index, duration = 700){
-      isSnapping = true; spinBtn.disabled = true;
-      const slice = TAU / names.length;
-      const mid = index * slice + slice/2; // mid angle of the slice in wheel coords
-      let target = mod(POINTER - mid, TAU);
-
-      // pick the closest equivalent target to current angle
-      let current = angle;
-      while(target - current > Math.PI) target -= TAU;
-      while(target - current < -Math.PI) target += TAU;
-
-      const start = current; const delta = target - start; const t0 = performance.now();
-      function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
-      function step(now){ const p = Math.min(1, (now - t0) / duration); const eased = easeOutCubic(p); angle = start + delta * eased; if(p < 1) requestAnimationFrame(step); else { angle = target; isSnapping = false; spinBtn.disabled = false; announceWinner(index); } }
-      requestAnimationFrame(step);
-    }
-
-    // --- Animation loop
     function animate(){
       if(isSpinning){
         angle += angularVelocity;
-        angularVelocity *= 0.9925; // friction
-        // when slow enough, stop and snap
+        angularVelocity *= 0.9925;
         if(Math.abs(angularVelocity) < 0.0008){
           angularVelocity = 0; isSpinning = false;
           const idx = findIndexUnderPointer(angle);
-          if(idx >= 0) snapToIndex(idx);
+          spinBtn.disabled = false;
+          if(idx >= 0) announceWinner(idx);
         }
       }
       draw();
       requestAnimationFrame(animate);
     }
 
-    // --- UI behavior
     function renderList(){
       listEl.innerHTML = '';
       if(names.length===0){ listEl.textContent='(No names)'; return; }
@@ -265,7 +192,6 @@
     }
 
     applyBtn.addEventListener('click', ()=>{
-      // Split input robustly on newlines, commas, semicolons or vertical bars
       const parsed = namesEl.value.split(/\s*(?:,|;|\r?\n|\|)\s*/).map(s => s.trim()).filter(Boolean);
       if(parsed.length > 0){ names = parsed.slice(); updateColors(); renderList(); draw();  }
       else { alert('Please enter at least one name.'); }
@@ -275,22 +201,19 @@
 
     clearBtn.addEventListener('click', ()=>{ if(!confirm('Delete all names?')) return; names=[]; updateColors(); renderList(); draw();  namesEl.value=''; });
 
-    addRandomBtn.addEventListener('click', ()=>{ const sample = ['Anna','Bernd','Cem','Dora','Emil','Fatima','Gina','Hassan','Iris','Jonas','Klara','Lukas','Mia','Nico','Olga','Paul','Quinn','Rita','Sam','Tina']; for(let i=0;i<6;i++){ const s=sample[Math.floor(Math.random()*sample.length)]; names.push(s); } updateColors(); renderList(); draw(); });
+    addRandomBtn.addEventListener('click', ()=>{ const sample = ['Anna','Bernd','Cem','Dora','Emil','Fatima','Gina','Hassan','Iris','Jonas']; for(let i=0;i<6;i++){ const s=sample[Math.floor(Math.random()*sample.length)]; names.push(s); } updateColors(); renderList(); draw(); });
 
     spinBtn.addEventListener('click', ()=>{
       if(names.length===0){ alert('Please add names first.'); return; }
-      if(isSpinning || isSnapping) return;
+      if(isSpinning) return;
       spinBtn.disabled = true;
       const min = 0.25, max = 0.7;
-      // random direction & velocity
       angularVelocity = (Math.random()*(max-min)+min) * (Math.random()<0.5?1:-1);
       isSpinning = true; 
-      // re-enable when snap completes
     });
 
     downloadBtn.addEventListener('click', ()=>{ const blob = new Blob([document.documentElement.outerHTML],'text/html'); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'gluecksrad.html'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); });
 
-    // --- Tests (simple internal checks to validate index math)
     function runInternalTests(){
       const out = [];
       const saved = names.slice();
@@ -300,10 +223,8 @@
 
       out.push('Sample names: ' + names.join(', '));
 
-      // Test A: for angle = 0, report which index is under pointer
       angle = 0; const idxA = findIndexUnderPointer(angle); out.push(`Angle=0 -> index=${idxA}, name=${names[idxA]}`);
 
-      // Test B: for each index, construct angle that should center that index under the pointer
       const checks = [];
       for(let i=0;i<names.length;i++){
         const mid = i*slice + slice/2;
@@ -311,17 +232,15 @@
         const idx = findIndexUnderPointer(a);
         checks.push({targetIndex:i, computedIndex:idx, nameExpected:names[i], nameComputed:names[idx]});
       }
-      out.push('Per-index snap-checks:');
+      out.push('Per-index checks:');
       checks.forEach(c=> out.push(`  target=${c.targetIndex} (${c.nameExpected}) -> computed=${c.computedIndex} (${c.nameComputed})`));
 
-      // restore
       names = saved.slice(); updateColors(); renderList(); draw();
       testOutput.textContent = out.join('\n');
     }
 
     runTestsBtn.addEventListener('click', runInternalTests);
 
-    // --- Initialization & responsiveness
     function init(){ names = ['Anna','Bernd','Cem','Dora','Emil','Fatima']; updateColors(); renderList(); draw(); animate(); }
     function fitCanvas(){ const size = Math.min(520, Math.max(320, Math.floor(Math.min(window.innerWidth*0.45, 520)))); canvas.width = size; canvas.height = size; draw(); }
     window.addEventListener('resize', fitCanvas); fitCanvas(); init();

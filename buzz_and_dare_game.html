@@ -15,7 +15,8 @@
     .panel{background:var(--card); padding:14px; border-radius:10px}
     input, button, select, textarea{font:inherit}
     .players{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-    .player{padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:999px}
+    .player{padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:999px;display:flex;align-items:center;gap:6px}
+    .player-remove{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:0;width:16px;height:16px;display:flex;align-items:center;justify-content:center}
     .controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
     button{background:linear-gradient(90deg,var(--accent),#a78bfa);border:none;padding:10px 12px;border-radius:10px;color:#042027;cursor:pointer;font-weight:700}
     button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);font-weight:600}
@@ -25,6 +26,7 @@
     footer{margin-top:12px;color:var(--muted);font-size:13px}
     .spin{font-weight:900;font-size:32px}
     .small{font-size:13px}
+    .highlight{color:var(--accent);font-weight:bold}
     @media (max-width:640px){.controls{grid-template-columns:1fr}}
   </style>
 </head>
@@ -86,224 +88,564 @@
         </div>
       </main>
     </section>
-
     <footer>
       <div class="small">Responsible play: This game is for adults. Drink responsibly. Alcohol-free options are allowed.</div>
     </footer>
   </div>
 
   <script>
-    const truthDareCards = [
-      {type:'truth', text:'What’s a small thing that made you smile recently?'},
-      {type:'truth', text:'Describe your perfect lazy day.'},
-      {type:'truth', text:'What’s a comfort food you always go back to?'},
-      {type:'truth', text:'Share a song that instantly relaxes you.'},
-      {type:'truth', text:'What’s a hobby you wish you had more time for?'},
-      {type:'truth', text:'What’s your favorite way to unwind after a long day?'},
-      {type:'truth', text:'What’s a movie you can watch over and over?'},
-      {type:'truth', text:'What’s a place you go to clear your mind?'},
-      {type:'truth', text:'Describe a moment you felt truly at peace.'},
-      {type:'truth', text:'What’s a simple pleasure you enjoy?'},
-      {type:'truth', text:'What’s a book that made you feel good?'},
-      {type:'truth', text:'What’s a scent that calms you?'},
-      {type:'truth', text:'Who do you call when you need to vent?'},
-      {type:'truth', text:'What’s a memory that always makes you laugh?'},
-      {type:'truth', text:'What’s your favorite way to spend a rainy day?'},
-      {type:'truth', text:'What’s a skill you’d like to learn just for fun?'},
-      {type:'truth', text:'What’s a show you binge when you want to relax?'},
-      {type:'truth', text:'What’s a small act of kindness you received lately?'},
-      {type:'truth', text:'What’s a place you’d love to visit for a chill vacation?'},
-      {type:'truth', text:'What’s a comfort item you own?'},
-      {type:'truth', text:'What’s a food you crave when you’re tired?'},
-      {type:'truth', text:'What’s a song lyric that resonates with you?'},
-      {type:'truth', text:'What’s a color that makes you feel calm?'},
-      {type:'truth', text:'What’s a weekend activity you look forward to?'},
-      {type:'truth', text:'What’s a compliment you received that stuck with you?'},
-      {type:'truth', text:'What’s a favorite spot in your home?'},
-      {type:'truth', text:'What’s a tradition you enjoy with friends or family?'},
-      {type:'truth', text:'What’s a quote that inspires you to relax?'},
-      {type:'truth', text:'What’s a game you play to unwind?'},
-      {type:'truth', text:'What’s a drink you associate with chilling out?'},
-      {type:'truth', text:'What’s a favorite memory from a chill night in?'},
-      {type:'truth', text:'What’s a podcast you listen to for fun?'},
-      {type:'truth', text:'What’s a way you treat yourself after a tough week?'},
-      {type:'truth', text:'What’s a favorite snack for movie night?'},
-      {type:'truth', text:'What’s a place you’d love to nap outdoors?'},
-      {type:'truth', text:'What’s a favorite board game for a chill evening?'},
-      {type:'truth', text:'What’s a favorite candle scent?'},
-      {type:'truth', text:'What’s a favorite way to spend a Sunday morning?'},
-      {type:'truth', text:'What’s a favorite memory from a road trip?'},
-      {type:'truth', text:'What’s a favorite playlist for relaxing?'},
-      {type:'truth', text:'What’s a favorite way to spend time with friends?'},
-      {type:'truth', text:'What’s a favorite thing to do at the beach?'},
-      {type:'truth', text:'What’s a favorite comfort show?'},
-      {type:'truth', text:'Have you ever been arrested?'},
-      {type:'truth', text:'Have you ever lied to get out of trouble?'},
-      {type:'truth', text:'Have you ever cheated on a test?'},
-      {type:'truth', text:'Have you ever stolen something?'},
-      {type:'truth', text:'Have you ever snuck out of your house?'},
-      {type:'truth', text:'Have you ever broken a bone?'},
-      {type:'truth', text:'Have you ever skipped school?'},
-      {type:'truth', text:'Have you ever been in a fight?'},
-      {type:'truth', text:'Have you ever gotten a tattoo?'},
-      {type:'truth', text:'Have you ever gotten a piercing?'},
-      {type:'truth', text:'Have you ever been caught cheating?'},
-      {type:'truth', text:'Have you ever been fired from a job?'},
-      {type:'truth', text:'Have you ever crashed a car?'},
-      {type:'truth', text:'Have you ever gotten lost in a foreign country?'},
-      {type:'truth', text:'Have you ever forgotten a close friend’s birthday?'},
-      {type:'truth', text:'Have you ever been on TV?'},
-      {type:'truth', text:'Have you ever met a celebrity?'},
-      {type:'truth', text:'Have you ever been in handcuffs?'},
-      {type:'truth', text:'Have you ever been pulled over by the police?'},
-      {type:'truth', text:'Have you ever lied to a friend?'},
-      {type:'truth', text:'Have you ever lied to your parents?'},
-      {type:'truth', text:'Have you ever lied about your age?'},
-      {type:'truth', text:'Have you ever pretended to be sick to skip something?'},
-      {type:'truth', text:'Have you ever been caught sneaking food?'},
-      {type:'truth', text:'Have you ever been caught sneaking out?'},
-      {type:'truth', text:'Have you ever been grounded?'},
-      {type:'truth', text:'Have you ever been suspended from school?'},
-      {type:'truth', text:'Have you ever been in a police car?'},
-      {type:'truth', text:'Have you ever been to court?'},
-      {type:'truth', text:'Have you ever gotten a speeding ticket?'},
-      {type:'truth', text:'Have you ever lied on a resume?'},
-      {type:'truth', text:'Have you ever lied in a job interview?'},
-      {type:'truth', text:'Have you ever lied to a teacher?'},
-      {type:'truth', text:'Have you ever lied to get a discount?'},
-      {type:'truth', text:'Have you ever lied to get out of a date?'},
-      {type:'truth', text:'Have you ever lied to avoid someone?'},
-      {type:'truth', text:'Have you ever lied about liking something?'},
-      {type:'truth', text:'Have you ever lied about where you were?'},
-      {type:'truth', text:'Have you ever lied about your relationship status?'},
-      {type:'truth', text:'Have you ever lied to protect someone?'},
-      {type:'truth', text:'Have you ever lied to get something you wanted?'},
-      {type:'truth', text:'Have you ever lied to get out of work?'},
-      {type:'truth', text:'Have you ever lied to get out of school?'},
-      {type:'truth', text:'Have you ever lied to get out of trouble at work?'},
-      {type:'truth', text:'Have you ever lied to get out of trouble at home?'},
-      {type:'truth', text:'Have you ever lied to get out of trouble at school?'},
-      {type:'truth', text:'Have you ever lied to get out of trouble with friends?'},
-      {type:'truth', text:'Have you ever lied to get out of trouble with family?'},
-
-      {type:'truth', text:'What is your biggest fear?'},
-      {type:'truth', text:'What is your happiest childhood memory?'},
-      {type:'truth', text:'What is something you wish people knew about you?'},
-      {type:'truth', text:'What is your favorite way to spend a weekend?'},
-      {type:'truth', text:'What is a secret talent you have?'},
-      {type:'truth', text:'What is the most adventurous thing you have ever done?'},
-      {type:'truth', text:'Who has influenced you the most in life?'},
-      {type:'truth', text:'What is your favorite book and why?'},
-      {type:'truth', text:'What is your dream job?'},
-      {type:'truth', text:'What is your favorite place you have traveled to?'},
-      {type:'truth', text:'What is something you are proud of?'},
-      {type:'truth', text:'What is your favorite family tradition?'},
-      {type:'truth', text:'What is your favorite thing about yourself?'},
-      {type:'truth', text:'What is a goal you are currently working towards?'},
-      {type:'truth', text:'What is your favorite movie and why?'},
-      {type:'truth', text:'What is your favorite way to relax?'},
-      {type:'truth', text:'What is your favorite memory with your friends?'},
-      {type:'truth', text:'What is something you have always wanted to try?'},
-      {type:'truth', text:'What is your favorite food?'},
-      {type:'truth', text:'What is your favorite song and why?'},
-      {type:'truth', text:'What is your favorite holiday and how do you celebrate it?'},
-      {type:'truth', text:'What is your favorite thing to do outdoors?'},
-      {type:'truth', text:'What is your favorite thing to do indoors?'},
-      {type:'truth', text:'What is your favorite animal and why?'},
-      {type:'truth', text:'What is your favorite season and why?'},
-      {type:'truth', text:'What is your favorite hobby?'},
-      {type:'truth', text:'What is your favorite sport to play or watch?'},
-      {type:'truth', text:'What is your favorite childhood game?'},
-      {type:'truth', text:'What is your favorite ice cream flavor?'},
-      {type:'truth', text:'What is your favorite thing to cook or bake?'},
-      
-    ];
-
+    // Player management functionality
+    let players = [];
     const nameInput = document.getElementById('nameInput');
     const playersList = document.getElementById('playersList');
-    const drawCardBtn = document.getElementById('drawCard');
-    const spinBtn = document.getElementById('spinBtn');
-    const mainCard = document.getElementById('mainCard');
-    const currentPlayerSpan = document.getElementById('currentPlayer');
-    const historyEl = document.getElementById('history');
-    const lastAction = document.getElementById('lastAction');
     const pickPlayerBtn = document.getElementById('pickPlayerBtn');
-    const clearPlayers = document.getElementById('clearPlayers');
-    const minSip = document.getElementById('minSip');
-    const maxSip = document.getElementById('maxSip');
-    const rulesBtn = document.getElementById('rulesBtn');
-    const customCardBtn = document.getElementById('customCardBtn');
+    const clearPlayersBtn = document.getElementById('clearPlayers');
+    const currentPlayerSpan = document.getElementById('currentPlayer');
 
-    let players = [];
-
-    function renderPlayers(){
-      playersList.innerHTML = '';
-      players.forEach((p, idx)=>{
-        const el = document.createElement('div'); el.className='player'; el.textContent = p;
-        el.onclick = ()=>{ if(confirm('Remove player? '+p)){ players.splice(idx,1); renderPlayers(); }};
-        playersList.appendChild(el);
-      });
-    }
-
-    nameInput.addEventListener('keydown', e=>{
-      if(e.key === 'Enter' && nameInput.value.trim()){
-        players.push(nameInput.value.trim()); nameInput.value=''; renderPlayers();
+    // Add player when Enter is pressed in the input field
+    nameInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        const name = this.value.trim();
+        if (name && !players.includes(name)) {
+          players.push(name);
+          updatePlayersList();
+          this.value = '';
+        }
       }
     });
 
-    pickPlayerBtn.onclick = ()=>{
-      if(players.length===0){alert('No players available. Please add names.'); return}
-      const p = players[Math.floor(Math.random()*players.length)];
-      currentPlayerSpan.textContent = p;
-      addHistory('Selected: '+p);
+    // Update the players list display
+    function updatePlayersList() {
+      playersList.innerHTML = '';
+      players.forEach((player, index) => {
+        const playerEl = document.createElement('div');
+        playerEl.className = 'player';
+        playerEl.innerHTML = `
+          ${player}
+          <button class="player-remove" data-index="${index}">×</button>
+        `;
+        playersList.appendChild(playerEl);
+      });
+      
+      // Add event listeners to remove buttons
+      document.querySelectorAll('.player-remove').forEach(button => {
+        button.addEventListener('click', function() {
+          const index = parseInt(this.getAttribute('data-index'));
+          players.splice(index, 1);
+          updatePlayersList();
+        });
+      });
     }
 
-    clearPlayers.onclick = ()=>{ if(confirm('Clear all players?')){ players=[]; renderPlayers(); currentPlayerSpan.textContent='—'; }}
+    // Pick a random player
+    pickPlayerBtn.addEventListener('click', function() {
+      if (players.length === 0) {
+        currentPlayerSpan.textContent = 'No players';
+        return;
+      }
+      
+      const randomIndex = Math.floor(Math.random() * players.length);
+      const selectedPlayer = players[randomIndex];
+      currentPlayerSpan.textContent = selectedPlayer;
+      
+      // Add to history
+      const history = document.getElementById('history');
+      const entry = document.createElement('div');
+      entry.innerHTML = `Selected player: <span class="highlight">${selectedPlayer}</span>`;
+      history.prepend(entry);
+    });
 
-    function addHistory(txt){
-      const el = document.createElement('div'); el.textContent = '['+new Date().toLocaleTimeString()+'] '+txt; historyEl.prepend(el);
-    }
+    // Clear all players
+    clearPlayersBtn.addEventListener('click', function() {
+      players = [];
+      updatePlayersList();
+      currentPlayerSpan.textContent = '—';
+    });
 
-    function randomInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min }
+    // Original card functionality
+    const truthDareCards = [
+      {type:'truth', text:'What\'s a small thing that made you smile recently?'},
 
-    drawCardBtn.onclick = ()=>{
-      if(players.length===0){alert('Please add players first.'); return}
-      const card = truthDareCards[Math.floor(Math.random()*truthDareCards.length)];
-      const player = players[Math.floor(Math.random()*players.length)];
-      currentPlayerSpan.textContent = player;
-      let text = card.text;
+  {type:'truth', text:'If you could instantly become an expert in something, what would it be?'},
 
-      if(text.includes('{n}')){
-        const n = randomInt(parseInt(minSip.value), parseInt(maxSip.value));
-        text = text.replace('{n}', n);
+  {type:'truth', text:'What\'s the most embarrassing song you love to sing in the shower?'},
+
+  {type:'dare', text:'Do your best impression of another player for 30 seconds'},
+
+  {type:'dare', text:'Text your crush "I love pineapple on pizza" right now'},
+
+  {type:'dare', text:'Speak in an accent of your choice until your next turn'},
+
+  {type:'dare', text:'Call your mom and tell her you\'ve joined a circus'},
+
+  {type:'truth', text:'What\'s the weirdest dream you\'ve ever had?'},
+
+  {type:'truth', text:'If you could trade lives with anyone in the room for a day, who would it be?'},
+
+  {type:'dare', text:'Do your best chicken dance impression'},
+
+  {type:'truth', text:'What\'s your most irrational fear?'},
+
+  {type:'dare', text:'Take {n} sips while standing on one leg'},
+
+  {type:'truth', text:'What\'s the worst fashion choice you\'ve ever made?'},
+
+  {type:'dare', text:'Send your last selfie to a random contact'},
+
+  {type:'truth', text:'What\'s the most ridiculous lie you\'ve ever told?'},
+
+  {type:'dare', text:'Wear your clothes backwards for the next 3 rounds'},
+
+  {type:'truth', text:'What\'s your most embarrassing childhood nickname?'},
+
+  {type:'dare', text:'Take {n} sips while doing your best robot dance'},
+
+  {type:'truth', text:'What\'s the worst advice you\'ve ever given?'},
+
+  {type:'dare', text:'Let another player post anything they want on your social media'},
+
+  {type:'truth', text:'What is the silliest thing you have ever done to get someone’s attention?'},
+
+  {type:'dare', text:'Try to lick your elbow. If you fail, take {n} sips.'},
+
+  {type:'truth', text:'Have you ever been caught singing in the shower?'},
+
+  {type:'dare', text:'Act like a monkey for 1 minute.'},
+
+  {type:'truth', text:'What is the weirdest thing you do when you are alone?'},
+
+  {type:'dare', text:'Dance without music for 2 minutes.'},
+
+  {type:'truth', text:'What is the most childish thing you still do?'},
+
+  {type:'dare', text:'Tell a joke. If no one laughs, take {n} sips.'},
+
+  {type:'truth', text:'What is the strangest thing in your refrigerator right now?'},
+
+  {type:'truth', text:'If animals could talk, which would be the rudest?'},
+
+  {type:'dare', text:'Try to make a tower of objects using only one hand. If it falls, take {n} sips.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever searched for online?'},
+
+  {type:'dare', text:'Sing a song using only animal sounds.'},
+
+  {type:'truth', text:'What’s the weirdest food combination you enjoy?'},
+
+  {type:'dare', text:'Do 20 push-ups or {n} sips.'},
+
+  {type:'truth', text:'What’s the most ridiculous thing you’ve ever bought?'},
+
+  {type:'dare', text:'Imitate a celebrity of the group’s choice.'},
+
+  {type:'truth', text:'What’s the worst date you’ve ever been on?'},
+
+  {type:'dare', text:'Speak only in rhymes for the next 5 minutes. If you fail, take {n} sips.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing in your room right now?'},
+
+  {type:'dare', text:'Try to juggle three items you find nearby. If you drop them, take {n} sips.'},
+
+  {type:'truth', text:'What’s the silliest mistake you’ve ever made at work or school?'},
+
+  {type:'dare', text:'Do a dramatic reading of a children’s book.'},
+
+  {type:'truth', text:'What’s the most childish prank you’ve ever pulled?'},
+
+  {type:'dare', text:'Balance a spoon on your nose for 1 minute. If it falls, take {n} sips.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever worn?'},
+
+  {type:'dare', text:'Try to moonwalk.'},
+
+  {type:'truth', text:'What’s the weirdest thing you’ve ever eaten on a dare?'},
+
+  {type:'dare', text:'Tell everyone an embarrassing story about yourself.'},
+
+  {type:'truth', text:'What’s the most awkward situation you’ve ever been in?'},
+
+  {type:'dare', text:'Act like a cat for the next 2 minutes.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing your parents have caught you doing?'},
+
+  {type:'dare', text:'Try to do a handstand (even if you fail).'},
+
+  {type:'truth', text:'What’s the weirdest thing you’ve ever collected?'},
+
+  {type:'dare', text:'Make up a song about someone in the room.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever said to a stranger?'},
+
+  {type:'dare', text:'Do your best impression of a commercial.'},
+
+  {type:'truth', text:'What’s the most ridiculous rumor you’ve heard about yourself?'},
+
+  {type:'dare', text:'Try to whistle with your mouth closed. If you cant, take {n} sips.'},
+
+  {type:'truth', text:'What’s the weirdest thing you’ve ever seen someone do in public?'},
+
+  {type:'dare', text:'Dance to the next song that plays, no matter what it is.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever tripped over?'},
+
+  {type:'dare', text:'Try to lick your nose. If you fail, take {n} sips.'},
+
+  {type:'truth', text:'What’s the weirdest thing you’ve ever found on the street?'},
+
+  {type:'dare', text:'Tell a story using only gestures.'},
+
+  {type:'truth', text:'What’s the most embarrassing text you’ve ever sent to the wrong person?'},
+
+  {type:'dare', text:'Try to spin around in a circle 10 times and then walk straight. If you can\'t walk straight, take {n} sips.'},
+
+  {type:'truth', text:'What’s the weirdest thing you do to procrastinate?'},
+
+  {type:'dare', text:'Sing the alphabet backwards.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever said on a date?'},
+
+  {type:'dare', text:'Try to do a magic trick.'},
+
+  {type:'truth', text:'What’s the weirdest thing you’ve ever worn to a party?'},
+
+  {type:'dare', text:'Make up a rap about someone in the room.'},
+
+  {type:'truth', text:'What’s the most ridiculous thing you’ve ever argued about?'},
+
+  {type:'dare', text:'Do your best impression of a toddler throwing a tantrum.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever done in front of a crowd?'},
+
+  {type:'dare', text:'Try to hula hoop. If you fail, take {n} sips.'},
+
+  {type:'truth', text:'What’s the weirdest thing you’ve ever seen at a wedding?'},
+
+  {type:'dare', text:'Tell a story using only movie titles.'},
+
+  {type:'truth', text:'What’s the most ridiculous thing you’ve ever done to avoid work?'},
+
+  {type:'dare', text:'Do your best robot impression.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever said to a teacher?'},
+
+  {type:'dare', text:'Try to do a cartwheel.'},
+
+  {type:'truth', text:'What’s the weirdest thing you’ve ever seen on public transportation?'},
+
+  {type:'dare', text:'Make up a commercial for a household item.'},
+
+  {type:'truth', text:'What’s the most ridiculous thing you’ve ever done to impress someone?'},
+
+  {type:'dare', text:'Do your best impression of a famous painting.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever done at a sporting event?'},
+
+  {type:'dare', text:'Try to juggle three oranges. If you drop them, take {n} sips.'},
+
+  {type:'truth', text:'What’s the weirdest thing you’ve ever seen at a concert?'},
+
+  {type:'dare', text:'Tell a story using only song lyrics.'},
+
+  {type:'truth', text:'What’s the most ridiculous thing you’ve ever done to get out of a speeding ticket?'},
+
+  {type:'dare', text:'Do your best impression of a mime.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever said during a presentation?'},
+
+  {type:'dare', text:'Try to say the alphabet backwards in under 20 seconds.'},
+
+  {type:'truth', text:'What’s the weirdest thing you’ve ever seen at a funeral?'},
+
+  {type:'dare', text:'Make up a poem about someone in the room.'},
+
+  {type:'truth', text:'What’s the most ridiculous thing you’ve ever done to win a bet?'},
+
+  {type:'dare', text:'Serenade a stranger with a song of your choice.'},
+
+  {type:'truth', text:'What is the most embarrassing thing you have ever worn to a formal event?'},
+
+  {type:'dare', text:'Try to do a magic trick using only office supplies.'},
+
+  {type:'truth', text:'What is the silliest thing you’ve ever said on a date?'},
+
+  {type:'dare', text:'Do your best impression of a sea creature.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever done in front of your boss?'},
+
+  {type:'dare', text:'Act like a robot vacuum cleaner for one minute.'},
+
+  {type:'truth', text:'What’s the most ridiculous thing you’ve ever done to avoid a phone call?'},
+
+  {type:'dare', text:'Try to make a sculpture out of food.'},
+
+  {type:'truth', text:'What’s the silliest thing you’ve ever done to get out of a speeding ticket?'},
+
+  {type:'dare', text:'Do your best impression of a toddler throwing a tantrum.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever said during a public speech?'},
+
+  {type:'dare', text:'Try to do the worm.'},
+
+  {type:'truth', text:'What’s the most ridiculous thing you’ve ever done to try and impress a crush?'},
+
+  {type:'dare', text:'Act like a news reporter and interview someone in the room.'},
+
+  {type:'truth', text:'What’s the weirdest thing you’ve ever seen at a party?'},
+
+  {type:'dare', text:'Try to make a sandwich using only your feet.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever done while drunk?'},
+
+  {type:'dare', text:'Do your best impression of a grandma.'},
+
+  {type:'truth', text:'What’s the most ridiculous thing you’ve ever done to avoid doing chores?'},
+
+  {type:'dare', text:'Try to do a handstand against a wall.'},
+
+  {type:'truth', text:'What’s the weirdest thing you’ve ever seen on a first date?'},
+
+  {type:'dare', text:'Make up a song about the person to your left.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever said to a telemarketer?'},
+
+  {type:'dare', text:'Do your best impression of a cat stuck in a tree.'},
+
+  {type:'truth', text:'What’s the most ridiculous thing you’ve ever done to try and get a free upgrade?'},
+
+  {type:'dare', text:'Try to juggle three marshmallows.'},
+
+  {type:'truth', text:'If you could have any superpower, what would it be and why?'},
+
+  {type:'dare', text:'Lick the bottom of your shoe or take {n} sips'},
+
+  {type:'dare', text:'Eat a spoonful of mustard or take {n} sips'},
+
+  {type:'dare', text:'Empty your pockets and let the group decide what to do with the contents or take {n} sips'},
+
+  {type:'dare', text:'Give a foot massage to the person on your left or take {n} sips'},
+
+  {type:'dare', text:'Let the person to your right draw on your face with lipstick or take {n} sips'},
+
+  {type:'truth', text:'What is the most childish thing you still do?'},
+
+  {type:'dare', text:'Tell a joke. If no one laughs, take {n} sips.'},
+
+  {type:'truth', text:'What is the strangest thing in your refrigerator right now?'},
+
+  {type:'truth', text:'If animals could talk, which would be the rudest?'},
+
+  {type:'dare', text:'Try to make a tower of objects using only one hand. If it falls, take {n} sips.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever searched for online?'},
+
+  {type:'dare', text:'Sing a song using only animal sounds.'},
+
+  {type:'truth', text:'What’s the weirdest food combination you enjoy?'},
+
+  {type:'dare', text:'Do 20 push-ups or {n} sips.'},
+
+  {type:'truth', text:'What’s the most ridiculous thing you’ve ever bought?'},
+
+  {type:'dare', text:'Imitate a celebrity of the group’s choice.'},
+
+  {type:'truth', text:'What’s the worst date you’ve ever been on?'},
+
+  {type:'dare', text:'Speak only in rhymes for the next 5 minutes. If you fail, take {n} sips.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing in your room right now?'},
+
+  {type:'dare', text:'Try to juggle three items you find nearby. If you drop them, take {n} sips.'},
+
+  {type:'truth', text:'What’s the silliest mistake you’ve ever made at work or school?'},
+
+  {type:'dare', text:'Do a dramatic reading of a children’s book.'},
+
+  {type:'truth', text:'What’s the most childish prank you’ve ever pulled?'},
+
+  {type:'dare', text:'Balance a spoon on your nose for 1 minute. If it falls, take {n} sips.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever worn?'},
+
+  {type:'dare', text:'Try to moonwalk.'},
+
+  {type:'truth', text:'What’s the weirdest thing you’ve ever eaten on a dare?'},
+
+  {type:'dare', text:'Tell everyone an embarrassing story about yourself.'},
+
+  {type:'truth', text:'What’s the most awkward situation you’ve ever been in?'},
+
+  {type:'dare', text:'Act like a cat for the next 2 minutes.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing your parents have caught you doing?'},
+
+  {type:'dare', text:'Try to do a handstand (even if you fail).'},
+
+  {type:'truth', text:'What’s the weirdest thing you’ve ever collected?'},
+
+  {type:'dare', text:'Make up a song about someone in the room.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever said to a stranger?'},
+
+  {type:'dare', text:'Do your best impression of a commercial.'},
+
+  {type:'truth', text:'What’s the most ridiculous rumor you’ve heard about yourself?'},
+
+  {type:'dare', text:'Try to whistle with your mouth closed. If you cant, take {n} sips.'},
+
+  {type:'truth', text:'What’s the weirdest thing you’ve ever seen someone do in public?'},
+
+  {type:'dare', text:'Dance to the next song that plays, no matter what it is.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever tripped over?'},
+
+  {type:'dare', text:'Try to lick your nose. If you fail, take {n} sips.'},
+
+  {type:'truth', text:'What’s the weirdest thing you’ve ever found on the street?'},
+
+  {type:'dare', text:'Tell a story using only gestures.'},
+
+  {type:'truth', text:'What’s the most embarrassing text you’ve ever sent to the wrong person?'},
+
+  {type:'dare', text:'Try to spin around in a circle 10 times and then walk straight. If you can\'t walk straight, take {n} sips.'},
+
+  {type:'truth', text:'What’s the weirdest thing you do to procrastinate?'},
+
+  {type:'dare', text:'Sing the alphabet backwards.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever said on a date?'},
+
+  {type:'dare', text:'Try to do a magic trick.'},
+
+  {type:'truth', text:'What’s the weirdest thing you’ve ever worn to a party?'},
+
+  {type:'dare', text:'Make up a rap about someone in the room.'},
+
+  {type:'dare', text:'Serenade a stranger with a song of your choice.'},
+
+  {type:'truth', text:'What is the most embarrassing thing you have ever worn to a formal event?'},
+
+  {type:'dare', text:'Try to do a magic trick using only office supplies.'},
+
+  {type:'truth', text:'What is the silliest thing you’ve ever said on a date?'},
+
+  {type:'dare', text:'Do your best impression of a sea creature.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever done in front of your boss?'},
+
+  {type:'dare', text:'Act like a robot vacuum cleaner for one minute.'},
+
+  {type:'truth', text:'What’s the most ridiculous thing you’ve ever done to avoid a phone call?'},
+
+  {type:'dare', text:'Try to make a sculpture out of food.'},
+
+  {type:'truth', text:'What’s the silliest thing you’ve ever done to get out of a speeding ticket?'},
+
+  {type:'dare', text:'Do your best impression of a toddler throwing a tantrum.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever said during a public speech?'},
+
+  {type:'dare', text:'Try to do the worm.'},
+
+  {type:'truth', text:'What’s the most ridiculous thing you’ve ever done to try and impress a crush?'},
+
+  {type:'dare', text:'Act like a news reporter and interview someone in the room.'},
+
+  {type:'truth', text:'What’s the weirdest thing you’ve ever seen at a party?'},
+
+  {type:'dare', text:'Try to make a sandwich using only your feet.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever done while drunk?'},
+
+  {type:'dare', text:'Do your best impression of a grandma.'},
+
+  {type:'truth', text:'What’s the most ridiculous thing you’ve ever done to avoid doing chores?'},
+
+  {type:'dare', text:'Try to do a handstand against a wall.'},
+
+  {type:'truth', text:'What’s the weirdest thing you’ve ever seen on a first date?'},
+
+  {type:'dare', text:'Make up a song about the person to your left.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever said to a telemarketer?'},
+
+  {type:'dare', text:'Do your best impression of a cat stuck in a tree.'},
+
+  {type:'truth', text:'What’s the most ridiculous thing you’ve ever done to try and get a free upgrade?'},
+
+  {type:'dare', text:'Try to juggle three marshmallows.'},
+
+  {type:'truth', text:'If you could have any superpower, what would it be and why?'},
+
+  {type:'dare', text:'Lick the bottom of your shoe or take {n} sips'},
+
+  {type:'dare', text:'Eat a spoonful of mustard or take {n} sips'},
+
+  {type:'dare', text:'Empty your pockets and let the group decide what to do with the contents or take {n} sips'},
+
+  {type:'dare', text:'Give a foot massage to the person on your left or take {n} sips'},
+
+  {type:'dare', text:'Let the person to your right draw on your face with lipstick or take {n} sips'},
+
+  {type:'truth', text:'What is the most childish thing you still do?'},
+
+  {type:'dare', text:'Tell a joke. If no one laughs, take {n} sips.'},
+
+  {type:'truth', text:'What is the strangest thing in your refrigerator right now?'},
+
+  {type:'truth', text:'If animals could talk, which would be the rudest?'},
+
+  {type:'dare', text:'Try to make a tower of objects using only one hand. If it falls, take {n} sips.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing you’ve ever searched for online?'},
+
+  {type:'dare', text:'Sing a song using only animal sounds.'},
+
+  {type:'truth', text:'What’s the weirdest food combination you enjoy?'},
+
+  {type:'dare', text:'Do 20 push-ups or {n} sips.'},
+
+  {type:'truth', text:'What’s the most ridiculous thing you’ve ever bought?'},
+
+  {type:'dare', text:'Imitate a celebrity of the group’s choice.'},
+
+  {type:'truth', text:'What’s the worst date you’ve ever been on?'},
+
+  {type:'dare', text:'Speak only in rhymes for the next 5 minutes. If you fail, take {n} sips.'},
+
+  {type:'truth', text:'What’s the most embarrassing thing in your room right now?'},
+
+  {type:'dare', text:'Try to juggle three items you find nearby. If you drop them, take {n} sips.'},
+
+  {type:'truth', text:'What’s the silliest mistake you’ve ever made at work or school?'},
+
+  {type:'dare', text:'Do a dramatic reading of a children’s book.'}
+];
+
+    function drawCard() {
+      if (truthDareCards.length === 0) {
+        document.getElementById("mainCard").innerText = "No more cards left!";
+        return;
       }
 
-      mainCard.textContent = text;
-      lastAction.textContent = card.type.toUpperCase();
-      addHistory(player+' → '+text);
+      const index = Math.floor(Math.random() * truthDareCards.length);
+      const card = truthDareCards.splice(index, 1)[0];
+
+      const min = parseInt(document.getElementById("minSip").value) || 1;
+      const max = parseInt(document.getElementById("maxSip").value) || 3;
+      const randomSips = Math.floor(Math.random() * (max - min + 1)) + min;
+
+      const cardText = card.text.replace(/\{n\}/g, randomSips);
+
+      document.getElementById("mainCard").innerText = cardText;
+      document.getElementById("lastAction").innerText = card.type.toUpperCase();
+
+      const history = document.getElementById("history");
+      const entry = document.createElement("div");
+      entry.innerHTML = `${card.type.toUpperCase()}: ${cardText}`;
+      history.prepend(entry);
     }
 
-    spinBtn.onclick = ()=>{
-      if(players.length===0){alert('Please add players first.'); return}
-      mainCard.textContent = 'Spinning...';
-      let i=0; const spinInterval = setInterval(()=>{
-        const p = players[i%players.length]; mainCard.textContent = p; i++;
-        if(i>12){ clearInterval(spinInterval); const sel = players[Math.floor(Math.random()*players.length)]; currentPlayerSpan.textContent = sel; mainCard.textContent = 'Selected: '+sel; addHistory('Spin: '+sel); }
-      },80);
-    }
-
-    rulesBtn.onclick = ()=>{
-      alert('Rules:\n\n• Game is for adults. Drink responsibly.\n• Players can opt out or choose alcohol-free alternatives.\n• Cards can be customized.\n• Optional: Set a limit of sips per turn using Min/Max settings.\n\nHave fun!');
-    }
-
-    customCardBtn.onclick = ()=>{
-      const txt = prompt('Enter custom card text (use {n} for number of sips if needed):');
-      if(txt && txt.trim()){
-        truthDareCards.push({type:'custom', text:txt.trim()}); alert('Custom card added!');
-      }
-    }
-
-    if(players.length===0){ players.push('Alice','Bob','Charlie'); renderPlayers(); }
+    document.getElementById("drawCard").addEventListener("click", drawCard);
   </script>
 </body>
 </html>

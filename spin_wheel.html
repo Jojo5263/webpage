@@ -1,255 +1,448 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Spin Wheel — Name Roulette</title>
   <style>
-    :root{--bg:#0f172a;--card:#0b1220;--accent:#f59e0b;color-scheme:dark}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#071020 0%,#0b1220 100%);color:#e6eef8;display:flex;min-height:100vh;align-items:center;justify-content:center;padding:24px}
-    .app{max-width:1100px;width:100%;display:grid;grid-template-columns:560px 1fr;gap:20px}
-    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.06));border-radius:12px;padding:18px;box-shadow:0 6px 24px rgba(2,6,23,0.6)}
-    h1{margin:0 0 6px;font-size:20px}
-    p.sub{margin:0 0 12px;color:#9fb2d6;font-size:13px}
-    .wheel-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
-    canvas#wheel{border-radius:50%;background:transparent}
-    .pointer{width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-bottom:26px solid var(--accent);margin-top:-8px}
-    .controls{display:flex;gap:8px;flex-wrap:wrap}
-    button, input[type="text"], textarea{font:inherit}
-    .btn{background:var(--accent);border:none;padding:10px 14px;border-radius:10px;color:#071022;cursor:pointer;font-weight:600}
-    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#e6eef8}
-    .btn.danger{background:#ef4444;color:white}
-    .result{min-height:56px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700}
-    .inputs{display:flex;flex-direction:column;gap:10px}
-    textarea#names{width:100%;min-height:220px;padding:12px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit}
-    .small{font-size:13px;color:#9fb2d6}
-    .list{max-height:220px;overflow:auto;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(0,0,0,0.02))}
-    .list div{padding:6px 8px;border-radius:6px;margin-bottom:6px;background:rgba(255,255,255,0.01);display:flex;justify-content:space-between;align-items:center}
-    .list button{background:transparent;border:0;color:#ffef;cursor:pointer}
-    .footer{margin-top:10px;font-size:12px;color:#9fb2d6}
-    .tests{margin-top:12px;border-top:1px dashed rgba(255,255,255,0.04);padding-top:12px}
-    pre#testOutput{background:rgba(0,0,0,0.18);padding:8px;border-radius:8px;white-space:pre-wrap}
-    @media (max-width:980px){.app{grid-template-columns:1fr;max-width:760px}}
+    :root {
+      --bg: #0f172a;
+      --card: #0b1220;
+      --accent: #f59e0b;
+      color-scheme: dark
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(180deg, #071020 0%, #0b1220 100%);
+      color: #e6eef8;
+      display: flex;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+      padding: 24px
+    }
+
+    .app {
+      max-width: 1100px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 560px 1fr;
+      gap: 20px
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.06));
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 6px 24px rgba(2, 6, 23, 0.6)
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 20px
+    }
+
+    p.sub {
+      margin: 0 0 12px;
+      color: #9fb2d6;
+      font-size: 13px
+    }
+
+    .wheel-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px
+    }
+
+    canvas#wheel {
+      border-radius: 50%;
+      background: transparent
+    }
+
+    .pointer {
+      width: 0;
+      height: 0;
+      border-left: 18px solid transparent;
+      border-right: 18px solid transparent;
+      border-bottom: 26px solid var(--accent);
+      margin-top: -8px
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    button,
+    input[type="text"],
+    textarea {
+      font: inherit
+    }
+
+    .btn {
+      background: var(--accent);
+      border: none;
+      padding: 10px 14px;
+      border-radius: 10px;
+      color: #071022;
+      cursor: pointer;
+      font-weight: 600
+    }
+
+    .btn.secondary {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: #e6eef8
+    }
+
+    .btn.danger {
+      background: #ef4444;
+      color: white
+    }
+
+    .result {
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 700
+    }
+
+    .inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 10px
+    }
+
+    textarea#names {
+      width: 100%;
+      min-height: 220px;
+      padding: 12px;
+      border-radius: 10px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      color: inherit
+    }
+
+    .small {
+      font-size: 13px;
+      color: #9fb2d6
+    }
+
+    .list {
+      max-height: 220px;
+      overflow: auto;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(0, 0, 0, 0.02))
+    }
+
+    .list div {
+      padding: 6px 8px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      background: rgba(255, 255, 255, 0.01);
+      display: flex;
+      justify-content: space-between;
+      align-items: center
+    }
+
+    .list button {
+      background: transparent;
+      border: 0;
+      color: #ffef;
+      cursor: pointer
+    }
+
+    .footer {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #9fb2d6
+    }
+
+    .tests {
+      margin-top: 12px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.04);
+      padding-top: 12px
+    }
+
+    pre#testOutput {
+      background: rgba(0, 0, 0, 0.18);
+      padding: 8px;
+      border-radius: 8px;
+      white-space: pre-wrap
+    }
+
+    @media (max-width:980px) {
+      .app {
+        grid-template-columns: 1fr;
+        max-width: 760px
+      }
+    }
   </style>
 </head>
+
 <body>
   <div class="container">
     <div class="bg-gray-900 text-gray-200 font-sans px-6 py-4">
-    <a href="index.html" class="flex items-center gap-2 text-gray-200 hover:text-yellow font-medium" style="color: white;">
-      Back to Homepage
-    </a>
-  </div>
-  <div class="app">
-    <div class="card wheel-wrap">
-      <h1>Spin Wheel</h1>
-      <p class="sub">Enter names (on the right), click <strong>Spin</strong>, and the wheel will pick one at random.</p>
+      <a href="index.html" class="flex items-center gap-2 text-gray-200 hover:text-yellow font-medium"
+        style="color: white;">
+        Back to Homepage
+      </a>
+    </div>
+    <div class="app">
+      <div class="card wheel-wrap">
+        <h1>Spin Wheel</h1>
+        <p class="sub">Enter names (on the right), click <strong>Spin</strong>, and the wheel will pick one at random.
+        </p>
 
-      <div style="display:flex;flex-direction:column;align-items:center">
-        <canvas id="wheel" width="520" height="520" aria-label="Spin Wheel"></canvas>
-        <div class="pointer" aria-hidden></div>
-      </div>
-
-      <div style="width:100%;display:flex;justify-content:space-between;align-items:center;margin-top:8px">
-        <div class="controls">
-          <button id="spinBtn" class="btn">Spin</button>
-          <button id="addRandomBtn" class="btn secondary">Random Names</button>
-          <button id="clearBtn" class="btn secondary">Clear</button>
+        <div style="display:flex;flex-direction:column;align-items:center">
+          <canvas id="wheel" width="520" height="520" aria-label="Spin Wheel"></canvas>
+          <div class="pointer" aria-hidden></div>
         </div>
-        
+
+        <div style="width:100%;display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+          <div class="controls">
+            <button id="spinBtn" class="btn">Spin</button>
+            <button id="addRandomBtn" class="btn secondary">Random Names</button>
+            <button id="clearBtn" class="btn secondary">Clear</button>
+          </div>
+
+        </div>
+
+        <div class="footer">Download: <button id="downloadBtn" class="btn secondary">HTML file</button></div>
+
+        <div class="tests">
+          <button id="runTests" class="btn secondary">Run self-check</button>
+          <div style="margin-top:8px"><strong>Test result:</strong></div>
+          <pre id="testOutput">(no tests run)</pre>
+        </div>
       </div>
 
-      <div class="footer">Download: <button id="downloadBtn" class="btn secondary">HTML file</button></div>
+      <div class="card inputs">
+        <div>
+          <label for="names"><strong>Names (1 per line)</strong></label>
+          <textarea id="names" placeholder="One entry per line, e.g.\nAnna\nBernd\nCem"></textarea>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button id="applyBtn" class="btn">Apply</button>
+            <button id="shuffleBtn" class="btn secondary">Shuffle</button>
+          </div>
+          <div class="small" style="margin-top:8px">Tip: You can write names directly in the list or separate them with
+            commas, then click <em>Apply</em>.</div>
+        </div>
 
-      <div class="tests">
-        <button id="runTests" class="btn secondary">Run self-check</button>
-        <div style="margin-top:8px"><strong>Test result:</strong></div>
-        <pre id="testOutput">(no tests run)</pre>
+        <div>
+          <label><strong>Current names</strong></label>
+          <div id="list" class="list">(No names)</div>
+        </div>
+
+        <div>
+          <label><strong>Settings</strong></label>
+          <div style="display:flex;gap:8px;margin-top:6px;align-items:center">
+            <label class="small">Font size: <input id="fontSize" type="number" min="10" max="28" value="14"
+                style="width:72px;margin-left:6px"></label>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <div class="card inputs">
-      <div>
-        <label for="names"><strong>Names (1 per line)</strong></label>
-        <textarea id="names" placeholder="One entry per line, e.g.\nAnna\nBernd\nCem"></textarea>
-        <div style="display:flex;gap:8px;margin-top:8px">
-          <button id="applyBtn" class="btn">Apply</button>
-          <button id="shuffleBtn" class="btn secondary">Shuffle</button>
-        </div>
-        <div class="small" style="margin-top:8px">Tip: You can write names directly in the list or separate them with commas, then click <em>Apply</em>.</div>
-      </div>
+    <script>
+      const canvas = document.getElementById('wheel');
+      const ctx = canvas.getContext('2d');
+      let names = [];
+      const colors = [];
 
-      <div>
-        <label><strong>Current names</strong></label>
-        <div id="list" class="list">(No names)</div>
-      </div>
+      const namesEl = document.getElementById('names');
+      const applyBtn = document.getElementById('applyBtn');
+      const listEl = document.getElementById('list');
+      const spinBtn = document.getElementById('spinBtn');
+      const clearBtn = document.getElementById('clearBtn');
+      const shuffleBtn = document.getElementById('shuffleBtn');
+      const addRandomBtn = document.getElementById('addRandomBtn');
+      const downloadBtn = document.getElementById('downloadBtn');
+      const fontSizeInput = document.getElementById('fontSize');
+      const runTestsBtn = document.getElementById('runTests');
+      const testOutput = document.getElementById('testOutput');
 
-      <div>
-        <label><strong>Settings</strong></label>
-        <div style="display:flex;gap:8px;margin-top:6px;align-items:center">
-          <label class="small">Font size: <input id="fontSize" type="number" min="10" max="28" value="14" style="width:72px;margin-left:6px"></label>
-        </div>
-      </div>
+      let angle = 0;
+      let angularVelocity = 0;
+      let isSpinning = false;
 
-    </div>
-  </div>
+      const TAU = Math.PI * 2;
+      const POINTER = -Math.PI / 2;
 
-  <script>
-    const canvas = document.getElementById('wheel');
-    const ctx = canvas.getContext('2d');
-    let names = [];
-    const colors = [];
-
-    const namesEl = document.getElementById('names');
-    const applyBtn = document.getElementById('applyBtn');
-    const listEl = document.getElementById('list');
-    const spinBtn = document.getElementById('spinBtn');
-    const clearBtn = document.getElementById('clearBtn');
-    const shuffleBtn = document.getElementById('shuffleBtn');
-    const addRandomBtn = document.getElementById('addRandomBtn');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const fontSizeInput = document.getElementById('fontSize');
-    const runTestsBtn = document.getElementById('runTests');
-    const testOutput = document.getElementById('testOutput');
-
-    let angle = 0;
-    let angularVelocity = 0;
-    let isSpinning = false;
-
-    const TAU = Math.PI * 2;
-    const POINTER = -Math.PI/2;
-
-    function randColor(i){
-      const h = (i * 137.508) % 360;
-      return `hsl(${h} 75% 55%)`;
-    }
-    function updateColors(){ colors.length = 0; for(let i=0;i<names.length;i++) colors.push(randColor(i)); }
-    function mod(a,m){ return ((a % m) + m) % m; }
-
-    function draw(){
-      const w = canvas.width, h = canvas.height, cx = w/2, cy = h/2, r = Math.min(w,h)/2 - 6;
-      ctx.clearRect(0,0,w,h);
-      if(names.length===0){
-        ctx.save(); ctx.translate(cx,cy);
-        ctx.fillStyle = 'rgba(255,255,255,0.04)'; ctx.beginPath(); ctx.arc(0,0,r,0,TAU); ctx.fill();
-        ctx.fillStyle = '#9fb2d6'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.font='16px sans-serif'; ctx.fillText('No names',0,0);
-        ctx.restore();
-        return;
+      function randColor(i) {
+        const h = (i * 137.508) % 360;
+        return `hsl(${h} 75% 55%)`;
       }
+      function updateColors() { colors.length = 0; for (let i = 0; i < names.length; i++) colors.push(randColor(i)); }
+      function mod(a, m) { return ((a % m) + m) % m; }
 
-      const slice = TAU / names.length;
-      ctx.save(); ctx.translate(cx,cy); ctx.rotate(angle);
-
-      for(let i=0;i<names.length;i++){
-        const start = i*slice;
-        const end = start + slice;
-        ctx.beginPath(); ctx.moveTo(0,0); ctx.arc(0,0,r,start,end); ctx.closePath();
-        ctx.fillStyle = colors[i%colors.length]; ctx.fill();
-        ctx.strokeStyle = 'rgba(0,0,0,0.12)'; ctx.lineWidth = 1; ctx.stroke();
-
-        ctx.save(); const mid = (start+end)/2; ctx.rotate(mid + Math.PI/2); ctx.translate(0, -r*0.68); ctx.rotate(Math.PI/2);
-        ctx.fillStyle = 'white'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-        const fsize = parseInt(fontSizeInput.value || 14,10); ctx.font = `${fsize}px sans-serif`;
-        ctx.fillText(names[i], 0, 0);
-        ctx.restore();
-      }
-
-      ctx.beginPath(); ctx.arc(0,0,r*0.18,0,TAU); ctx.fillStyle='rgba(0,0,0,0.18)'; ctx.fill();
-      ctx.restore();
-    }
-
-    function findIndexUnderPointer(atAngle){
-      if(names.length === 0) return -1;
-      const slice = TAU / names.length;
-      const normalized = mod(POINTER - atAngle, TAU);
-      const idx = Math.floor(normalized / slice) % names.length;
-      return idx;
-    }
-
-    function announceWinner(index){
-      if(index < 0 || index >= names.length){ return; }
-      try{ canvas.animate([{filter:'brightness(1)'},{filter:'brightness(1.25)'},{filter:'brightness(1)'}],{duration:700}); }catch(e){}
-      alert('Winner: ' + names[index]);
-    }
-
-    function animate(){
-      if(isSpinning){
-        angle += angularVelocity;
-        angularVelocity *= 0.9925;
-        if(Math.abs(angularVelocity) < 0.0008){
-          angularVelocity = 0; isSpinning = false;
-          const idx = findIndexUnderPointer(angle);
-          spinBtn.disabled = false;
-          if(idx >= 0) announceWinner(idx);
+      function draw() {
+        const w = canvas.width, h = canvas.height, cx = w / 2, cy = h / 2, r = Math.min(w, h) / 2 - 6;
+        ctx.clearRect(0, 0, w, h);
+        if (names.length === 0) {
+          ctx.save(); ctx.translate(cx, cy);
+          ctx.fillStyle = 'rgba(255,255,255,0.04)'; ctx.beginPath(); ctx.arc(0, 0, r, 0, TAU); ctx.fill();
+          ctx.fillStyle = '#9fb2d6'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = '16px sans-serif'; ctx.fillText('No names', 0, 0);
+          ctx.restore();
+          return;
         }
-      }
-      draw();
-      requestAnimationFrame(animate);
-    }
 
-    function renderList(){
-      listEl.innerHTML = '';
-      if(names.length===0){ listEl.textContent='(No names)'; return; }
-      names.forEach((n,i)=>{
-        const row = document.createElement('div'); row.textContent = n;
-        const del = document.createElement('button'); del.textContent='✖'; del.addEventListener('click', ()=>{ names.splice(i,1); updateColors(); renderList(); draw(); });
-        row.appendChild(del); listEl.appendChild(row);
+        const slice = TAU / names.length;
+        ctx.save(); ctx.translate(cx, cy); ctx.rotate(angle);
+
+        for (let i = 0; i < names.length; i++) {
+          const start = i * slice;
+          const end = start + slice;
+          ctx.beginPath(); ctx.moveTo(0, 0); ctx.arc(0, 0, r, start, end); ctx.closePath();
+          ctx.fillStyle = colors[i % colors.length]; ctx.fill();
+          ctx.strokeStyle = 'rgba(0,0,0,0.12)'; ctx.lineWidth = 1; ctx.stroke();
+
+          ctx.save(); const mid = (start + end) / 2; ctx.rotate(mid + Math.PI / 2); ctx.translate(0, -r * 0.68); ctx.rotate(Math.PI / 2);
+          ctx.fillStyle = 'white'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          const fsize = parseInt(fontSizeInput.value || 14, 10); ctx.font = `${fsize}px sans-serif`;
+          ctx.fillText(names[i], 0, 0);
+          ctx.restore();
+        }
+
+        ctx.beginPath(); ctx.arc(0, 0, r * 0.18, 0, TAU); ctx.fillStyle = 'rgba(0,0,0,0.18)'; ctx.fill();
+        ctx.restore();
+      }
+
+      function findIndexUnderPointer(atAngle) {
+        if (names.length === 0) return -1;
+        const slice = TAU / names.length;
+        const normalized = mod(POINTER - atAngle, TAU);
+        const idx = Math.floor(normalized / slice) % names.length;
+        return idx;
+      }
+
+      function announceWinner(angle, names) {
+        if (!names || names.length === 0) return;
+
+        const TAU = 2 * Math.PI;
+        const slice = TAU / names.length;
+
+        // Korrigiere den Winkel in den Bereich [0, TAU)
+        const normalized = ((angle % TAU) + TAU) % TAU;
+
+        // Bestimme den Index: Der Zeiger steht oben (90° bzw. -PI/2)
+        const pointerOffset = -Math.PI / 2;
+        const adjusted = ((normalized + pointerOffset) % TAU + TAU) % TAU;
+        const winnerIndex = Math.floor((TAU - adjusted) / slice) % names.length;
+
+        const winnerName = names[winnerIndex];
+
+        // Sanfte optische Animation beim Gewinner
+        const canvas = document.querySelector('canvas');
+        if (canvas && canvas.animate) {
+          canvas.animate(
+            [
+              { filter: 'brightness(1)' },
+              { filter: 'brightness(1.4)' },
+              { filter: 'brightness(1)' }
+            ],
+            { duration: 800 }
+          );
+        }
+
+        // Gewinner ausgeben
+        alert(`🎉 Gewinner: ${winnerName}! 🎉`);
+      }
+
+
+      function animate() {
+        if (isSpinning) {
+          angle += angularVelocity;
+          angularVelocity *= 0.9925;
+          if (Math.abs(angularVelocity) < 0.0008) {
+            angularVelocity = 0; isSpinning = false;
+            const idx = findIndexUnderPointer(angle);
+            spinBtn.disabled = false;
+            if (idx >= 0) announceWinner(idx);
+          }
+        }
+        draw();
+        requestAnimationFrame(animate);
+      }
+
+      function renderList() {
+        listEl.innerHTML = '';
+        if (names.length === 0) { listEl.textContent = '(No names)'; return; }
+        names.forEach((n, i) => {
+          const row = document.createElement('div'); row.textContent = n;
+          const del = document.createElement('button'); del.textContent = '✖'; del.addEventListener('click', () => { names.splice(i, 1); updateColors(); renderList(); draw(); });
+          row.appendChild(del); listEl.appendChild(row);
+        });
+      }
+
+      applyBtn.addEventListener('click', () => {
+        const parsed = namesEl.value.split(/\s*(?:,|;|\r?\n|\|)\s*/).map(s => s.trim()).filter(Boolean);
+        if (parsed.length > 0) { names = parsed.slice(); updateColors(); renderList(); draw(); }
+        else { alert('Please enter at least one name.'); }
       });
-    }
 
-    applyBtn.addEventListener('click', ()=>{
-      const parsed = namesEl.value.split(/\s*(?:,|;|\r?\n|\|)\s*/).map(s => s.trim()).filter(Boolean);
-      if(parsed.length > 0){ names = parsed.slice(); updateColors(); renderList(); draw();  }
-      else { alert('Please enter at least one name.'); }
-    });
+      shuffleBtn.addEventListener('click', () => { for (let i = names.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[names[i], names[j]] = [names[j], names[i]] } updateColors(); renderList(); draw(); });
 
-    shuffleBtn.addEventListener('click', ()=>{ for(let i=names.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [names[i],names[j]]=[names[j],names[i]] } updateColors(); renderList(); draw(); });
+      clearBtn.addEventListener('click', () => { if (!confirm('Delete all names?')) return; names = []; updateColors(); renderList(); draw(); namesEl.value = ''; });
 
-    clearBtn.addEventListener('click', ()=>{ if(!confirm('Delete all names?')) return; names=[]; updateColors(); renderList(); draw();  namesEl.value=''; });
+      addRandomBtn.addEventListener('click', () => { const sample = ['Anna', 'Bernd', 'Cem', 'Dora', 'Emil', 'Fatima', 'Gina', 'Hassan', 'Iris', 'Jonas']; for (let i = 0; i < 6; i++) { const s = sample[Math.floor(Math.random() * sample.length)]; names.push(s); } updateColors(); renderList(); draw(); });
 
-    addRandomBtn.addEventListener('click', ()=>{ const sample = ['Anna','Bernd','Cem','Dora','Emil','Fatima','Gina','Hassan','Iris','Jonas']; for(let i=0;i<6;i++){ const s=sample[Math.floor(Math.random()*sample.length)]; names.push(s); } updateColors(); renderList(); draw(); });
+      spinBtn.addEventListener('click', () => {
+        if (names.length === 0) { alert('Please add names first.'); return; }
+        if (isSpinning) return;
+        spinBtn.disabled = true;
+        const min = 0.25, max = 0.7;
+        angularVelocity = (Math.random() * (max - min) + min) * (Math.random() < 0.5 ? 1 : -1);
+        isSpinning = true;
+      });
 
-    spinBtn.addEventListener('click', ()=>{
-      if(names.length===0){ alert('Please add names first.'); return; }
-      if(isSpinning) return;
-      spinBtn.disabled = true;
-      const min = 0.25, max = 0.7;
-      angularVelocity = (Math.random()*(max-min)+min) * (Math.random()<0.5?1:-1);
-      isSpinning = true; 
-    });
+      downloadBtn.addEventListener('click', () => { const blob = new Blob([document.documentElement.outerHTML], 'text/html'); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'gluecksrad.html'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); });
 
-    downloadBtn.addEventListener('click', ()=>{ const blob = new Blob([document.documentElement.outerHTML],'text/html'); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'gluecksrad.html'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); });
+      function runInternalTests() {
+        const out = [];
+        const saved = names.slice();
+        const sample = ['Anna', 'Bernd', 'Cem', 'Dora', 'Emil', 'Fatima'];
+        names = sample.slice(); updateColors(); renderList(); draw();
+        const slice = TAU / names.length;
 
-    function runInternalTests(){
-      const out = [];
-      const saved = names.slice();
-      const sample = ['Anna','Bernd','Cem','Dora','Emil','Fatima'];
-      names = sample.slice(); updateColors(); renderList(); draw();
-      const slice = TAU / names.length;
+        out.push('Sample names: ' + names.join(', '));
 
-      out.push('Sample names: ' + names.join(', '));
+        angle = 0; const idxA = findIndexUnderPointer(angle); out.push(`Angle=0 -> index=${idxA}, name=${names[idxA]}`);
 
-      angle = 0; const idxA = findIndexUnderPointer(angle); out.push(`Angle=0 -> index=${idxA}, name=${names[idxA]}`);
+        const checks = [];
+        for (let i = 0; i < names.length; i++) {
+          const mid = i * slice + slice / 2;
+          const a = mod(POINTER - mid, TAU);
+          const idx = findIndexUnderPointer(a);
+          checks.push({ targetIndex: i, computedIndex: idx, nameExpected: names[i], nameComputed: names[idx] });
+        }
+        out.push('Per-index checks:');
+        checks.forEach(c => out.push(`  target=${c.targetIndex} (${c.nameExpected}) -> computed=${c.computedIndex} (${c.nameComputed})`));
 
-      const checks = [];
-      for(let i=0;i<names.length;i++){
-        const mid = i*slice + slice/2;
-        const a = mod(POINTER - mid, TAU);
-        const idx = findIndexUnderPointer(a);
-        checks.push({targetIndex:i, computedIndex:idx, nameExpected:names[i], nameComputed:names[idx]});
+        names = saved.slice(); updateColors(); renderList(); draw();
+        testOutput.textContent = out.join('\n');
       }
-      out.push('Per-index checks:');
-      checks.forEach(c=> out.push(`  target=${c.targetIndex} (${c.nameExpected}) -> computed=${c.computedIndex} (${c.nameComputed})`));
 
-      names = saved.slice(); updateColors(); renderList(); draw();
-      testOutput.textContent = out.join('\n');
-    }
+      runTestsBtn.addEventListener('click', runInternalTests);
 
-    runTestsBtn.addEventListener('click', runInternalTests);
-
-    function init(){ names = ['Anna','Bernd','Cem','Dora','Emil','Fatima']; updateColors(); renderList(); draw(); animate(); }
-    function fitCanvas(){ const size = Math.min(520, Math.max(320, Math.floor(Math.min(window.innerWidth*0.45, 520)))); canvas.width = size; canvas.height = size; draw(); }
-    window.addEventListener('resize', fitCanvas); fitCanvas(); init();
-  </script>
+      function init() { names = ['Anna', 'Bernd', 'Cem', 'Dora', 'Emil', 'Fatima']; updateColors(); renderList(); draw(); animate(); }
+      function fitCanvas() { const size = Math.min(520, Math.max(320, Math.floor(Math.min(window.innerWidth * 0.45, 520)))); canvas.width = size; canvas.height = size; draw(); }
+      window.addEventListener('resize', fitCanvas); fitCanvas(); init();
+    </script>
 </body>
+
 </html>

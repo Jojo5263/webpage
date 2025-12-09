@@ -57,9 +57,17 @@
         }
 
         .highlight-text {
-            color: #0052cc;
+            color: #CC0000; /* Rot für den Spieler im Kartentext */
             font-weight: bold;
             text-shadow: 0 0 5px rgba(255,255,255,0.8);
+        }
+        
+        /* Status-Boxen nutzen das Aero-Highlight */
+        #currentPlayer {
+            color: #007bff;
+        }
+        #lastAction {
+             color: #CC0000;
         }
 
         label {
@@ -69,7 +77,6 @@
             margin-bottom: 4px;
         }
 
-        /* Checkbox/Radio Buttons an Aero-Look anpassen */
         input[type="radio"] {
             accent-color: #0052cc;
             transform: scale(1.2);
@@ -105,7 +112,6 @@
         <div class="f-content mb-8 text-center">
             <h1 class="gradient-text text-5xl font-bold mb-2">Get Buzzed!</h1>
             <p style="color: #004488;">Drinking & Truth or Dare Game</p>
-            <div class="text-xs" style="color: #003366; margin-top:5px;">Responsible play recommended • Alcohol-free options allowed</div>
         </div>
 
         <div class="grid md-grid-cols-2 gap-8">
@@ -125,22 +131,7 @@
                 </div>
 
                 <hr class="border-white opacity-50 my-4">
-
-                <h3 class="font-bold text-glossy mb-2">Game Modes</h3>
-                <div class="space-y-2 mb-4" style="color: #003366;">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name="mode" value="classic" checked /> Classic (Draw Card)
-                    </label>
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name="mode" value="spin" /> Spin (Pick Player)
-                    </label>
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name="mode" value="custom" disabled /> Custom Cards (Soon)
-                    </label>
-                </div>
-
-                <hr class="border-white opacity-50 my-4">
-
+                
                 <h3 class="font-bold text-glossy mb-2">Sip Settings</h3>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
@@ -167,12 +158,9 @@
                         Loading cards...
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4 w-full">
-                        <button id="drawCard" class="glossy-button py-3 text-white text-lg font-bold hover-scale-110 transition-transform" disabled>
-                            Draw Card
-                        </button>
-                        <button id="spinBtn" class="glossy-button py-3 text-white text-lg font-bold hover-scale-110 transition-transform" style="filter: hue-rotate(45deg);">
-                            Spin Player
+                    <div class="w-full">
+                        <button id="nextRoundBtn" class="glossy-button py-4 text-white text-2xl font-bold w-full hover-scale-110 transition-transform" disabled>
+                            Start Next Round
                         </button>
                     </div>
 
@@ -194,10 +182,6 @@
 
             </main>
         </div>
-        
-        <footer class="mt-12 text-center text-sm p-4 aero-glass rounded-xl" style="color: #003366;">
-            Responsible play: This game is for adults. Drink responsibly. Alcohol-free options are allowed.
-        </footer>
     </div>
 
     <script>
@@ -222,7 +206,7 @@
 
         // Create clouds
         const cloudContainer = document.getElementById('cloud-container');
-        const cloudCount = 8;
+        const cloudCount = 16;
 
         for (let i = 0; i < cloudCount; i++) {
             const cloud = document.createElement('div');
@@ -240,7 +224,7 @@
             cloudContainer.appendChild(cloud);
         }
 
-        // Create music notes (Ersetzt durch floating-icons in index.html, aber wir behalten die notes-Struktur hier)
+        // Create music notes
         const musicContainer = document.getElementById('music-container');
         const musicNotes = ['♪', '♫', '♬', '♩'];
         const musicCount = 6;
@@ -274,7 +258,6 @@
             iconDiv.textContent = icon.emoji;
             iconDiv.style.fontSize = icon.size;
 
-            // Position icons around the edges
             const positions = [
                 { top: '15%', left: '5%' },
                 { top: '25%', right: '8%' },
@@ -294,9 +277,15 @@
             iconContainer.appendChild(iconDiv);
         });
 
-        // --- Karten Daten Management ---
+        // --- Spiel Logik ---
         let truthDareCards = [];
-
+        const nextRoundBtn = document.getElementById('nextRoundBtn');
+        const nameInput = document.getElementById('nameInput');
+        const playersList = document.getElementById('playersList');
+        const clearPlayersBtn = document.getElementById('clearPlayers');
+        const currentPlayerSpan = document.getElementById('currentPlayer');
+        const pickPlayerBtn = document.getElementById('pickPlayerBtn'); // Beibehalten für separate Spielerwahl
+    
         // Lade die cards.json Datei
         fetch('cards.json')
             .then(response => {
@@ -309,85 +298,54 @@
                 truthDareCards = data.cards;
                 console.log("Karten erfolgreich geladen:", truthDareCards.length);
                 
-                // UI aktualisieren und Button aktivieren
                 const mainCard = document.getElementById("mainCard");
-                const drawBtn = document.getElementById("drawCard");
-                
-                mainCard.innerText = 'Press "Draw Card" to start!';
-                drawBtn.disabled = false;
+                mainCard.innerHTML = 'Press <span class="highlight-text">"Start Next Round"</span> to begin!';
+                nextRoundBtn.disabled = false;
             })
             .catch(error => {
                 console.error('Fehler beim Laden der Karten:', error);
                 document.getElementById("mainCard").innerHTML = 
-                    '<span style="color:red; font-size:0.8em; text-shadow:none;">Error loading cards.json.<br>Please ensure you are running this on a local server (CORS).</span>';
+                    '<span style="color:red; font-size:0.8em; text-shadow:none;">Error loading cards.json.</span>';
             });
 
         // --- Spieler Management ---
         let players = [];
-        const nameInput = document.getElementById('nameInput');
-        const playersList = document.getElementById('playersList');
-        const pickPlayerBtn = document.getElementById('pickPlayerBtn');
-        const clearPlayersBtn = document.getElementById('clearPlayers');
-        const currentPlayerSpan = document.getElementById('currentPlayer');
-    
-        // Spieler hinzufügen bei Enter
+        // ... (Spieler hinzufügen/entfernen Logik bleibt gleich) ...
         nameInput.addEventListener('keypress', function (e) {
-          if (e.key === 'Enter') {
-            const name = this.value.trim();
-            if (name && !players.includes(name)) {
-              players.push(name);
-              updatePlayersList();
-              this.value = '';
+            if (e.key === 'Enter') {
+                const name = this.value.trim();
+                if (name && !players.includes(name)) {
+                    players.push(name);
+                    updatePlayersList();
+                    this.value = '';
+                }
             }
-          }
         });
-    
-        // Spielerliste aktualisieren
-        function updatePlayersList() {
-          playersList.innerHTML = '';
-          players.forEach((player, index) => {
-            const playerEl = document.createElement('div');
-            playerEl.className = 'player-chip';
-            playerEl.innerHTML = `
-              ${player}
-              <button class="player-remove" data-index="${index}">×</button>
-            `;
-            playersList.appendChild(playerEl);
-          });
-    
-          document.querySelectorAll('.player-remove').forEach(button => {
-            button.addEventListener('click', function () {
-              const index = parseInt(this.getAttribute('data-index'));
-              players.splice(index, 1);
-              updatePlayersList();
-            });
-          });
-        }
-    
-        // Zufälligen Spieler wählen (Spin)
-        function pickRandomPlayer() {
-          if (players.length === 0) {
-            currentPlayerSpan.textContent = 'No players';
-            return;
-          }
-    
-          const randomIndex = Math.floor(Math.random() * players.length);
-          const selectedPlayer = players[randomIndex];
-          currentPlayerSpan.textContent = selectedPlayer;
-    
-          // History Eintrag
-          addToHistory(`Selected player: <span class="highlight-text">${selectedPlayer}</span>`);
-        }
 
-        // Event Listener für Spin Button (beide Buttons können genutzt werden)
-        pickPlayerBtn.addEventListener('click', pickRandomPlayer);
-        document.getElementById('spinBtn').addEventListener('click', pickRandomPlayer);
-    
-        // Alle Spieler löschen
+        function updatePlayersList() {
+            playersList.innerHTML = '';
+            players.forEach((player, index) => {
+                const playerEl = document.createElement('div');
+                playerEl.className = 'player-chip';
+                playerEl.innerHTML = `
+                ${player}
+                <button class="player-remove" data-index="${index}">×</button>
+                `;
+                playersList.appendChild(playerEl);
+            });
+
+            document.querySelectorAll('.player-remove').forEach(button => {
+                button.addEventListener('click', function () {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    players.splice(index, 1);
+                    updatePlayersList();
+                });
+            });
+        }
         clearPlayersBtn.addEventListener('click', function () {
-          players = [];
-          updatePlayersList();
-          currentPlayerSpan.textContent = '—';
+            players = [];
+            updatePlayersList();
+            currentPlayerSpan.textContent = '—';
         });
 
         // Helper für History
@@ -403,35 +361,60 @@
             }
         }
     
-        // --- Karten ziehen Logik ---
-        function drawCard() {
+        // --- NEUE Kombinierte Logik ---
+        function nextRound() {
+            if (players.length === 0) {
+                alert("Please add players before starting a round!");
+                return;
+            }
             if (truthDareCards.length === 0) {
                 document.getElementById("mainCard").innerText = "No cards available!";
                 return;
             }
 
-            // Zufällige Karte wählen
-            const index = Math.floor(Math.random() * truthDareCards.length);
-            const card = truthDareCards[index]; 
+            // 1. Pick Random Player
+            const randomIndex = Math.floor(Math.random() * players.length);
+            const selectedPlayer = players[randomIndex];
+            currentPlayerSpan.textContent = selectedPlayer;
 
-            // Sips berechnen
+            // 2. Draw Card
+            const cardIndex = Math.floor(Math.random() * truthDareCards.length);
+            const card = truthDareCards[cardIndex];
+
+            // 3. Calculate Sips
             const min = parseInt(document.getElementById("minSip").value) || 1;
             const max = parseInt(document.getElementById("maxSip").value) || 3;
             const randomSips = Math.floor(Math.random() * (max - min + 1)) + min;
-
-            // Platzhalter ersetzen
             const cardText = card.text.replace(/\{n\}/g, randomSips);
 
-            // UI Updates
-            document.getElementById("mainCard").innerText = cardText;
-            
+            // 4. Update UI and History
             const typeText = card.type.toUpperCase();
+            
+            // Highlight the selected player and the card text in the main card
+            const fullText = `<span class="highlight-text">${selectedPlayer}</span>, your task is: ${cardText}`;
+            document.getElementById("mainCard").innerHTML = fullText;
+            
             document.getElementById("lastAction").innerText = typeText;
 
-            addToHistory(`<strong>${typeText}:</strong> ${cardText}`);
+            // History entry includes player and action type
+            addToHistory(`<strong>${selectedPlayer} (${typeText}):</strong> ${cardText}`);
         }
 
-        document.getElementById("drawCard").addEventListener("click", drawCard);
+        // Event Listener für den neuen Button
+        nextRoundBtn.addEventListener("click", nextRound);
+
+        // Behalte Pick Player für manuelle Auswahl (Sidebar Button)
+        pickPlayerBtn.addEventListener('click', function() {
+            if (players.length === 0) {
+                currentPlayerSpan.textContent = 'No players';
+                return;
+            }
+            const randomIndex = Math.floor(Math.random() * players.length);
+            const selectedPlayer = players[randomIndex];
+            currentPlayerSpan.textContent = selectedPlayer;
+            addToHistory(`Selected player manually: <span class="highlight-text">${selectedPlayer}</span>`);
+        });
+
     </script>
 </body>
 </html>

@@ -69,6 +69,9 @@
         #lastAction {
              color: #CC0000;
         }
+        #skipCounterDisplay {
+             color: #0052cc; /* Blau für den Skip-Zähler */
+        }
 
         label {
             color: #003366;
@@ -125,14 +128,14 @@
                         </div>
                     
                     <div class="flex gap-2 mt-4">
-                        <button id="pickPlayerBtn" class="glossy-button p-2 text-white w-full font-bold">Pick Random</button>
-                        <button id="clearPlayers" class="glossy-button p-2 text-white w-full font-bold" style="filter: hue-rotate(180deg);">Clear All</button>
+                        <button id="pickPlayerBtn" class="glossy-button p-2 text-white w-full font-bold">Wähle Spieler</button>
+                        <button id="clearPlayers" class="glossy-button p-2 text-white w-full font-bold" style="filter: hue-rotate(180deg);">Alle Löschen</button>
                     </div>
                 </div>
 
                 <hr class="border-white opacity-50 my-4">
                 
-                <h3 class="font-bold text-glossy mb-2">Sip Settings</h3>
+                <h3 class="font-bold text-glossy mb-2">Sip & Skip Settings</h3>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="text-sm">Min Sips</label>
@@ -141,6 +144,10 @@
                     <div>
                         <label class="text-sm">Max Sips</label>
                         <input id="maxSip" type="number" value="3" min="0" />
+                    </div>
+                    <div class="col-span-2">
+                        <label class="text-sm">Initial Skips (Gesamt)</label>
+                        <input id="initialSkips" type="number" value="3" min="0" />
                     </div>
                 </div>
             </aside>
@@ -155,21 +162,27 @@
                     </div>
 
                     <div id="mainCard" class="text-3xl font-bold text-glossy mb-8 leading-relaxed">
-                        Loading cards...
+                        Karten werden geladen...
                     </div>
 
-                    <div class="w-full">
-                        <button id="nextRoundBtn" class="glossy-button py-4 text-white text-2xl font-bold w-full hover-scale-110 transition-transform" disabled>
-                            Start Next Round
+                    <div class="w-full grid grid-cols-2 gap-4">
+                        <button id="nextRoundBtn" class="glossy-button py-4 text-white text-2xl font-bold hover-scale-110 transition-transform" disabled>
+                            Nächste Runde
+                        </button>
+                        <button id="skipBtn" class="glossy-button py-4 text-white text-lg font-bold transition-all" style="filter: hue-rotate(180deg); opacity: 0.5;" disabled>
+                            Skip (Max Sips)
                         </button>
                     </div>
 
-                    <div class="mt-8 w-full flex justify-between text-base font-semibold" style="color: #004488;">
-                        <div class="aero-glass px-4 py-2 rounded-xl">
-                            Current Player: <span id="currentPlayer" class="highlight-text">—</span>
+                    <div class="mt-8 w-full grid grid-cols-3 gap-4 text-base font-semibold" style="color: #004488;">
+                        <div class="aero-glass px-2 py-2 rounded-xl text-center">
+                            Spieler: <span id="currentPlayer" class="highlight-text">—</span>
                         </div>
-                        <div class="aero-glass px-4 py-2 rounded-xl">
-                            Card Type: <span id="lastAction" class="highlight-text">—</span>
+                        <div class="aero-glass px-2 py-2 rounded-xl text-center">
+                            Aktion: <span id="lastAction" class="highlight-text">—</span>
+                        </div>
+                        <div class="aero-glass px-2 py-2 rounded-xl text-center">
+                            Skips Links: <span id="skipCounterDisplay" class="highlight-text">3</span>
                         </div>
                     </div>
                 </div>
@@ -185,33 +198,28 @@
     </div>
 
     <script>
-        // --- Hintergrund-Elemente (Übernommen aus index.html) ---
+        // --- Hintergrund-Elemente (Unverändert) ---
         // Create floating bubbles
         const bubbleContainer = document.getElementById('bubble-container');
         const bubbleCount = 12;
-
         for (let i = 0; i < bubbleCount; i++) {
             const bubble = document.createElement('div');
             bubble.className = 'bubble';
-
             const size = Math.random() * 80 + 40;
             bubble.style.width = size + 'px';
             bubble.style.height = size + 'px';
             bubble.style.left = Math.random() * 100 + '%';
             bubble.style.animationDuration = (Math.random() * 10 + 15) + 's';
             bubble.style.animationDelay = Math.random() * 5 + 's';
-
             bubbleContainer.appendChild(bubble);
         }
 
         // Create clouds
         const cloudContainer = document.getElementById('cloud-container');
-        const cloudCount = 16;
-
+        const cloudCount = 8;
         for (let i = 0; i < cloudCount; i++) {
             const cloud = document.createElement('div');
             cloud.className = 'cloud';
-
             const width = Math.random() * 200 + 150;
             const height = width * 0.6;
             cloud.style.width = width + 'px';
@@ -220,7 +228,6 @@
             cloud.style.left = Math.random() * 100 + '%';
             cloud.style.animationDuration = (Math.random() * 40 + 60) + 's';
             cloud.style.animationDelay = Math.random() * 20 + 's';
-
             cloudContainer.appendChild(cloud);
         }
 
@@ -228,16 +235,13 @@
         const musicContainer = document.getElementById('music-container');
         const musicNotes = ['♪', '♫', '♬', '♩'];
         const musicCount = 6;
-
         for (let i = 0; i < musicCount; i++) {
             const note = document.createElement('div');
             note.className = 'music-note';
             note.textContent = musicNotes[Math.floor(Math.random() * musicNotes.length)];
-
             note.style.left = Math.random() * 90 + 5 + '%';
             note.style.animationDuration = (Math.random() * 8 + 12) + 's';
             note.style.animationDelay = Math.random() * 10 + 's';
-
             musicContainer.appendChild(note);
         }
 
@@ -273,19 +277,42 @@
 
             iconDiv.style.animationDuration = (Math.random() * 2 + 3) + 's';
             iconDiv.style.animationDelay = Math.random() * 2 + 's';
-
             iconContainer.appendChild(iconDiv);
         });
 
         // --- Spiel Logik ---
         let truthDareCards = [];
+        let currentSkips = 0; // Globale Variable für den Skip Counter
+
         const nextRoundBtn = document.getElementById('nextRoundBtn');
+        const skipBtn = document.getElementById('skipBtn'); // NEU
+        const skipCounterDisplay = document.getElementById('skipCounterDisplay'); // NEU
+        const initialSkipsInput = document.getElementById('initialSkips'); // NEU
         const nameInput = document.getElementById('nameInput');
         const playersList = document.getElementById('playersList');
         const clearPlayersBtn = document.getElementById('clearPlayers');
         const currentPlayerSpan = document.getElementById('currentPlayer');
-        const pickPlayerBtn = document.getElementById('pickPlayerBtn'); // Beibehalten für separate Spielerwahl
+        const pickPlayerBtn = document.getElementById('pickPlayerBtn');
     
+        // Initialisiert den Skip-Zähler und die Anzeige
+        function updateSkipCounterDisplay() {
+            // Stellt sicher, dass der Zähler immer aus dem Input gelesen wird, wenn er nicht benutzt wird
+            if (currentSkips === 0 && initialSkipsInput.value) {
+                currentSkips = parseInt(initialSkipsInput.value) || 3;
+            }
+            skipCounterDisplay.textContent = currentSkips;
+
+            if (currentSkips <= 0) {
+                skipBtn.disabled = true;
+                skipBtn.style.opacity = '0.4';
+                skipBtn.textContent = 'Keine Skips Mehr';
+            } else {
+                skipBtn.disabled = true; // Immer deaktiviert, außer nach "Next Round"
+                skipBtn.style.opacity = '1';
+                skipBtn.textContent = 'Skip (Max Sips)';
+            }
+        }
+
         // Lade die cards.json Datei
         fetch('cards.json')
             .then(response => {
@@ -299,18 +326,21 @@
                 console.log("Karten erfolgreich geladen:", truthDareCards.length);
                 
                 const mainCard = document.getElementById("mainCard");
-                mainCard.innerHTML = 'Press <span class="highlight-text">"Start Next Round"</span> to begin!';
+                mainCard.innerHTML = 'Drücke <span class="highlight-text">"Nächste Runde"</span> zum Start!';
                 nextRoundBtn.disabled = false;
+                
+                // Initialisierung des Zählers nach dem Laden der Einstellungen
+                currentSkips = parseInt(initialSkipsInput.value) || 3;
+                updateSkipCounterDisplay();
             })
             .catch(error => {
                 console.error('Fehler beim Laden der Karten:', error);
                 document.getElementById("mainCard").innerHTML = 
-                    '<span style="color:red; font-size:0.8em; text-shadow:none;">Error loading cards.json.</span>';
+                    '<span style="color:red; font-size:0.8em; text-shadow:none;">Fehler beim Laden von cards.json.</span>';
             });
 
-        // --- Spieler Management ---
+        // --- Spieler Management (Unverändert) ---
         let players = [];
-        // ... (Spieler hinzufügen/entfernen Logik bleibt gleich) ...
         nameInput.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 const name = this.value.trim();
@@ -355,55 +385,107 @@
             entry.className = 'history-entry';
             entry.innerHTML = htmlContent;
             history.prepend(entry);
-            // Limit history size
             while (history.children.length > 8) {
                 history.removeChild(history.lastChild);
             }
         }
     
-        // --- NEUE Kombinierte Logik ---
+        // --- NEUE Skip Funktion ---
+        function skipQuestion() {
+            const maxSips = parseInt(document.getElementById("maxSip").value) || 3;
+            const skippedPlayer = currentPlayerSpan.textContent;
+
+            if (currentSkips > 0) {
+                currentSkips -= 1;
+                updateSkipCounterDisplay();
+
+                const skipMessage = `<span class="highlight-text">${skippedPlayer}</span> hat die Aufgabe übersprungen und muss stattdessen <span class="highlight-text">${maxSips} Schlucke</span> trinken.`;
+
+                document.getElementById("mainCard").innerHTML = skipMessage;
+                document.getElementById("lastAction").innerText = 'SKIP';
+                
+                addToHistory(`<strong>${skippedPlayer} (SKIP):</strong> Nimmt ${maxSips} Schlucke.`);
+                
+                // Deaktiviere Skip und aktiviere Next Round, damit das Spiel weitergehen kann
+                skipBtn.disabled = true; 
+                nextRoundBtn.disabled = false;
+
+            } else {
+                alert("Skippen nicht erlaubt! Der Zähler ist bei Null. Die Aufgabe muss ausgeführt werden.");
+                // Button bleibt disabled, Spieler muss die aktuelle Aufgabe ausführen
+            }
+        }
+
+        // --- Kombinierte Logik für "Nächste Runde" ---
         function nextRound() {
             if (players.length === 0) {
-                alert("Please add players before starting a round!");
+                alert("Bitte füge Spieler hinzu, bevor du eine Runde startest!");
                 return;
             }
             if (truthDareCards.length === 0) {
-                document.getElementById("mainCard").innerText = "No cards available!";
+                document.getElementById("mainCard").innerText = "Keine Karten mehr verfügbar!";
                 return;
             }
 
-            // 1. Pick Random Player
+            // Deaktiviere Next Round Button, bis die Aktion entschieden oder geskippt wurde
+            nextRoundBtn.disabled = true; 
+
+            // 1. Wähle zufälligen Spieler
             const randomIndex = Math.floor(Math.random() * players.length);
             const selectedPlayer = players[randomIndex];
             currentPlayerSpan.textContent = selectedPlayer;
 
-            // 2. Draw Card
+            // 2. Ziehe Karte
             const cardIndex = Math.floor(Math.random() * truthDareCards.length);
             const card = truthDareCards[cardIndex];
 
-            // 3. Calculate Sips
+            // 3. Berechne Schlucke
             const min = parseInt(document.getElementById("minSip").value) || 1;
             const max = parseInt(document.getElementById("maxSip").value) || 3;
             const randomSips = Math.floor(Math.random() * (max - min + 1)) + min;
             const cardText = card.text.replace(/\{n\}/g, randomSips);
 
-            // 4. Update UI and History
+            // 4. Update UI
             const typeText = card.type.toUpperCase();
             
-            // Highlight the selected player and the card text in the main card
-            const fullText = `<span class="highlight-text">${selectedPlayer}</span>, your task is: ${cardText}`;
+            // Highlight den Spieler im Kartentext
+            const fullText = `<span class="highlight-text">${selectedPlayer}</span>, deine Aufgabe ist: ${cardText}`;
             document.getElementById("mainCard").innerHTML = fullText;
-            
             document.getElementById("lastAction").innerText = typeText;
 
-            // History entry includes player and action type
-            addToHistory(`<strong>${selectedPlayer} (${typeText}):</strong> ${cardText}`);
+            // 5. Aktiviere Skip Button (falls Skips vorhanden)
+            if (currentSkips > 0) {
+                skipBtn.disabled = false;
+                skipBtn.style.opacity = '1';
+                skipBtn.textContent = 'Skip (Max Sips)';
+            }
+            
+            // History Eintrag (Optional, da der Spieler die Aufgabe noch nicht ausgeführt hat)
+            // Wir fügen den History Eintrag erst nach dem Skip hinzu, aber hier zur Übersicht:
+            // addToHistory(`<strong>${selectedPlayer} (${typeText}):</strong> ${cardText}`);
         }
 
-        // Event Listener für den neuen Button
+        // --- Event Listener ---
         nextRoundBtn.addEventListener("click", nextRound);
+        skipBtn.addEventListener("click", skipQuestion);
+        
+        // Füge einen Listener hinzu, damit der Next Round Button wieder aktiviert wird,
+        // wenn die Aufgabe ausgeführt wurde (durch manuellen Klick auf die Karte,
+        // da keine "Done"-Taste existiert).
+        // ACHTUNG: Dies ist eine Vereinfachung, da es keine explizite "Erledigt"-Taste gibt.
+        document.getElementById("mainCard").addEventListener("click", function() {
+            if (!nextRoundBtn.disabled) return;
+            // Bestätigt die Aufgabe und ermöglicht die nächste Runde
+            if (currentPlayerSpan.textContent !== '—' && document.getElementById("lastAction").innerText !== 'SKIP') {
+                nextRoundBtn.disabled = false;
+                skipBtn.disabled = true;
+                addToHistory(`<strong>${currentPlayerSpan.textContent} (${document.getElementById("lastAction").innerText}):</strong> Aufgabe ausgeführt.`);
+                document.getElementById("mainCard").innerHTML = 'Aufgabe ausgeführt! Drücke <span class="highlight-text">"Nächste Runde"</span>.';
+                document.getElementById("lastAction").innerText = 'DONE';
+            }
+        });
 
-        // Behalte Pick Player für manuelle Auswahl (Sidebar Button)
+        // Wähle Spieler Button in der Sidebar
         pickPlayerBtn.addEventListener('click', function() {
             if (players.length === 0) {
                 currentPlayerSpan.textContent = 'No players';
@@ -412,7 +494,7 @@
             const randomIndex = Math.floor(Math.random() * players.length);
             const selectedPlayer = players[randomIndex];
             currentPlayerSpan.textContent = selectedPlayer;
-            addToHistory(`Selected player manually: <span class="highlight-text">${selectedPlayer}</span>`);
+            addToHistory(`Ausgewählter Spieler: <span class="highlight-text">${selectedPlayer}</span>`);
         });
 
     </script>

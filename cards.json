@@ -1,0 +1,1124 @@
+{
+  "cards": [
+    {
+      "type": "truth",
+      "text": "What's a small thing that made you smile recently?"
+    },
+    {
+      "type": "truth",
+      "text": "If you could instantly become an expert in something, what would it be?"
+    },
+    {
+      "type": "truth",
+      "text": "What's the most embarrassing song you love to sing in the shower?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best impression of another player for 30 seconds"
+    },
+    {
+      "type": "dare",
+      "text": "Text your crush \"I love pineapple on pizza\" right now"
+    },
+    {
+      "type": "dare",
+      "text": "Speak in an accent of your choice until your next turn"
+    },
+    {
+      "type": "dare",
+      "text": "Call your mom and tell her you've joined a circus"
+    },
+    {
+      "type": "truth",
+      "text": "What's the weirdest dream you've ever had?"
+    },
+    {
+      "type": "truth",
+      "text": "If you could trade lives with anyone in the room for a day, who would it be?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best chicken dance impression"
+    },
+    {
+      "type": "truth",
+      "text": "What's your most irrational fear?"
+    },
+    {
+      "type": "dare",
+      "text": "Take {n} sips while standing on one leg"
+    },
+    {
+      "type": "truth",
+      "text": "What's the worst fashion choice you've ever made?"
+    },
+    {
+      "type": "dare",
+      "text": "Send your last selfie to a random contact"
+    },
+    {
+      "type": "truth",
+      "text": "What's the most ridiculous lie you've ever told?"
+    },
+    {
+      "type": "dare",
+      "text": "Wear your clothes backwards for the next 3 rounds"
+    },
+    {
+      "type": "truth",
+      "text": "What's your most embarrassing childhood nickname?"
+    },
+    {
+      "type": "dare",
+      "text": "Take {n} sips while doing your best robot dance"
+    },
+    {
+      "type": "truth",
+      "text": "What's the worst advice you've ever given?"
+    },
+    {
+      "type": "dare",
+      "text": "Let another player post anything they want on your social media"
+    },
+    {
+      "type": "truth",
+      "text": "What is the silliest thing you have ever done to get someone’s attention?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to lick your elbow. If you fail, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "Have you ever been caught singing in the shower?"
+    },
+    {
+      "type": "dare",
+      "text": "Act like a monkey for 1 minute."
+    },
+    {
+      "type": "truth",
+      "text": "What is the weirdest thing you do when you are alone?"
+    },
+    {
+      "type": "dare",
+      "text": "Dance without music for 2 minutes."
+    },
+    {
+      "type": "truth",
+      "text": "What is the most childish thing you still do?"
+    },
+    {
+      "type": "dare",
+      "text": "Tell a joke. If no one laughs, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What is the strangest thing in your refrigerator right now?"
+    },
+    {
+      "type": "truth",
+      "text": "If animals could talk, which would be the rudest?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to make a tower of objects using only one hand. If it falls, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever searched for online?"
+    },
+    {
+      "type": "dare",
+      "text": "Sing a song using only animal sounds."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest food combination you enjoy?"
+    },
+    {
+      "type": "dare",
+      "text": "Do 20 push-ups or {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous thing you’ve ever bought?"
+    },
+    {
+      "type": "dare",
+      "text": "Imitate a celebrity of the group’s choice."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the worst date you’ve ever been on?"
+    },
+    {
+      "type": "dare",
+      "text": "Speak only in rhymes for the next 5 minutes. If you fail, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing in your room right now?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to juggle three items you find nearby. If you drop them, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the silliest mistake you’ve ever made at work or school?"
+    },
+    {
+      "type": "dare",
+      "text": "Do a dramatic reading of a children’s book."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most childish prank you’ve ever pulled?"
+    },
+    {
+      "type": "dare",
+      "text": "Balance a spoon on your nose for 1 minute. If it falls, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever worn?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to moonwalk."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever eaten on a dare?"
+    },
+    {
+      "type": "dare",
+      "text": "Tell everyone an embarrassing story about yourself."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most awkward situation you’ve ever been in?"
+    },
+    {
+      "type": "dare",
+      "text": "Act like a cat for the next 2 minutes."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing your parents have caught you doing?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to do a handstand (even if you fail)."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever collected?"
+    },
+    {
+      "type": "dare",
+      "text": "Make up a song about someone in the room."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever said to a stranger?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best impression of a commercial."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous rumor you’ve heard about yourself?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to whistle with your mouth closed. If you cant, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever seen someone do in public?"
+    },
+    {
+      "type": "dare",
+      "text": "Dance to the next song that plays, no matter what it is."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever tripped over?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to lick your nose. If you fail, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever found on the street?"
+    },
+    {
+      "type": "dare",
+      "text": "Tell a story using only gestures."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing text you’ve ever sent to the wrong person?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to spin around in a circle 10 times and then walk straight. If you can't walk straight, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you do to procrastinate?"
+    },
+    {
+      "type": "dare",
+      "text": "Sing the alphabet backwards."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever said on a date?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to do a magic trick."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever worn to a party?"
+    },
+    {
+      "type": "dare",
+      "text": "Make up a rap about someone in the room."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous thing you’ve ever argued about?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best impression of a toddler throwing a tantrum."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever done in front of a crowd?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to hula hoop. If you fail, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever seen at a wedding?"
+    },
+    {
+      "type": "dare",
+      "text": "Tell a story using only movie titles."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous thing you’ve ever done to avoid work?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best robot impression."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever said to a teacher?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to do a cartwheel."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever seen on public transportation?"
+    },
+    {
+      "type": "dare",
+      "text": "Make up a commercial for a household item."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous thing you’ve ever done to impress someone?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best impression of a famous painting."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever done at a sporting event?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to juggle three oranges. If you drop them, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever seen at a concert?"
+    },
+    {
+      "type": "dare",
+      "text": "Tell a story using only song lyrics."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous thing you’ve ever done to get out of a speeding ticket?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best impression of a mime."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever said during a presentation?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to say the alphabet backwards in under 20 seconds."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever seen at a funeral?"
+    },
+    {
+      "type": "dare",
+      "text": "Make up a poem about someone in the room."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous thing you’ve ever done to win a bet?"
+    },
+    {
+      "type": "dare",
+      "text": "Serenade a stranger with a song of your choice."
+    },
+    {
+      "type": "truth",
+      "text": "What is the most embarrassing thing you have ever worn to a formal event?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to do a magic trick using only office supplies."
+    },
+    {
+      "type": "truth",
+      "text": "What is the silliest thing you’ve ever said on a date?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best impression of a sea creature."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever done in front of your boss?"
+    },
+    {
+      "type": "dare",
+      "text": "Act like a robot vacuum cleaner for one minute."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous thing you’ve ever done to avoid a phone call?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to make a sculpture out of food."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the silliest thing you’ve ever done to get out of a speeding ticket?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best impression of a toddler throwing a tantrum."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever said during a public speech?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to do the worm."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous thing you’ve ever done to try and impress a crush?"
+    },
+    {
+      "type": "dare",
+      "text": "Act like a news reporter and interview someone in the room."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever seen at a party?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to make a sandwich using only your feet."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever done while drunk?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best impression of a grandma."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous thing you’ve ever done to avoid doing chores?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to do a handstand against a wall."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever seen on a first date?"
+    },
+    {
+      "type": "dare",
+      "text": "Make up a song about the person to your left."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever said to a telemarketer?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best impression of a cat stuck in a tree."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous thing you’ve ever done to try and get a free upgrade?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to juggle three marshmallows."
+    },
+    {
+      "type": "truth",
+      "text": "If you could have any superpower, what would it be and why?"
+    },
+    {
+      "type": "dare",
+      "text": "Lick the bottom of your shoe or take {n} sips"
+    },
+    {
+      "type": "dare",
+      "text": "Eat a spoonful of mustard or take {n} sips"
+    },
+    {
+      "type": "dare",
+      "text": "Empty your pockets and let the group decide what to do with the contents or take {n} sips"
+    },
+    {
+      "type": "dare",
+      "text": "Give a foot massage to the person on your left or take {n} sips"
+    },
+    {
+      "type": "dare",
+      "text": "Let the person to your right draw on your face with lipstick or take {n} sips"
+    },
+    {
+      "type": "truth",
+      "text": "What's a small thing that made you smile recently?"
+    },
+    {
+      "type": "truth",
+      "text": "If you could instantly become an expert in something, what would it be?"
+    },
+    {
+      "type": "truth",
+      "text": "What's the most embarrassing song you love to sing in the shower?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best impression of another player for 30 seconds"
+    },
+    {
+      "type": "dare",
+      "text": "Text your crush \"I love pineapple on pizza\" right now"
+    },
+    {
+      "type": "dare",
+      "text": "Speak in an accent of your choice until your next turn"
+    },
+    {
+      "type": "dare",
+      "text": "Call your mom and tell her you've joined a circus"
+    },
+    {
+      "type": "truth",
+      "text": "What's the weirdest dream you've ever had?"
+    },
+    {
+      "type": "truth",
+      "text": "If you could trade lives with anyone in the room for a day, who would it be?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best chicken dance impression"
+    },
+    {
+      "type": "truth",
+      "text": "What's your most irrational fear?"
+    },
+    {
+      "type": "dare",
+      "text": "Take {n} sips while standing on one leg"
+    },
+    {
+      "type": "truth",
+      "text": "What's the worst fashion choice you've ever made?"
+    },
+    {
+      "type": "dare",
+      "text": "Send your last selfie to a random contact"
+    },
+    {
+      "type": "truth",
+      "text": "What's the most ridiculous lie you've ever told?"
+    },
+    {
+      "type": "dare",
+      "text": "Wear your clothes backwards for the next 3 rounds"
+    },
+    {
+      "type": "truth",
+      "text": "What's your most embarrassing childhood nickname?"
+    },
+    {
+      "type": "dare",
+      "text": "Take {n} sips while doing your best robot dance"
+    },
+    {
+      "type": "truth",
+      "text": "What's the worst advice you've ever given?"
+    },
+    {
+      "type": "dare",
+      "text": "Let another player post anything they want on your social media"
+    },
+    {
+      "type": "truth",
+      "text": "What is the silliest thing you have ever done to get someone’s attention?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to lick your elbow. If you fail, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "Have you ever been caught singing in the shower?"
+    },
+    {
+      "type": "dare",
+      "text": "Act like a monkey for 1 minute."
+    },
+    {
+      "type": "truth",
+      "text": "What is the weirdest thing you do when you are alone?"
+    },
+    {
+      "type": "dare",
+      "text": "Dance without music for 2 minutes."
+    },
+    {
+      "type": "truth",
+      "text": "What is the most childish thing you still do?"
+    },
+    {
+      "type": "dare",
+      "text": "Tell a joke. If no one laughs, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What is the strangest thing in your refrigerator right now?"
+    },
+    {
+      "type": "truth",
+      "text": "If animals could talk, which would be the rudest?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to make a tower of objects using only one hand. If it falls, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever searched for online?"
+    },
+    {
+      "type": "dare",
+      "text": "Sing a song using only animal sounds."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest food combination you enjoy?"
+    },
+    {
+      "type": "dare",
+      "text": "Do 20 push-ups or {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous thing you’ve ever bought?"
+    },
+    {
+      "type": "dare",
+      "text": "Imitate a celebrity of the group’s choice."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the worst date you’ve ever been on?"
+    },
+    {
+      "type": "dare",
+      "text": "Speak only in rhymes for the next 5 minutes. If you fail, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing in your room right now?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to juggle three items you find nearby. If you drop them, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the silliest mistake you’ve ever made at work or school?"
+    },
+    {
+      "type": "dare",
+      "text": "Do a dramatic reading of a children’s book."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most childish prank you’ve ever pulled?"
+    },
+    {
+      "type": "dare",
+      "text": "Balance a spoon on your nose for 1 minute. If it falls, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever worn?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to moonwalk."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever eaten on a dare?"
+    },
+    {
+      "type": "dare",
+      "text": "Tell everyone an embarrassing story about yourself."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most awkward situation you’ve ever been in?"
+    },
+    {
+      "type": "dare",
+      "text": "Act like a cat for the next 2 minutes."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing your parents have caught you doing?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to do a handstand (even if you fail)."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever collected?"
+    },
+    {
+      "type": "dare",
+      "text": "Make up a song about someone in the room."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever said to a stranger?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best impression of a commercial."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous rumor you’ve heard about yourself?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to whistle with your mouth closed. If you cant, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever seen someone do in public?"
+    },
+    {
+      "type": "dare",
+      "text": "Dance to the next song that plays, no matter what it is."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever tripped over?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to lick your nose. If you fail, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever found on the street?"
+    },
+    {
+      "type": "dare",
+      "text": "Tell a story using only gestures."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing text you’ve ever sent to the wrong person?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to spin around in a circle 10 times and then walk straight. If you can't walk straight, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you do to procrastinate?"
+    },
+    {
+      "type": "dare",
+      "text": "Sing the alphabet backwards."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever said on a date?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to do a magic trick."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever worn to a party?"
+    },
+    {
+      "type": "dare",
+      "text": "Make up a rap about someone in the room."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous thing you’ve ever argued about?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best impression of a toddler throwing a tantrum."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever done in front of a crowd?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to hula hoop. If you fail, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever seen at a wedding?"
+    },
+    {
+      "type": "dare",
+      "text": "Tell a story using only movie titles."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous thing you’ve ever done to avoid work?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best robot impression."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever said to a teacher?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to do a cartwheel."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever seen on public transportation?"
+    },
+    {
+      "type": "dare",
+      "text": "Make up a commercial for a household item."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous thing you’ve ever done to impress someone?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best impression of a famous painting."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever done at a sporting event?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to juggle three oranges. If you drop them, take {n} sips."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever seen at a concert?"
+    },
+    {
+      "type": "dare",
+      "text": "Tell a story using only song lyrics."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous thing you’ve ever done to get out of a speeding ticket?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best impression of a mime."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever said during a presentation?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to say the alphabet backwards in under 20 seconds."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever seen at a funeral?"
+    },
+    {
+      "type": "dare",
+      "text": "Make up a poem about someone in the room."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous thing you’ve ever done to win a bet?"
+    },
+    {
+      "type": "dare",
+      "text": "Serenade a stranger with a song of your choice."
+    },
+    {
+      "type": "truth",
+      "text": "What is the most embarrassing thing you have ever worn to a formal event?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to do a magic trick using only office supplies."
+    },
+    {
+      "type": "truth",
+      "text": "What is the silliest thing you’ve ever said on a date?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best impression of a sea creature."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever done in front of your boss?"
+    },
+    {
+      "type": "dare",
+      "text": "Act like a robot vacuum cleaner for one minute."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous thing you’ve ever done to avoid a phone call?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to make a sculpture out of food."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the silliest thing you’ve ever done to get out of a speeding ticket?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best impression of a toddler throwing a tantrum."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever said during a public speech?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to do the worm."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous thing you’ve ever done to try and impress a crush?"
+    },
+    {
+      "type": "dare",
+      "text": "Act like a news reporter and interview someone in the room."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever seen at a party?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to make a sandwich using only your feet."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever done while drunk?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best impression of a grandma."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous thing you’ve ever done to avoid doing chores?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to do a handstand against a wall."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the weirdest thing you’ve ever seen on a first date?"
+    },
+    {
+      "type": "dare",
+      "text": "Make up a song about the person to your left."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most embarrassing thing you’ve ever said to a telemarketer?"
+    },
+    {
+      "type": "dare",
+      "text": "Do your best impression of a cat stuck in a tree."
+    },
+    {
+      "type": "truth",
+      "text": "What’s the most ridiculous thing you’ve ever done to try and get a free upgrade?"
+    },
+    {
+      "type": "dare",
+      "text": "Try to juggle three marshmallows."
+    },
+    {
+      "type": "truth",
+      "text": "If you could have any superpower, what would it be and why?"
+    },
+    {
+      "type": "dare",
+      "text": "Lick the bottom of your shoe or take {n} sips"
+    },
+    {
+      "type": "dare",
+      "text": "Eat a spoonful of mustard or take {n} sips"
+    },
+    {
+      "type": "dare",
+      "text": "Empty your pockets and let the group decide what to do with the contents or take {n} sips"
+    },
+    {
+      "type": "dare",
+      "text": "Give a foot massage to the person on your left or take {n} sips"
+    },
+    {
+      "type": "dare",
+      "text": "Let the person to your right draw on your face with lipstick or take {n} sips"
+    },
+    {
+      "type": "dare",
+      "text": "Temporarily change your name to \"Lord Snuggles\" for the next 2 rounds."
+    },
+    {
+      "type": "dare",
+      "text": "Sing the chorus of the first song that comes to mind in a voice you've never used before."
+    },
+    {
+      "type": "dare",
+      "text": "Let the person to your right attempt to give you a messy hairdo."
+    },
+    {
+      "type": "dare",
+      "text": "Do 10 squat jumps or take {n} sips."
+    },
+    {
+      "type": "dare",
+      "text": "Post a childhood photo on your story (or a group chat) without context."
+    },
+    {
+      "type": "dare",
+      "text": "Speak only in whispers for the next 5 minutes."
+    },
+    {
+      "type": "dare",
+      "text": "Pretend to be a waiter/waitress and take drink orders from everyone else."
+    },
+    {
+      "type": "dare",
+      "text": "Close your eyes and touch a player's hand, then guess who it is."
+    },
+    {
+      "type": "dare",
+      "text": "Do an interpretive dance representing your last text message."
+    },
+    {
+      "type": "dare",
+      "text": "Wear a sock on one hand for the rest of the game."
+    },
+    {
+      "type": "dare",
+      "text": "Send a voice message saying \"I am a potato\" to the last person you texted."
+    },
+    {
+      "type": "dare",
+      "text": "Give a compliment to every player in the room."
+    },
+    {
+      "type": "dare",
+      "text": "Try to do a split (don't hurt yourself!) or take {n} sips."
+    },
+    {
+      "type": "dare",
+      "text": "Talk to the wall for 1 minute as if it's a person you haven't seen in years."
+    },
+    {
+      "type": "dare",
+      "text": "Draw a picture of the player to your left using a crayon (or pen) held in your mouth."
+    },
+    {
+      "type": "dare",
+      "text": "Trade an item of clothing with the person across from you."
+    },
+    {
+      "type": "dare",
+      "text": "Act out a scene from a movie the group chooses."
+    },
+    {
+      "type": "dare",
+      "text": "Take {n} sips while describing the first movie you cried during."
+    }
+  ]
+}

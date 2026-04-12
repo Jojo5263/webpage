@@ -5,298 +5,154 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Homepage | Jojo5263 🐈‍⬛</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
-    <!-- Frutiger Aero CSS -->
-    <link rel="stylesheet" href="frutiger_aero.css">
+    <link rel="stylesheet" href="simple.css">
     <style>
 
     </style>
 </head>
 
-<body class="antialiased overflow-x-hidden">
+<body>
 
-    <!-- Bubble Background -->
-    <div id="bubble-container"></div>
-
-    <!-- Clouds -->
-    <div id="cloud-container"></div>
-
-    <!-- Music Notes -->
-    <div id="music-container"></div>
-
-    <!-- Floating Icons -->
-    <div id="icon-container"></div>
-
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 px-6 py-4">
-        <div class="max-w-7xl container">
-            <div class="glass rounded-full px-8 py-4 flex justify-between items-center transition-all duration-300">
-                <div class="flex items-center gap-3">
-                    <div class="orb w-10 h-10 flex items-center justify-center text-2xl">
-                        🐈‍⬛
-                    </div>
-                    <span class="font-bold text-xl text-glossy">Jojo5263</span>
-                </div>
-                <div class="flex gap-6 text-sm font-semibold">
-                    <a href="#about" class="text-blue-600 hover:text-blue-800 transition-colors relative group">
-                        About
-                        <span
-                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all"></span>
-                    </a>
-                    <a href="#projects" class="text-blue-600 hover:text-blue-800 transition-colors relative group">
-                        Projects
-                        <span
-                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all"></span>
-                    </a>
-                    <a href="#music" class="text-blue-600 hover:text-blue-800 transition-colors relative group">
-                        Music
-                        <span
-                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all"></span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
 
     <!-- Hero Section -->
-    <header class="relative min-h-screen flex flex-col justify-center items-center pt-24 px-6">
-        <div class="max-w-5xl w-full text-center space-y-8 relative z-10">
+    <header>
+        <div>
 
-            <h1 class="text-6xl md-text-8xl font-bold tracking-tight leading-tight"
-                style="text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <h1>
                 Welcome<br>
-                <span class="gradient-text">to my Website!!!</span>
+                to my Website!!!
             </h1>
 
-            <p class="text-xl md-text-2xl text-blue-900/80 max-w-3xl container leading-relaxed font-medium"
-                style="color: rgba(30, 58, 138, 0.8);">
+            <p>
                 This page is a collection of random projects I'm working on
             </p>
 
-            <div class="mt-16 relative group max-w-screen-xl mx-auto">
-                <div class="absolute gradient-glow rounded-3xl blur-xl opacity-30 duration-500"
-                    style="inset: -1rem; background: linear-gradient(to right, #60a5fa, #67e8f9); transition: opacity 0.5s;">
-                </div>
+            <div>
 
-                <div class="relative rounded-8xl overflow-hidden glass aspect-video" style="padding: 0.5rem;">
-                    <video style="border-radius: 10%;" playsinline muted loop preload="metadata" autoplay class="w-full h-full object-cover soft-edge">
+                <div>
+                    <video playsinline muted loop preload="metadata" autoplay>
                         <source src="Pictures/cats_on_shelf.mp4" type="video/mp4">
                     </video>
-                    <div class="absolute inset-0 rounded-3xl"
-                        style="box-shadow: inset 0 0 40px rgba(255, 255, 255, 0.3);"></div>
+                    <div style="box-shadow: inset 0 0 40px rgba(255, 255, 255, 0.3);"></div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1-2 translate-x-neg-1-2 animate-bounce">
-            <div class="orb w-12 h-12 flex items-center justify-center">
-                <span class="material-symbols-outlined text-blue-700">keyboard_arrow_down</span>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-6 py-24 space-y-32 relative z-10">
+    <main>
 
         <!-- About Section -->
-        <section id="about" class="grid md-grid-cols-2 gap-12 items-center">
-            <div class="order-1 md-order-2 space-y-6 justify-content">
-                <h2 class="text-5xl font-bold flex items-center gap-3">
-                    <span class="gradient-text">About Me</span>
-                    <div class="orb w-12 h-12 flex items-center justify-center">
-                        <span class="material-symbols-outlined text-blue-700">terminal</span>
-                    </div>
+        <section>
+            <div>
+                <h2>
+                    <span>About Me</span>
                 </h2>
-                <div class="space-y-4 text-lg leading-relaxed" style="color: rgba(30, 58, 138, 0.8);">
-                    <p class="leading-relaxed">
-                        Hi, I'm a student from <span class="font-bold" style="color: #1d4ed8;">Germany</span> 🇩🇪
+                <div>
+                    <p>
+                        Hi, I'm a student from <span>Germany</span>
                         learning how to program!
                     </p>
-                    <p class="leading-relaxed">
-                        This website is my digital sandbox where I experiment with APIs and other things. I'm currently using Tailwind as a framework and I'm experimenting with different styles. I originally used a lot of AI,
-                        but I'm trying to completely stop using AI for creative projects.</p>
-                </div>
-                <div class="flex gap-4 pt-4" style="flex-wrap: wrap;">
-                    <a href="https://discord.com/users/Jojo5263" target="_blank"
-                        class="inline-flex items-center gap-3 px-8 py-4 rounded-xl button font-bold transition-all transform hover-translate-y-1 text-lg"
-                        style="color: white;">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M20.317 4.36981C18.2718 3.44445 16.126 3 13.899 3C11.6724 3 9.5262 3.44445 7.481 4.36981C5.47953 5.25774 4 6.67342 4 8.25C4 14.25 8.435 18.75 14 18.75C19.565 18.75 24 14.25 24 8.25C24 6.67342 22.5205 5.25774 20.317 4.36981ZM14 16.5C10.766 16.5 8.5 14.6565 8.5 12.75C8.5 10.8435 10.766 9 14 9C17.234 9 19.5 10.8435 19.5 12.75C19.5 14.6565 17.234 16.5 14 16.5Z">
-                            </path>
-                        </svg>
-                        Add me on Discord
-                    </a>
+                    <p>
+                        This website is my digital sandbox where I experiment with APIs and other things. I'm currently
+                        using Tailwind as a framework and I'm experimenting with different styles.</p>
                 </div>
             </div>
         </section>
 
         <!-- Projects Section -->
-        <section id="projects">
-            <div class="flex items-end justify-between mb-12">
+        <section>
+
+            <div>
                 <div>
-                    <h2 class="text-5xl font-bold mb-3 gradient-text">My Projects</h2>
-                    <p class="text-xl text-blue-800">Games, tools, and random experiments.</p>
+                    <h2>My Projects</h2>
+                    <p>Games, tools, and random experiments.</p>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md-grid-cols-2 lg-grid-cols-3 gap-8">
+            <div style="grid: repeat(3, 80px) / auto-flow;">
 
-                <!-- Project Cards -->
-                <div class="glass rounded-3xl overflow-hidden card-hover relative">
-                    <div class="shine-overlay"></div>
-                    <div class="h-48 overflow-hidden relative">
-                        <img src="Pictures/frutiger_cats.jpg" alt="Cat Pics" class="w-full h-full object-cover">
-                        <div class="absolute inset-0"
-                            style="background: linear-gradient(to top, rgba(255, 255, 255, 0.8), transparent);"></div>
-                        <div class="absolute bottom-4 left-4 px-3 py-1 rounded-full"
-                            style="background: linear-gradient(to bottom, #FF69B4, #FF1493); box-shadow: 0 2px 8px rgba(255, 20, 147, 0.4);">
-                            <span class="text-xs font-bold" style="color: white;">GALLERY</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-2" style="color: #1e3a8a;">Cat Pics!!! 🐱</h3>
-                        <p class="mb-4" style="color: #1d4ed8;">A curated collection of the cutest cat on the internet.
-                        </p>
-                        <a href="catpics.html" class="block w-full py-3 rounded-xl button font-bold text-center"
-                            style="color: white;">
-                            Meow!
-                        </a>
-                    </div>
+                <div style="border: 5px solid grey; padding: 0.5rem;">
+                    <h3>Garry 🐱</h3>
+                    <p>A picture collection of my cute cat!
+                    </p>
+                    <a href="catpics.html">
+                        Meow!
+                    </a>
                 </div>
 
-                <div class="glass rounded-3xl overflow-hidden card-hover relative">
-                    <div class="shine-overlay"></div>
-                    <div class="h-48 overflow-hidden relative">
-                        <img src="Pictures/frutiger_lottery.webp" alt="Wheel of Luck" class="w-full h-full object-cover">
-                        <div class="absolute inset-0"
-                            style="background: linear-gradient(to top, rgba(255, 255, 255, 0.8), transparent);"></div>
-                        <div class="absolute bottom-4 left-4 px-3 py-1 rounded-full"
-                            style="background: linear-gradient(to bottom, #FFD700, #FFA500); box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);">
-                            <span class="text-xs font-bold" style="color: white;">LUCK</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-2" style="color: #1e3a8a;">Wheel of Luck 🍀</h3>
-                        <p class="mb-4" style="color: #1d4ed8;">Feeling lucky? Spin the wheel today.</p>
-                        <a href="spin_wheel.html" class="block w-full py-3 rounded-xl button font-bold text-center"
-                            style="color: white;">
+                <div style="border: 5px solid grey; padding: 0.5rem;">
+                    <div>
+                        <h3>Wheel of Luck 🍀</h3>
+                        <p>Feeling lucky? Spin the wheel today.</p>
+                        <a href="spin_wheel.html">
                             Spin It
                         </a>
                     </div>
                 </div>
 
-                <div class="glass rounded-3xl overflow-hidden card-hover relative">
-                    <div class="shine-overlay"></div>
-                    <div class="h-48 overflow-hidden relative">
-                        <img src="Pictures/frutiger_beer.png" alt="Drink & Buzz" class="w-full h-full object-cover">
-                        <div class="absolute inset-0"
-                            style="background: linear-gradient(to top, rgba(255, 255, 255, 0.8), transparent);"></div>
-                        <div class="absolute bottom-4 left-4 px-3 py-1 rounded-full"
-                            style="background: linear-gradient(to bottom, #FF4444, #CC0000); box-shadow: 0 2px 8px rgba(255, 68, 68, 0.4);">
-                            <span class="text-xs font-bold" style="color: white;">MULTIPLAYER</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-2" style="color: #1e3a8a;">Drink & Buzz 🍻</h3>
-                        <p class="mb-4" style="color: #1d4ed8;">The classic party game gone digital.</p>
-                        <a href="buzz_and_dare_game.html"
-                            class="block w-full py-3 rounded-xl button font-bold text-center" style="color: white;">
+                <div style="border: 5px solid grey; padding: 0.5rem;">
+                    <div>
+                        <h3>Drink & Buzz 🍻</h3>
+                        <p>The classic party game gone digital.</p>
+                        <a href="buzz_and_dare_game.html">
                             Start Game
                         </a>
                     </div>
                 </div>
 
-                <div class="glass rounded-3xl overflow-hidden card-hover relative">
-                    <div class="shine-overlay"></div>
-                    <div class="h-48 overflow-hidden relative">
-                        <img src="Pictures/frutiger_meowl.png" alt="Imposter" class="w-full h-full object-cover">
-                        <div class="absolute inset-0"
-                            style="background: linear-gradient(to top, rgba(255, 255, 255, 0.8), transparent);"></div>
-                        <div class="absolute bottom-4 left-4 px-3 py-1 rounded-full"
-                            style="background: linear-gradient(to bottom, #8B7FFF, #6357FF); box-shadow: 0 2px 8px rgba(99, 87, 255, 0.4);">
-                            <span class="text-xs font-bold" style="color: white;">MYSTERY</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-2" style="color: #1e3a8a;">Imposter Game 🕵️</h3>
-                        <p class="mb-4" style="color: #1d4ed8;">Find the imposter before it's too late.</p>
-                        <a href="imposter.html" class="block w-full py-3 rounded-xl button font-bold text-center"
-                            style="color: white;">
+                <div style="border: 5px solid grey; padding: 0.5rem;">
+                    <div>
+                        <h3>Imposter Game 🕵️</h3>
+                        <p>Find the imposter before it's too late.</p>
+                        <a href="imposter.html">
                             Investigate
                         </a>
                     </div>
                 </div>
 
-                <div class="glass rounded-3xl overflow-hidden card-hover relative">
-                    <div class="shine-overlay"></div>
-                    <div class="h-48 overflow-hidden relative">
-                        <img src="Pictures/frutiger_comet.png" alt="NEOS" class="w-full h-full object-cover">
-                        <div class="absolute inset-0"
-                            style="background: linear-gradient(to top, rgba(255, 255, 255, 0.8), transparent);"></div>
-                        <div class="absolute bottom-4 left-4 px-3 py-1 rounded-full"
-                            style="background: linear-gradient(to bottom, #4DA6FF, #0066CC); box-shadow: 0 2px 8px rgba(77, 166, 255, 0.4);">
-                            <span class="text-xs font-bold" style="color: white;">DATA</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-2" style="color: #1e3a8a;">NEOS Simulator ☄️</h3>
-                        <p class="mb-4" style="color: #1d4ed8;">Visualize Near Earth Objects.</p>
-                        <a href="neos.html" class="block w-full py-3 rounded-xl button font-bold text-center"
-                            style="color: white;">
+                <div style="border: 5px solid grey; padding: 0.5rem;">
+                    <div>
+                        <h3>NEOS Simulator ☄️</h3>
+                        <p>Visualize Near Earth Objects.</p>
+                        <a href="neos.html">
                             Launch Sim
                         </a>
                     </div>
-                    
+
                 </div>
 
 
-                <div class="glass rounded-3xl overflow-hidden card-hover relative">
-                    <div class="shine-overlay"></div>
-                    <div class="h-48 overflow-hidden relative">
-                        <img src="Pictures/frutiger_aero_bg.png" alt="NEOS" class="w-full h-full object-cover">
-                        <div class="absolute inset-0"
-                            style="background: linear-gradient(to top, rgba(255, 255, 255, 0.8), transparent);"></div>
-                        <div class="absolute bottom-4 left-4 px-3 py-1 rounded-full"
-                            style="background: linear-gradient(to bottom, #4DA6FF, #0066CC); box-shadow: 0 2px 8px rgba(77, 166, 255, 0.4);">
-                            <span class="text-xs font-bold" style="color: white;">DATA</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-2" style="color: #1e3a8a;">Augensammler-Wikipedia 👁️</h3>
-                        <p class="mb-4" style="color: #1d4ed8;">Collection of all know Monster Sightings</p>
-                        <a href="main_page_wiki.html" class="block w-full py-3 rounded-xl button font-bold text-center"
-                            style="color: white;">
+                <div style="border: 5px solid grey; padding: 0.5rem;">
+                    <div>
+                        <h3>Augensammler-Wikipedia 👁️</h3>
+                        <p>Collection of all know Monster Sightings</p>
+                        <a href="main_page_wiki.html">
                             Open Wiki
                         </a>
                     </div>
-                    
+
                 </div>
 
             </div>
         </section>
 
         <!-- Music Section -->
-        <section id="music" class="max-w-5xl mx-auto">
-            <div class="text-center mb-12">
-                <h2 class="text-5xl font-bold mb-4 gradient-text">My favourite music 🎧</h2>
-                <p class="text-xl text-blue-800">My current favourite Songs.</p>
+        <section>
+            <div>
+                <h2>My favourite music 🎧</h2>
+                <p>My current favourite Songs.</p>
             </div>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="aero-glass p-3 rounded-3xl card-hover">
-                    <iframe style="border-radius:20px"
+            <div>
+                <div>
+                    <iframe
                         src="https://open.spotify.com/embed/track/2Qf6Xj6jbe1mfe5cnnnJ44?utm_source=generator&theme=0"
                         width="100%" height="152" frameborder="0" allowfullscreen
                         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                         loading="lazy"></iframe>
                 </div>
-                <div class="aero-glass p-3 rounded-3xl card-hover">
-                    <iframe style="border-radius:20px"
+                <div>
+                    <iframe
                         src="https://open.spotify.com/embed/track/6mFkJmJqdDVQ1REhVfGgd1?utm_source=generator&theme=0"
                         width="100%" height="152" frameborder="0" allowfullscreen
                         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
@@ -308,31 +164,20 @@
     </main>
 
     <!-- Footer -->
-    <footer class="relative z-10 mt-20">
-        <div class="glass border-t-2 border-white">
-            <div class="container px-6 py-12">
-                <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                    <div class="text-center md:text-left">
-                        <p class="text-blue-800 font-semibold text-lg">© 2025 Jojo5263. Coded with ❤️ in Germany.</p>
-                        <p class="text-blue-600 text-sm mt-1">Built with HTML & Tailwind. (Frutiger Aero CSS from <a href="https://github.com/PetoKrisa/frutiger-aero-css">Peto Krisa</a>)</p>
+    <footer>
+        <div>
+            <div>
+                <div>
+                    <div>
+                        <p>© 2025 Jojo5263. Coded with ❤️ in Germany.</p>
+                        <p>Built with HTML & Tailwind. (CSS from <a
+                                href="https://github.com/kevquirk/simple.css">Kevquirk</a>)</p>
+                    </div>
+                    <div>
+                        <a href="https://discord.com/users/Jojo5263" target="_blank">My Discord Profile</a>
                     </div>
 
-                    <div class="flex items-center gap-6">
-                        <div class="orb w-12 h-12 flex items-center justify-center">
-                            <span class="material-symbols-outlined text-blue-700">code</span>
-                        </div>
-                        <a href="https://discord.com/users/Jojo5263" target="_blank"
-                            class="orb w-12 h-12 flex items-center justify-center hover:scale-110 transition-transform">
-                            <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M20.317 4.36981C18.2718 3.44445 16.126 3 13.899 3C11.6724 3 9.5262 3.44445 7.481 4.36981C5.47953 5.25774 4 6.67342 4 8.25C4 14.25 8.435 18.75 14 18.75C19.565 18.75 24 14.25 24 8.25C24 6.67342 22.5205 5.25774 20.317 4.36981ZM14 16.5C10.766 16.5 8.5 14.6565 8.5 12.75C8.5 10.8435 10.766 9 14 9C17.234 9 19.5 10.8435 19.5 12.75C19.5 14.6565 17.234 16.5 14 16.5Z">
-                                </path>
-                            </svg>
-                        </a>
-                    </div>
-
-                    <div class="font-bold px-6 py-3 rounded-full"
-                        style="background: linear-gradient(to bottom, #90EE90, #32CD32); box-shadow: 0 4px 12px rgba(50, 205, 50, 0.3); color: #006400;">
+                    <div>
                         Free Palestine 🇵🇸
                     </div>
                 </div>
@@ -340,112 +185,6 @@
         </div>
     </footer>
 
-    <script>
-        // Create floating bubbles
-        const bubbleContainer = document.getElementById('bubble-container');
-        const bubbleCount = 12;
-
-        for (let i = 0; i < bubbleCount; i++) {
-            const bubble = document.createElement('div');
-            bubble.className = 'bubble';
-
-            const size = Math.random() * 80 + 40;
-            bubble.style.width = size + 'px';
-            bubble.style.height = size + 'px';
-            bubble.style.left = Math.random() * 100 + '%';
-            bubble.style.animationDuration = (Math.random() * 10 + 15) + 's';
-            bubble.style.animationDelay = Math.random() * 5 + 's';
-
-            bubbleContainer.appendChild(bubble);
-        }
-
-        // Create clouds
-        const cloudContainer = document.getElementById('cloud-container');
-        const cloudCount = 8;
-
-        for (let i = 0; i < cloudCount; i++) {
-            const cloud = document.createElement('div');
-            cloud.className = 'cloud';
-
-            const width = Math.random() * 200 + 150;
-            const height = width * 0.6;
-            cloud.style.width = width + 'px';
-            cloud.style.height = height + 'px';
-            cloud.style.top = Math.random() * 40 + '%';
-            cloud.style.left = Math.random() * 100 + '%';
-            cloud.style.animationDuration = (Math.random() * 40 + 60) + 's';
-            cloud.style.animationDelay = Math.random() * 20 + 's';
-
-            cloudContainer.appendChild(cloud);
-        }
-
-        // Create music notes
-        const musicContainer = document.getElementById('music-container');
-        const musicNotes = ['♪', '♫', '♬', '♩'];
-        const musicCount = 6;
-
-        for (let i = 0; i < musicCount; i++) {
-            const note = document.createElement('div');
-            note.className = 'music-note';
-            note.textContent = musicNotes[Math.floor(Math.random() * musicNotes.length)];
-
-            note.style.left = Math.random() * 90 + 5 + '%';
-            note.style.animationDuration = (Math.random() * 8 + 12) + 's';
-            note.style.animationDelay = Math.random() * 10 + 's';
-
-            musicContainer.appendChild(note);
-        }
-
-        // Create floating icons
-        const iconContainer = document.getElementById('icon-container');
-        const icons = [
-            { emoji: '📁', size: '3rem' },
-            { emoji: '🎵', size: '2.5rem' },
-            { emoji: '🖼️', size: '3rem' },
-            { emoji: '📧', size: '2.5rem' },
-            { emoji: '🌐', size: '3rem' },
-            { emoji: '⚙️', size: '2rem' }
-        ];
-
-        icons.forEach((icon, index) => {
-            const iconDiv = document.createElement('div');
-            iconDiv.className = 'floating-icon';
-            iconDiv.textContent = icon.emoji;
-            iconDiv.style.fontSize = icon.size;
-
-            // Position icons around the edges
-            const positions = [
-                { top: '15%', left: '5%' },
-                { top: '25%', right: '8%' },
-                { top: '45%', left: '3%' },
-                { top: '60%', right: '5%' },
-                { top: '75%', left: '7%' },
-                { top: '80%', right: '10%' }
-            ];
-
-            if (positions[index]) {
-                Object.assign(iconDiv.style, positions[index]);
-            }
-
-            iconDiv.style.animationDuration = (Math.random() * 2 + 3) + 's';
-            iconDiv.style.animationDelay = Math.random() * 2 + 's';
-
-            iconContainer.appendChild(iconDiv);
-        });
-
-        // Add hover effect to gradient glow
-        document.querySelectorAll('.relative.group').forEach(el => {
-            const glow = el.querySelector('.gradient-glow');
-            if (glow) {
-                el.addEventListener('mouseenter', () => {
-                    glow.style.opacity = '0.5';
-                });
-                el.addEventListener('mouseleave', () => {
-                    glow.style.opacity = '0.3';
-                });
-            }
-        });
-    </script>
 
 </body>
 

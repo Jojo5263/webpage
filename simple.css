@@ -152,6 +152,13 @@ p {
 /* Prevent long strings from overflowing container */
 p, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
+
+  @media only screen and (max-width: 720px){
+
+    font-size: 0.75rem;
+
+  }
+  
 }
 
 /* Fix line height when title wraps */
